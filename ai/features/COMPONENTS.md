@@ -27,6 +27,7 @@
 4. 每个原语导出一个 `variant` / `size` 的有限集合，用 `cva` 或对象映射，不在调用处拼 class 串。
 5. 所有可交互元素必须是原生可聚焦元素（`button` / `a` / `input`），禁止 `div onClick`。
 6. 图标一律 `aria-hidden`，含义由旁边文本或 `aria-label` 承担。
+7. 每个原语 / 区块依 [MOTION §四](MOTION.md) 执行 Emil 工作流：animate 决策与实施 → review-animations（有动效时显式调用）→ emil-design-eng 实景视觉检测 → UI Tailor 交互验证 / Monet 视觉复核。Block 未消除不能标完成；无动效记 N/A 与理由。测试记录保留技能版本、story / 截图、视口、正常 / 减动效、打断与未测限制。
 
 ## 四、组件清单（登记点：加组件先在此登记一行）
 

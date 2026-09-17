@@ -24,7 +24,7 @@
 | 类型 | `@types/node` | 22.x | 跟 Node 同大版本 |
 | 样式 | `tailwindcss` `@tailwindcss/postcss` | **4.3.3** | v4：无 `tailwind.config.js`，token 写在 CSS `@theme` |
 | 校验 | `zod` | **4.6.5** | 数据契约的运行时形态，见 DATACONTRACT.md |
-| 动效 | `motion` | **13.4.0** | 只用于抽屉、手风琴、轮播，见 MOTION.md |
+| 动效 | `motion` | **13.4.0** | 保留依赖；CSS 优先，按实际 spring / layout / exit / 手势需求决定使用处，见 MOTION.md |
 | 图标 | `lucide-react` | 1.46.0 | 品牌图标自绘 SVG |
 | 变体 | `class-variance-authority` | 0.7.1 | 原语组件的 variant 映射 |
 | Storybook | `storybook` `@storybook/nextjs-vite` `@storybook/addon-a11y` `storybook-addon-pseudo-states` | **10.6.0** 四包同版本 | peer 已声明支持 Next 16 |

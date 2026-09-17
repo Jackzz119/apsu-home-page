@@ -67,6 +67,7 @@ The following decisions are agreed for implementation; this table is not a claim
 | ----------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | Design tokens     | Semantic CSS variables through Tailwind v4 `@theme`                                            | Theme changes should not require component edits.                                        |
 | Images            | Static imports through `next/image`, with `{ src, alt, width, height }` content                | Alternative text belongs to content; dimensions reserve space and prevent layout shifts. |
+| Motion            | CSS first; use the installed Motion dependency only where interaction needs justify it         | Keep feedback restrained and avoid unnecessary runtime animation work.                   |
 | State             | Local `useState` / `useReducer`; a pure BMI calculation function                               | The home page does not need a global store.                                              |
 | Routing           | One `/` route; Weight Loss, Birth Control, and Sleep navigation will scroll to section anchors | Separate product pages are outside the assignment scope.                                 |
 | API contract      | A Zod schema with `HomePage` as the root type                                                  | The data contract can be reviewed independently of the UI.                               |
@@ -86,7 +87,7 @@ The results table will live in `docs/responsive-report.md`, with three assertion
 
 **Planned (P3/P4):** shared motion tokens, consistent hover/focus/pressed/disabled states, and reduced-motion behavior. The token table and links to the D-category interaction entries in the deviation log will be added after implementation.
 
-No interactive components or motion tokens have shipped yet.
+The adopted workflow follows Emil Kowalski’s motion guidance: use the cheapest suitable tool, starting with CSS; retain the installed `motion` package for interactions that justify it. Reduced motion removes spatial movement while allowing useful opacity and color feedback. Each implemented component will receive motion review and visual verification; no interactive components or motion tokens have shipped yet.
 
 ## Deviation log
 
@@ -110,6 +111,8 @@ Claude Code and Codex are used for project setup, implementation, documentation,
 | Codex       | P0.1–P0.5 directory cleanup, npm scripts, test setup, lint rules, environment example, and verification; P0.6 README skeleton; P0 validation and P1 design-source audit, token mapping, UI inventory, and interaction drafts | [`01a0b03c-4d2e-7732-9d3d-a7e5e637ea96`](ai-logs/codex/rollout-2026-09-17T09-38-57-01a0b03c-4d2e-7732-9d3d-a7e5e637ea96.jsonl) |
 
 The design audit is recorded in [the design system](ai/design_system/design-system.md), [UI inventory](ai/design_system/uiux/overview.md), and [interaction draft](ai/design_system/uiux/interactions.md). These internal documents are in Chinese; implementation and public delivery documentation are in English. Design corrections remain candidates awaiting approval.
+
+Four MIT-licensed skills from [emilkowalski/skills](https://github.com/emilkowalski/skills/tree/85e8e2363b713506e1d5b6e07a0eb2da66be1bc3) are vendored at commit `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`: `emil-design-eng`, `animate`, `review-animations`, and `find-animation-opportunities`. Their original Markdown and licenses live in `ai/jaSkills/`; project adaptations and invocation points are recorded in [the registry](ai/JASKILL.md) and [motion workflow](ai/features/MOTION.md). Codex installed and evaluated them for P1.8 preparation; component reviews will run during P3–P5, and their outcomes are not claimed in advance.
 
 The index also includes an additional Claude Code transcript. Per-component and per-section attribution will be added as those implementations are completed.
 

@@ -18,8 +18,8 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## Epics & Milestones
 
-- [x] P0 · 工程收口（工程门禁通过；P0.7 暂缓；提交待用户决定）
-- [x] P1 · 设计读取（来源快照、设计系统、UI 清单与候选盘点已完成）
+- [x] P0 · 工程收口（工程门禁通过；P0.7 暂缓；已提交推送）
+- [x] P1 · 设计读取与动效准备（P1.1–P1.8 已完成）
 - [ ] P2 · 数据契约
 - [ ] P3 · 设计 token
 - [ ] P4 · 组件库原语（`components/ui/`）
@@ -34,15 +34,17 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 目标：干净 clone 上考官四条命令 + `typecheck` `lint` `format:check` `test` `build-storybook` 全绿，目录骨架就位，脚手架痕迹清零。
 
-2026-09-17 已完成 P0.1–P0.6：目录 / 工具 / 环境示例 / README 骨架就位，完整工程命令链已通过。P0.7 依用户决定暂缓，见「待澄清想法」。验证记录见 STRUCTURE；当前文档 / 日志尚未提交，Git 干净状态在用户批准提交后复核，不阻塞 P1。
+2026-09-17 已完成 P0.1–P0.6：目录 / 工具 / 环境示例 / README 骨架就位，完整工程命令链已通过。P0.7 依用户决定暂缓，见「待澄清想法」。验证记录见 STRUCTURE；P0/P1 已提交并推送 `cb818c2` / `344814a`；新增 P1.8 准备工作另行待提交，不把当前工作区称为干净。
 
 完成判据：`npm ci && npm run format:check && npm run typecheck && npm run lint && npm run build && npm test && npm run build-storybook` 全绿；`git status` 干净；STRUCTURE §三 目录树里每个目录都存在。
 
-## P1 · 设计读取（已完成，预算内 9 次设计读取）
+## P1 · 设计读取与动效准备（已完成，预算内 9 次设计读取）
 
 2026-09-17 完成 P1.1–P1.7：75 项变量、3 张原尺寸底图、4 份桌面 context + 1 份移动全页补读；[设计系统](design_system/design-system.md)、[UI 总览](design_system/uiux/overview.md)、[交互草案](design_system/uiux/interactions.md) 三份常驻文档齐全；14 区块 / 11 原语已登记 COMPONENTS。TOKENS ST-1 完成。实际修正和运行时实现仍归 P2–P5，不把交互草案当作已获批 deviations。
 
 原任务标签修正：`2002:3307` 含 Weight Loss / 套餐 / BMI；`2002:3439` 为 Birth Control / Sleep / Profile；`2002:3667` 只有 FAQ。移动整板补读用于确认移动字号、Footer 与聊天插画的 Syne，预算总计 9 次。账号当月余额未知，不等同于项目剩余预算。
+
+新增 **P1.8 · Emil 动效开发准备**（2026-09-17 完成，MOTION ST-1）：安装四技能并固定来源 / 许可证，登记 JASKILL，统一 token 采用规则，把动效审查与 Emil 视觉检测接入 P3–P5。只完成准备，运行时动画仍待实施。
 
 完成依据：三份常驻文档互链；核心 token 均有来源并提供可实施映射；区块对应节点 / 板外位置明确；偏差盘点见下方；预算用量见 PROJECT §0.1。
 
@@ -60,8 +62,10 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## P3 · 设计 token
 
+前置：读 `emil-design-eng` 与 MOTION §二–四；Emil 是动效与 UI polish 主要标准，默认稿仍以 Figma 为准。
+
 - [ ] P3.1 `styles/tokens.css` `@theme`（TOKENS ST-2）：颜色 / 字体 / 字号 `clamp()` / 圆角 / 阴影 / 容器宽；`next/font/google` 接入
-- [ ] P3.2 `lib/motion.ts` 动效 token（MOTION ST-2）
+- [ ] P3.2 `lib/motion.ts` + CSS 动效 token（MOTION ST-2）：按 Emil 曲线与预算落地，校验单位、hover 门控与减动效
 - [ ] P3.3 断点 `sm` / `lg` / `xl` 与容器规则落地（RESPONSIVE ST-1）
 - [ ] P3.4 魔法值机检手段定下（TOKENS ST-3）
 
@@ -73,7 +77,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [ ] P4.2 其余原语逐个（COMPONENTS ST-2 / STORYBOOK ST-2）：Chip · Card · Accordion · Carousel · Marquee · NumberField · RadioGroup · SegmentedControl · Rating · IconButton，每个一条 `feat(ui)` commit，story 同 commit
 - [ ] P4.3 a11y addon 零违规（A11Y ST-1）
 
-完成判据：COMPONENTS §四 ui 表全「完成」；`npm run storybook` 逐态可点；`import { Button, … } from "@/components"` 在 page 里可用。
+完成判据：每个原语按 MOTION §四走 animate → review-animations → Emil 实景视觉复核（无动效说明 N/A），Block 修完重审；COMPONENTS §四 ui 表全「完成」；`npm run storybook` 逐态可点；`import { Button, … } from "@/components"` 在 page 里可用。
 
 ## P5 · 首页区块（`components/sections/`）+ 页面组装
 
@@ -91,7 +95,9 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [ ] P5.10 Footer / Final CTA
 - [ ] P5.11 `app/page.tsx` 组装：`getHomePage()` 分发 + 导航锚点（PROJECT §11 #2）+ 一页一个 `h1`
 
-每区块 DoD（PROJECT §9）：375 / 1440 逐项对照 Figma · story 存在 · 键盘走通 · `check:responsive` 绿 · deviations 登记 · 真图换入 `public/images/`。
+- [ ] P5.12 全页 `find-animation-opportunities` 只读审计（MOTION ST-4）：建议与真实拒绝理由进决策记录；建议不自动实施，完成全页正常 / 减动效 / 键盘 / 触控复核
+
+每区块 DoD（PROJECT §9）：Emil 动效审查与实际画面视觉复核（MOTION §四，Block 修完重审）· 375 / 1440 逐项对照 Figma · story 存在 · 键盘走通 · `check:responsive` 绿 · deviations 登记 · 真图换入 `public/images/`。
 
 ## P6 · 响应式门禁
 
@@ -141,10 +147,10 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## 待澄清想法
 
-- P0.7 暂缓（2026-09-17 用户决定）：本地 AGENTS 的 Next.js 自动规则块与是否同步 shelf 以后再说，不阻塞 P0/P1；本轮不改协议或技能。
+- P0.7 暂缓（2026-09-17 用户决定）：本地 AGENTS 的 Next.js 自动规则块与是否同步 shelf 以后再说，不阻塞 P0/P1；协议自动规则与上架仍暂缓；P1.8 的 Emil 本地安装和登记为另行授权。
 
 ## 当前状态
 
-- 2026-09-17：P0 工程门禁通过、P0.7 暂缓；P1 读稿和三份常驻设计文档完成，TOKENS 1 / 3、STRUCTURE 3 / 3、SELFCHECK 1 / 4。当前改动待用户决定 commit；下一步 P2 / P3，实施偏差前按候选清单确认。
+- 2026-09-17：P0 工程门禁通过、P0.7 暂缓；P1 读稿和三份常驻设计文档完成，TOKENS 1 / 3、STRUCTURE 3 / 3、SELFCHECK 1 / 4。P0/P1 已推送两条提交；P1.8 四个 Emil 技能与开发 / 审查工作流已就位，MOTION 1 / 4，新增准备工作待用户决定 commit。下一步 P2 / P3，实施偏差前按候选清单确认。
 
 ## 封存

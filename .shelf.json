@@ -76,7 +76,28 @@
       "localPath": "AGENTS.md"
     }
   },
-  "local": {},
+  "local": {
+    "animate": {
+      "contentHash": "sha256:cad4cbda82810bbd771af0c636015ceab28a89460f619d48332709cc370a57c4",
+      "addedAt": "2026-09-17",
+      "origin": "adopted"
+    },
+    "emil-design-eng": {
+      "contentHash": "sha256:af4112d6566c72d33455e9fe93ad3dafe41754e44bf51bb03e697e39235ce1b7",
+      "addedAt": "2026-09-17",
+      "origin": "adopted"
+    },
+    "find-animation-opportunities": {
+      "contentHash": "sha256:d9225e049ebfc4dab5eac71fc2c6994eb1d340475b105808cdbc9ef3a3cec426",
+      "addedAt": "2026-09-17",
+      "origin": "adopted"
+    },
+    "review-animations": {
+      "contentHash": "sha256:42e71687b56e255eb085d668506e12ac0a067c19a6f19088ee45fd6b419c14a3",
+      "addedAt": "2026-09-17",
+      "origin": "adopted"
+    }
+  },
   "agents": [
     "claude"
   ]

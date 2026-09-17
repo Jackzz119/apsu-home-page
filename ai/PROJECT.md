@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0 工程门禁全绿（`npm ci → format:check → typecheck → lint → build → test → build-storybook`，1 测试）；README 十节骨架齐全，P0.7 按用户决定暂缓。P1 设计读取已完成：3 张原尺寸底图、5 份 context、[设计系统](design_system/design-system.md)、[UI 总览](design_system/uiux/overview.md)、[交互草案](design_system/uiux/interactions.md) 就位，14 区块 / 11 原语登记见 [COMPONENTS](features/COMPONENTS.md)。[TOKENS](features/TOKENS.md) ST-1 完成，Work Sans 主字体与 Syne 局部用途已核实；候选缺陷只记录未修正，实施前须用户确认。上次推送仍为 `e468dd8` / `9905af3`，本轮不 commit / push，工作区保留待决改动，未宣称 Git 干净门禁通过。下一步 P2 / P3。
+**当前实现（2026-09-17）**：P0 工程门禁全绿（`npm ci → format:check → typecheck → lint → build → test → build-storybook`，1 测试）；README 十节骨架齐全，P0.7 按用户决定暂缓。P1 设计读取已完成：3 张原尺寸底图、5 份 context、[设计系统](design_system/design-system.md)、[UI 总览](design_system/uiux/overview.md)、[交互草案](design_system/uiux/interactions.md) 就位，14 区块 / 11 原语登记见 [COMPONENTS](features/COMPONENTS.md)。[TOKENS](features/TOKENS.md) ST-1 完成，Work Sans 主字体与 Syne 局部用途已核实；候选缺陷只记录未修正，实施前须用户确认。P0/P1 已按用户批准分为 `cb818c2` / `344814a` 两条提交并推送 main。新增 P1.8 已完成四个 Emil 技能的固定版本安装与工作流接入，[MOTION](features/MOTION.md) ST-1 完成（1 / 4）；本轮新增准备文档待用户决定 commit。下一步 P2 / P3。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
@@ -95,6 +95,7 @@
 | 自决项 | 决议 | 一句话理由 |
 |---|---|---|
 | Design tokens | Tailwind v4 `@theme` CSS 变量，**语义命名**（`--color-brand`、`--color-surface-mint`），禁止按色值命名 | 换肤与后端主题接入不用改组件 |
+| 动效与视觉复核（自决） | 以 Emil 四技能为主要方法；CSS 优先，保留已安装 motion，具体使用由交互需求决定；P3–P5 实施 / 动效审查 / 实景视觉复核见 [MOTION.md](features/MOTION.md) | 用统一标准约束交互质量，避免为已有依赖制造动画；默认稿与 deviations 审批仍优先 |
 | 图片 | `next/image` 静态导入；每张图是 `{ src, alt, width, height }` 数据 | alt 是内容不是代码；宽高防 CLS |
 | 状态管理 | 无全局 store；`useState` / `useReducer`；BMI 计算抽纯函数 | 首页只有局部状态，引 store 是过度设计 |
 | 路由 | 单路由 `/`；导航三个产品项（Weight Loss / Birth Control / Sleep）锚点滚动到对应区块，不做 `/coming-soon` 占位页 | 产品页不在范围内；占位页是多余的空壳（2026-09-17 拍板，见 §11） |
@@ -115,7 +116,7 @@
 | [SELFCHECK.md](features/SELFCHECK.md) | 考官环境可复现性隐患与对策、响应式 11 宽度扫描、按 Assignment 推导的验收测试（M5）、CI 决定 | 原 §3.2 |
 | [COMPONENTS.md](features/COMPONENTS.md) | 组件库形态与统一导出、ui/ 与 sections/ 组件规范、client 白名单、组件清单登记 | 原 §5.1 |
 | [DATACONTRACT.md](features/DATACONTRACT.md) | zod 契约与类型推导、mock 约束、`getHomePage()` 取数链路、真后端切换 | 原 §5.2 |
-| [MOTION.md](features/MOTION.md) | 交互态规则（hover / focus / pressed / disabled）、动效 token、reduced-motion、D 类状态来源；开发时拉入 `emil-design-eng` 技能 | 原 §5.5 |
+| [MOTION.md](features/MOTION.md) | 交互态规则（hover / focus / pressed / disabled）、动效 token、reduced-motion、D 类状态来源；已安装 Emil 四技能、P3–P5 动效审查与视觉复核流程 | 原 §5.5 |
 | [STORYBOOK.md](features/STORYBOOK.md) | `.storybook/` 配置、一态一 story 规则、viewport 预设、pseudo-states 与 a11y 策略 | 原 §5.6 |
 | [TOKENS.md](features/TOKENS.md) | `@theme` token 文件与语义命名、魔法值禁令、字体接入、不引 UI 库 | 原 §5.3 |
 | [RESPONSIVE.md](features/RESPONSIVE.md) | 保真线 / 完整性线定义、流式 + 三断点策略、容器规则、320–375 保底 | 原 §5.4 |
@@ -388,7 +389,7 @@ git -C "$ROOT" status --short ai-logs | head
 | 层级 | 必须通过 |
 |---|---|
 | 每个 commit | §7.3 十二条清单全过（format · typecheck · lint · 无 console.log · lockfile 同步 · story 同 commit · deviations 先登记 · README 同步 · ai-logs 同步 · message 规范） |
-| 每个区块完成 | 375 / 1440 与 Figma 逐项对照 · 对应 story 存在 · 键盘可走通 |
+| 每个区块完成 | 375 / 1440 与 Figma 逐项对照 · 对应 story 存在 · 键盘可走通 · MOTION §四：Emil 动效审查通过（无动效记 N/A）与实景视觉复核、减动效 / 打断验证 |
 | 每日收工 | `npm run build` 绿 · `npm run check:responsive` 绿 · push |
 | 最终提交 | 上述全部 + `npm run storybook` 全绿 · a11y 零违规 · README 清单 §10 全勾 · `logs(ai-logs): final sync` 为最后一条 commit |
 
@@ -425,4 +426,5 @@ git -C "$ROOT" status --short ai-logs | head
 | 4 | 是否把方案阶段那次讨论的可读摘要写成 `docs/plan.md` | **不写**。方案的结论已全部落在本文与 feature 文档里，README「Design decisions」节即对外说法；旧 session 混有其他项目内容，按 §8.1 第 3 条不交 | 2026-09-17 |
 | 5 | 响应式 Bonus 的证据形式 | **表 + 一张拼图**：`check:responsive` 每次跑都重生成 `docs/responsive-report.md` 的结果表并提交；截图只在最终提交前拍一次，11 个宽度缩成一张横向拼图 `docs/responsive-report.png` 放 `docs/`，README 引用；原始整页截图目录 `docs/responsive-shots/` 进 `.gitignore`。README「Responsive」节写三句：策略是 clamp 流式 + 三个形态断点 + 容器封顶，证据是这张表，画面是这张图。已回写 §3.1 口供 | 2026-09-17 |
 | 6 | `prettier-plugin-tailwindcss` 是否进 `.prettierrc` | **进**。`plugins: ["prettier-plugin-tailwindcss"]`，class 顺序由插件定，人不手排 | 2026-09-17 |
-| 7 | P0.7 本地 agent 自动规则与 shelf 同步 | **暂缓，不阻塞 P0/P1**；用户表示本地 AGENTS 大概率不考虑写回 shelf，到时再定。本轮不改 AGENTS.md / CLAUDE.md / 技能 | 2026-09-17 |
+| 7 | P0.7 本地 agent 自动规则与 shelf 同步 | **暂缓，不阻塞 P0/P1**；用户表示本地 AGENTS 大概率不考虑写回 shelf，到时再定。不改 AGENTS.md / CLAUDE.md 的自动规则块，不做 shelf 上架；本地技能安装另按 #8 | 2026-09-17 |
+| 8 | P1 增加动效准备 | 安装 emil-design-eng / animate / review-animations / find-animation-opportunities，固定来源见 JASKILL；以 Emil 为主要标准，把动效查验与实际 UI 视觉检测接入 P3–P5。motion 已在依赖中，保留并按交互需求选择使用；具体 deviations 仍先确认 | 2026-09-17 |
