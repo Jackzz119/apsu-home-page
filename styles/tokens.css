@@ -1,1 +1,172 @@
-/* Design tokens will be defined after the Figma audit in P3.1. */
+/* Source: ai/design_system/design-system.md. Pending deviations do not change source colors. */
+@theme {
+    /* Colors: source roles, including the original bright accent pending review. */
+    --color-*: initial;
+    --color-brand: #102b1c;
+    --color-brand-soft: #173a26;
+    --color-accent: #00774d;
+    --color-accent-bright: #21ac88;
+    --color-accent-mid: #009269;
+    --color-text: #111111;
+    --color-text-secondary: #2a2a2a;
+    --color-text-body: #3b3b3c;
+    --color-text-muted: #585d5a;
+    --color-text-selected: #292b2a;
+    --color-text-disabled: #6c6c6c;
+    --color-text-unit: #6f6f6f;
+    --color-text-inverse: #ffffff;
+    --color-surface: #ffffff;
+    --color-page: #faf9f4;
+    --color-surface-mint: #bcffe6cc;
+    --color-surface-purple: #ffdeff;
+    --color-surface-cyan: #d0fffd;
+    --color-surface-selected: #b8d9c6;
+    --color-surface-input: #f6f8fa;
+    --color-surface-faq: #f0f6f3;
+    --color-surface-chat: #eaf7ee;
+    --color-surface-story: #eafff3;
+    --color-surface-plan: #f7faf8;
+    --color-faq-expanded: #587362;
+    --color-border: #cddcd3;
+    --color-border-strong: #b8d9c6;
+    --color-border-mint: #bcffe6;
+    --color-border-purple: #ffc0ff;
+    --color-border-cyan: #83f2ec;
+    --color-scale-low: #3b82f6;
+    --color-scale-normal: #1a8a79;
+    --color-scale-elevated: #f59e0b;
+    --color-scale-high: #ef4444;
+    --color-cta-end: #d8efe4;
+
+    /* Type: clamp anchors are the 375px and 1440px source boards. */
+    --text-*: initial;
+    --text-hero: clamp(2.25rem, 1.457746rem + 3.380282vw, 4.5rem);
+    --text-hero--line-height: 1.1;
+    --text-section: clamp(2rem, 1.559859rem + 1.877934vw, 3.25rem);
+    --text-section--line-height: 1.24;
+    --text-service-title: clamp(1.25rem, 1.161972rem + 0.375587vw, 1.5rem);
+    --text-service-title--line-height: 1.16;
+    --text-body: clamp(1rem, 0.911972rem + 0.375587vw, 1.25rem);
+    --text-body--line-height: 1.6;
+    --text-faq-answer: clamp(1rem, 0.955986rem + 0.187793vw, 1.125rem);
+    --text-faq-answer--line-height: 1.6;
+    --text-faq-question: clamp(1.25rem, 1.161972rem + 0.375587vw, 1.5rem);
+    --text-faq-question--line-height: 1.16;
+    --text-service-label: clamp(0.875rem, 0.786972rem + 0.375587vw, 1.125rem);
+    --text-service-label--line-height: 1.32;
+    --text-eyebrow: 1rem;
+    --text-eyebrow--line-height: 1.32;
+    --text-benefit: clamp(0.75rem, 0.705986rem + 0.187793vw, 0.875rem);
+    --text-benefit--line-height: 1.6;
+    --text-button: 1.125rem;
+    --text-button--line-height: 1.32;
+    --text-button-product: clamp(1rem, 0.955986rem + 0.187793vw, 1.125rem);
+    --text-button-product--line-height: 1.32;
+    --text-price: 3.25rem;
+    --text-price--line-height: 1.24;
+    --text-price-suffix: 2rem;
+    --text-price-suffix--line-height: 1.16;
+    --text-caption: clamp(0.75rem, 0.661972rem + 0.375587vw, 1rem);
+    --text-caption--line-height: 1;
+    --tracking-eyebrow: 0.125rem;
+
+    /* Spacing: source gutters, section rhythm and component insets. */
+    --spacing-page-gutter: clamp(1.25rem, 0.369718rem + 3.755869vw, 3.75rem);
+    --spacing-shell-gutter: clamp(0.75rem, 0.397887rem + 1.502347vw, 1.75rem);
+    --spacing-section: clamp(3.5rem, 2.091549rem + 6.00939vw, 7.5rem);
+    --spacing-card-inset: clamp(0.75rem, 0.485915rem + 1.126761vw, 1.5rem);
+    --spacing-panel-inset: clamp(0.75rem, 0.309859rem + 1.877934vw, 2rem);
+    --spacing-card-gap: 1.5rem;
+    --spacing-plan-gap: 2rem;
+    --spacing-label-gap: 0.5rem;
+    --spacing-content-gap: 1rem;
+
+    /* Radii and shadows: preserve the source geometry and shadow types. */
+    --radius-*: initial;
+    --radius-panel: clamp(1rem, 0.647887rem + 1.502347vw, 2rem);
+    --radius-card: 1rem;
+    --radius-compact: 0.75rem;
+    --radius-pill: 9999px;
+    --shadow-*: initial;
+    --shadow-nav: 0 4px 12.25px rgb(0 0 0 / 9%);
+    --shadow-chip: 0 4px 5.15px rgb(0 0 0 / 5%);
+    --shadow-card: 0 4px 12px rgb(2 31 24 / 6%);
+    --shadow-panel: 0 4px 21.6px rgb(2 29 23 / 6%);
+    --shadow-faq: 0 4px 12px rgb(2 34 39 / 8%);
+    --shadow-profile:
+        1px 1px 2px #0000001a, 2px 3px 4px #00000017, 5px 7px 5px #0000000d, 9px 13px 6px #00000003,
+        15px 20px 7px #00000000;
+
+    /* Layout: three allowed shape changes and the desktop board's maximum width. */
+    --breakpoint-*: initial;
+    --breakpoint-sm: 40rem;
+    --breakpoint-lg: 64rem;
+    --breakpoint-xl: 80rem;
+    --container-page: 90rem;
+
+    /* Emil curves: exact JS counterparts are parity-tested. */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Resolve next/font variables at the element using the utility, including Storybook. */
+@theme inline {
+    --font-*: initial;
+    --font-sans: var(--font-work-sans), sans-serif;
+    --font-heading: var(--font-work-sans), sans-serif;
+    --font-body: var(--font-work-sans), sans-serif;
+    --font-illustration: var(--font-syne), sans-serif;
+}
+
+:root {
+    --dur-fast: 160ms;
+    --dur-release: 100ms;
+    --dur-base: 200ms;
+    --dur-slow: 250ms;
+    --dur-stagger: 50ms;
+    --dur-spatial: var(--dur-base);
+    --motion-press-scale: 0.97;
+    --motion-shift: 2px;
+    --focus-width: 2px;
+    --focus-offset: 2px;
+}
+
+@utility container-page {
+    width: 100%;
+    max-width: var(--container-page);
+    margin-inline: auto;
+}
+
+/* Use this variant for hover feedback; touch must not acquire a sticky hover state. */
+@custom-variant fine-hover {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            @slot;
+        }
+    }
+}
+
+@media (width < 64rem) {
+    :root {
+        --text-hero--line-height: 1.24;
+        --text-button-product--line-height: 1.24;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --dur-spatial: 0ms;
+        --dur-stagger: 0ms;
+        --motion-press-scale: 1;
+        --motion-shift: 0px;
+    }
+}
+
+@layer base {
+    body {
+        background: var(--color-page);
+        color: var(--color-text);
+        font-family: var(--font-work-sans), sans-serif;
+    }
+}

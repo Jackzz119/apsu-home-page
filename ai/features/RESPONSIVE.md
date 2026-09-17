@@ -49,13 +49,13 @@ README「Responsive strategy」节三句话：策略是 `clamp()` 流式 + 三�
 
 ## 实现计划
 
-进度：0 / 4 subtasks 完成（0%）
+进度：1 / 4 subtasks 完成（25%）
 
-- [ ] ST-1: 容器与断点在 `tokens.css` / Tailwind 配置落地（随 TOKENS ST-2）
+- [x] ST-1: 容器与断点在 `tokens.css` / Tailwind 配置落地（随 TOKENS ST-2）
 - [ ] ST-2: Header 实做时确定 `lg` 阈值并回写
 - [ ] ST-3: 全页 320–1920 扫描通过后，README「Responsive strategy」写三句：策略（clamp 流式 + 三形态断点 + 容器封顶）、证据（`docs/responsive-report.md` 表）、画面（`docs/responsive-report.png` 拼图）
 - [ ] ST-4: 最终提交前拍一次 11 宽度整页截图，拼成一张横向 PNG 放 `docs/responsive-report.png`（脚本产出，SELFCHECK ST-1 的 `--composite` 模式）
 
 ## 测试记录
 
-（空）
+- 2026-09-17：ST-1 完成，sm/lg/xl = 640/1024/1280，移除 Tailwind 其他默认断点；container-page 封顶 1440。Chromium 的 Foundations story 在 375/1440/1920 均无横向溢出，边距 20/60/60px，容器 375/1440/1440px。Header 阈值、11 宽全页扫描与最终拼图仍归 ST-2–4，不用基础页测试替代。

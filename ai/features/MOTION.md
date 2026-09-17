@@ -10,7 +10,7 @@
 
 甲方 §4D 要求可交互元素有 hover / focus / pressed 状态与过渡，一致与克制优先。每个拟加动效先用 `animate` 判断频率和目的，允许不加动画；键盘触发和高频操作即时响应，状态仍必须清楚。不要让进入动画延迟焦点、阅读或可点击时机。
 
-用户已批准以 Emil 为主要规范、保留 motion 并由实现者选择使用范围；具体偏离稿件的默认态与 D 类交互方案，仍按 TODO 候选确认后先登记 `docs/deviations.md` 再实现。本轮不提前批准抽屉拖拽、首屏 stagger 或新增暂停按钮。
+用户已批准以 Emil 为主要规范、保留 motion 并由实现者选择使用范围；2026-09-17 最新决定：先逐字实现 Figma 基线，默认态偏差与 D 类方案全部进入 `docs/deviations.md` 待整体 review，获批后实施；不再按阶段逐项询问。本轮不提前批准抽屉拖拽、首屏 stagger 或新增暂停按钮。
 
 ## 二、统一 token 与状态
 
@@ -70,18 +70,20 @@ P3 在 `styles/tokens.css` 与 `lib/motion.ts` 落地同一套值；JS 时间单
 
 ## 五、待实现 / 已知问题
 
-- 四个技能及参考文档已安装、登记、固定版本；token 与组件动效尚未实现。
-- D 类行为与 TODO #11 等未定交互仍需方案确认；本轮只完成准备，不是 UI 动效验收。
+- 四个技能及参考文档已安装、登记、固定版本；CSS / JS token 已完成，组件动效仍待 P4/P5。
+- D 类行为已在 deviations D-01–D-03 排队整体 review；token 不自动启用产品动效，不是组件动效验收。
 
 ## 实现计划
 
-进度：1 / 4 subtasks 完成（25%）
+进度：2 / 4 subtasks 完成（50%）
 
 - [x] ST-1: P1.8 安装四个 Emil 技能、记录来源 / 许可证、登记 JASKILL、对齐规范并接入 P3–P5 检测流程（2026-09-17）
-- [ ] ST-2: P3.2 落地 `lib/motion.ts` + `styles/tokens.css` 动效 token（§二）
+- [x] ST-2: P3.2 落地 `lib/motion.ts` + `styles/tokens.css` 动效 token（§二）
 - [ ] ST-3: P4/P5 逐组件实现状态规则，登记 D-xx，动效审查与 Emil 视觉检测通过（§四）；commit 时机与切分仍由用户决定
 - [ ] ST-4: P5 全页机会 / 拒绝清单 + reduced-motion / 键盘 / 触控 / 性能复核，README 写明实际 Motion 使用边界
 
 ## 测试记录
 
 - 2026-09-17：准备阶段核验 4 个技能的 6 份 Markdown 与固定上游 commit 逐字节一致；各目录附上游 MIT LICENSE。两个 agent 链接均可读取，shelf adopt 登记 4 项。未执行组件动效、视觉或真机验收，因 UI 尚未实现。
+
+- 2026-09-17：ST-2 完成。CSS ms / Motion 秒与三条贝塞尔曲线逐项一致，JS 不引入 Motion 运行时。CSS fine-hover 限 hover + fine；减动效移除空间变换 / stagger 并保留 fast 颜色 / opacity 预算。48 条测试通过；Chromium 实测 reduce 下 spatial/stagger 为 0s、press scale 为 1、fast 保留 .16s。Foundations 为静态标本：review-animations 对 token 契约 Approve，运行中动画 / 打断 / 性能观感 N/A；同 agent 按 Emil 复核 375/1440 字体、层级、间距与源色，无溢出。不宣称产品状态、全页或真机验收。

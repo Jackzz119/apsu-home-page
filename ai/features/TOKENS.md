@@ -30,18 +30,20 @@
 
 - P1 读稿已完成：[design-system.md](../design_system/design-system.md) 维护 75 项原始定义的语义映射、主要字号两端值、间距 / 圆角 / 阴影与来源。主字体为 Work Sans 400/500，Syne 仅用于聊天示意；样式名 Bold/Semibold 不代表实际字重。Hero 小字对比度候选 #10 尚未修复。
 - 未精读的桌面实例局部值（如 FinalCta 字号）明确标注 P5 核值，不伪装已测参数；核心 token 表可供 P3 落地。
-- 「无魔法值」需要一个机检手段（grep `#[0-9a-f]{3,6}` / `\[\d+px\]` 或 ESLint 规则），归 SELFCHECK
+- `npm run check:tokens` 已落地：扫描 app/components/lib/styles/.storybook，仅 tokens.css 允许字面颜色；检查色值、颜色函数、任意长度 utility、非 sm/lg/xl 断点和非语义常见色类。忽略注释和 JSX href/src，设计快照不扫描。它不是全部 CSS 语义的静态证明，布局与视觉仍需人工验收。
 
 ## 实现计划
 
-进度：1 / 3 subtasks 完成（33%）
+进度：3 / 3 subtasks 完成（100%）
 
 - [x] ST-1: 已保存变量表、4 个桌面复合节点 context、额外移动全页 context 与 3 张底图；Monet 的 `design-system.md` 与 UI 总览 / 交互草案已建立（2026-09-17）
-- [ ] ST-2: `styles/tokens.css` 落地 + `globals.css` 引入 + `next/font/google` 接入
-- [ ] ST-3: 魔法值机检脚本或 lint 规则（与 SELFCHECK 协同）
+- [x] ST-2: `styles/tokens.css` 落地 + `globals.css` 引入 + `next/font/google` 接入
+- [x] ST-3: 魔法值机检脚本或 lint 规则（与 SELFCHECK 协同）
 
 ## 测试记录
 
 - 2026-09-17：P1 对照节点属性与截图，核实 Work Sans 400/500、聊天示意 Syne、Hero 36→72px、产品 / FAQ 标题 32→52px；5 条 clamp 公式以 375 / 1440 锚点核验。源色对比度计算发现 Hero 亮绿小字 2.87:1，登记候选 #10；不是运行时 a11y 通过。
 
 - 2026-09-17：P2.1 构建发现 BUG #14（设计快照 / 日志污染 Tailwind 扫描）。`source(none)` + 三个 UI 目录修复后生产 / Storybook 构建通过，21 条 CSS 解析警告消失；生产 CSS 43,535 → 7,967 bytes，实测 antialiased 保留、Figma 1320px 类与转义变量不再进入产物。此修复不代表 TOKENS ST-2 已完成。
+
+- 2026-09-17：ST-2/3 完成。`globals.css` 仅保留 Tailwind/token import 与 UI 源扫描；Work Sans 400/500、Syne 400/500 在 next/font 与 Storybook 共用配置。移除脚手架暗色与 Arial 默认，保留源稿亮绿 C-10。`check:tokens` 零违规，含拒绝魔法值 / 允许语义值的测试。Chromium Foundations story 实测 375/1440 的 Hero 36/72、Section 32/52、Service 20/24、Body 16/20、FAQ 16/18px；字体实际加载、页边距 20/60px，1920 容器 1440px。375/1440 截图同 agent 自审通过，非全页像素验收。
