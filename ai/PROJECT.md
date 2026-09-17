@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0 工程门禁全绿（`npm ci → format:check → typecheck → lint → build → test → build-storybook`，1 测试）；README 十节骨架齐全，P0.7 按用户决定暂缓。P1 设计读取已完成：3 张原尺寸底图、5 份 context、[设计系统](design_system/design-system.md)、[UI 总览](design_system/uiux/overview.md)、[交互草案](design_system/uiux/interactions.md) 就位，14 区块 / 11 原语登记见 [COMPONENTS](features/COMPONENTS.md)。[TOKENS](features/TOKENS.md) ST-1 完成，Work Sans 主字体与 Syne 局部用途已核实；候选缺陷只记录未修正，实施前须用户确认。P0/P1 已按用户批准分为 `cb818c2` / `344814a` 两条提交并推送 main。新增 P1.8 已完成四个 Emil 技能的固定版本安装与工作流接入，[MOTION](features/MOTION.md) ST-1 完成（1 / 4）；本轮新增准备文档待用户决定 commit。下一步 P2 / P3。
+**当前实现（2026-09-17）**：P0 工程门禁全绿（`npm ci → format:check → typecheck → lint → build → test → build-storybook`，1 测试）；README 十节骨架齐全，P0.7 按用户决定暂缓。P1 设计读取已完成：3 张原尺寸底图、5 份 context、[设计系统](design_system/design-system.md)、[UI 总览](design_system/uiux/overview.md)、[交互草案](design_system/uiux/interactions.md) 就位，14 区块 / 11 原语登记见 [COMPONENTS](features/COMPONENTS.md)。[TOKENS](features/TOKENS.md) ST-1 完成，Work Sans 主字体与 Syne 局部用途已核实；候选缺陷只记录未修正，实施前须用户确认。P0/P1 已按用户批准分为 `cb818c2` / `344814a` 两条提交并推送 main。新增 P1.8 已完成四个 Emil 技能的固定版本安装与工作流接入，[MOTION](features/MOTION.md) ST-1 完成（1 / 4）；P1.8 已推送 `bd7e435` / `0f7384d`。P2.1 的 [数据契约](features/DATACONTRACT.md) ST-1 已完成：`content/schema.ts` 覆盖 14 区块，20 条契约边界测试通过（加页面 smoke 共 21 条）；mock 与 API 仍待 P2.2 / P2.3，当前契约改动尚未提交。构建发现的 Tailwind 源扫描污染 BUG #14 已修复，详见 [TOKENS](features/TOKENS.md) 测试记录。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 

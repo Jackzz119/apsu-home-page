@@ -34,7 +34,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 目标：干净 clone 上考官四条命令 + `typecheck` `lint` `format:check` `test` `build-storybook` 全绿，目录骨架就位，脚手架痕迹清零。
 
-2026-09-17 已完成 P0.1–P0.6：目录 / 工具 / 环境示例 / README 骨架就位，完整工程命令链已通过。P0.7 依用户决定暂缓，见「待澄清想法」。验证记录见 STRUCTURE；P0/P1 已提交并推送 `cb818c2` / `344814a`；新增 P1.8 准备工作另行待提交，不把当前工作区称为干净。
+2026-09-17 已完成 P0.1–P0.6：目录 / 工具 / 环境示例 / README 骨架就位，完整工程命令链已通过。P0.7 依用户决定暂缓，见「待澄清想法」。验证记录见 STRUCTURE；P0/P1 已提交并推送 `cb818c2` / `344814a`；P1.8 已推送 `bd7e435` / `0f7384d`；当前新增 P2.1 契约另行待提交。
 
 完成判据：`npm ci && npm run format:check && npm run typecheck && npm run lint && npm run build && npm test && npm run build-storybook` 全绿；`git status` 干净；STRUCTURE §三 目录树里每个目录都存在。
 
@@ -54,7 +54,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 目标：考官打开 `content/schema.ts` 就能读懂整页数据；mock、页面、假后端说同一份契约。
 
-- [ ] P2.1 `content/schema.ts`（DATACONTRACT ST-1）：`HomePage` 根 + 每区块子 schema，字段顺序 = 区块顺序，JSDoc 英文一句话；金额 / 图片 / 多形态按 DATACONTRACT §二 3–5 条
+- [x] P2.1 `content/schema.ts`（DATACONTRACT ST-1）：`HomePage` 根 + 每区块子 schema，字段顺序 = 区块顺序，JSDoc 英文一句话；金额 / 图片 / 多形态按 DATACONTRACT §二 3–5 条
 - [ ] P2.2 `content/mocks/home.ts` + vitest（DATACONTRACT ST-2）：文案逐字从 Figma 抄（含已知错字，修正走 deviations）；图片先用占位尺寸，P5 换真图
 - [ ] P2.3 `lib/api/home.ts` 双分支 + `app/api/home/route.ts`（DATACONTRACT ST-3）
 
@@ -145,12 +145,14 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## Bugs
 
+- [x] [BUG] #14 Tailwind 误扫设计快照 / AI 日志已修复：显式限制 UI 源目录，21 条 CSS 解析警告消失；生产 / Storybook 构建通过，CSS 由 43,535 降至 7,967 bytes，实际布局 utility 保留（2026-09-17）。
+
 ## 待澄清想法
 
 - P0.7 暂缓（2026-09-17 用户决定）：本地 AGENTS 的 Next.js 自动规则块与是否同步 shelf 以后再说，不阻塞 P0/P1；协议自动规则与上架仍暂缓；P1.8 的 Emil 本地安装和登记为另行授权。
 
 ## 当前状态
 
-- 2026-09-17：P0 工程门禁通过、P0.7 暂缓；P1 读稿和三份常驻设计文档完成，TOKENS 1 / 3、STRUCTURE 3 / 3、SELFCHECK 1 / 4。P0/P1 已推送两条提交；P1.8 四个 Emil 技能与开发 / 审查工作流已就位，MOTION 1 / 4，新增准备工作待用户决定 commit。下一步 P2 / P3，实施偏差前按候选清单确认。
+- 2026-09-17：P0 工程门禁通过、P0.7 暂缓；P1 读稿和三份常驻设计文档完成，TOKENS 1 / 3、STRUCTURE 3 / 3、SELFCHECK 1 / 4。P0/P1 已推送两条提交；P1.8 四个 Emil 技能与开发 / 审查工作流已就位，MOTION 1 / 4，P1.8 已推送 `bd7e435` / `0f7384d`。P2.1 的 14 区块 Zod 契约与 20 条边界测试完成，DATACONTRACT 1 / 3，待用户决定 commit；下一步 P2.2 mock / P2.3 API，文案偏差确认已提出，尚未收到答复。
 
 ## 封存
