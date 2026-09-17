@@ -1,4 +1,9 @@
-@import 'tailwindcss';
+@import 'tailwindcss' source(none);
+
+/* Scan UI sources only; design snapshots and AI logs also contain class examples. */
+@source './';
+@source '../components';
+@source '../.storybook';
 
 :root {
     --background: #ffffff;

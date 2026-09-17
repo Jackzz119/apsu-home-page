@@ -24,6 +24,7 @@
 - 命名：`--color-<role>[-<variant>]`（`--color-brand`、`--color-surface-mint`、`--color-text-muted`）；`--font-<role>`；`--text-<step>` 字号用 `clamp()`，两端锚点 = 375 稿值 / 1440 稿值（RESPONSIVE.md）
 - 字体：`next/font/google`，字体名从 Figma Dev Mode 读（SELFCHECK.md §二 #3 已接受离线构建风险）
 - 动效 token 不在本文，见 MOTION.md
+- Tailwind 扫描范围：`app/globals.css` 用 `source(none)` 关闭全仓自动扫描，仅登记 `app/`、`components/` 与 `.storybook/`。设计快照、技能、日志与文档中的 class 示例不是页面源码；以后新增 UI 源目录时必须补 `@source`。P3 引入 tokens.css 时保留这些扫描指令。
 
 ## 四、待实现 / 已知问题
 
@@ -42,3 +43,5 @@
 ## 测试记录
 
 - 2026-09-17：P1 对照节点属性与截图，核实 Work Sans 400/500、聊天示意 Syne、Hero 36→72px、产品 / FAQ 标题 32→52px；5 条 clamp 公式以 375 / 1440 锚点核验。源色对比度计算发现 Hero 亮绿小字 2.87:1，登记候选 #10；不是运行时 a11y 通过。
+
+- 2026-09-17：P2.1 构建发现 BUG #14（设计快照 / 日志污染 Tailwind 扫描）。`source(none)` + 三个 UI 目录修复后生产 / Storybook 构建通过，21 条 CSS 解析警告消失；生产 CSS 43,535 → 7,967 bytes，实测 antialiased 保留、Figma 1320px 类与转义变量不再进入产物。此修复不代表 TOKENS ST-2 已完成。
