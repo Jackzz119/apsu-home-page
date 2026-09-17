@@ -19,6 +19,11 @@ npm run storybook    # http://localhost:6006
 
 Other scripts: `npm run lint`, `npm run typecheck`, `npm run build-storybook`.
 
+No environment variables are required to run the current scaffold. `.env.example` documents the optional `NEXT_PUBLIC_API_URL` setting for the planned data layer; that integration is not implemented yet.
+
+`npm test` runs Node-based tests once using `vitest.config.mts`. It discovers `*.test.ts` and `*.test.tsx` under `tests/` and `content/`; Storybook and Playwright `*.spec.ts` files are outside this scope. The first smoke test renders the home page and checks that it has one main landmark.
+`npm run check:responsive` is a placeholder that reports "not implemented" and exits with code 1 until P6.1.
+
 ## Stack
 
 Next.js 16 (App Router) · React 19 · TypeScript 5 (strict) · Tailwind CSS 4 · Storybook 10 (Vite builder). All dependency versions are pinned exactly in `package.json`; `package-lock.json` is committed.

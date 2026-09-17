@@ -35,10 +35,10 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 目标：干净 clone 上考官四条命令 + `typecheck` `lint` `format:check` `test` `build-storybook` 全绿，目录骨架就位，脚手架痕迹清零。
 
 - [x] P0.1 目录骨架 + 清脚手架占位（STRUCTURE ST-1）：目录与空出口就位；五个脚手架 SVG 已删，首页仅渲染 `<main />`；改动文件格式检查及 typecheck / lint / build 通过（2026-09-17）
-- [ ] P0.2 scripts 补齐（STRUCTURE ST-2）：`test`、`check:responsive`（先占位报「not implemented」，P6 换真）
-- [ ] P0.3 vitest 配置 + 一个冒烟测试（SELFCHECK ST-2）：只扫 `tests/**` 与 `content/**`，不含 Storybook 浏览器测试
-- [ ] P0.4 格式化与 lint 收口（STRUCTURE ST-3）：`npm run format` 全量跑一次（当前 11 个文件不合 `.prettierrc`）；ESLint 加 `no-console: ["error", { allow: ["error"] }]`；`prettier-plugin-tailwindcss` 已进 `.prettierrc`（§11 #6）
-- [ ] P0.5 `.env.example`（SELFCHECK §二 #8）：只有 `NEXT_PUBLIC_API_URL=` 一行加注释
+- [x] P0.2 scripts 补齐（STRUCTURE ST-2）：`test` 运行 Vitest，`check:responsive` 占位报「not implemented」并返回 1；两个入口均已实测（2026-09-17）
+- [x] P0.3 vitest 配置 + 一个冒烟测试（SELFCHECK ST-2）：Node 环境，只扫 `tests/`、`content/` 的 `*.test.ts(x)`；首页服务端渲染冒烟测试通过，已实测排除 Storybook 与 `*.spec.ts`（2026-09-17）
+- [x] P0.4 格式化与 lint 收口（STRUCTURE ST-3）：全量 format 无额外改动；项目 `no-console` 规则及共享技能 CLI 例外已落地并实测，format:check / typecheck / lint / test 全绿（2026-09-17）
+- [x] P0.5 `.env.example`（SELFCHECK §二 #8）：仅含 `NEXT_PUBLIC_API_URL=` 与英文注释；解析与 Git 忽略规则均已验证，README 已说明当前尚未接入数据层（2026-09-17）
 - [ ] P0.6 README 骨架：按 PROJECT §10 十个标题占位（英文），Node 版本段落已有
 - [ ] P0.7 `next dev` 写回 `AGENTS.md` 的 `nextjs-agent-rules` 块怎么处理：接受并推货架 / 每次手删 / 关掉生成，定一个
 
@@ -143,6 +143,6 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## 当前状态
 
-- 2026-09-17：P0.1 完成，STRUCTURE 进度 1 / 3；Codex Figma OAuth 与实际读稿验证通过，P1.1 变量快照已保存；下一步 P0.2。P0 整阶段门禁与提交尚未完成。
+- 2026-09-17：P0.1 已随两条提交推送；P0.2–P0.5 完成，STRUCTURE 进度 3 / 3、SELFCHECK 进度 1 / 4，当前改动尚未提交；P1.1 变量快照已保存。下一步 P0.6，P0 整阶段门禁尚未完成。
 
 ## 封存

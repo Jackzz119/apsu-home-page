@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0.1 目录骨架与首页空壳完成，脚手架 SVG 已移除，改动文件格式检查与 typecheck / lint / build 通过；细节见 [STRUCTURE.md](features/STRUCTURE.md) ST-1 与测试记录。下一步 P0.2。
+**当前实现（2026-09-17）**：P0.1 已提交推送；P0.2–P0.5 的脚本入口、Vitest 冒烟测试、格式 / lint 收口与可选环境示例已完成，尚未提交。`npm test` 为 1 测试通过，typecheck / lint / format:check 通过；响应式入口仍为明确失败的占位命令，环境变量接入归 P2。细节见 [STRUCTURE.md](features/STRUCTURE.md) ST-1–ST-3 与 [SELFCHECK.md](features/SELFCHECK.md) ST-2 / §二 #8。下一步 P0.6。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
@@ -171,7 +171,7 @@
 ### 5.8 代码内 log 规范
 
 - 提交代码中禁止 `console.log`；仅允许 `console.error` 出现在 `getHomePage()` 的 parse 失败分支与 error boundary。
-- ESLint `no-console: ["error", { allow: ["error"] }]` 强制。
+- ESLint `no-console: ["error", { allow: ["error"] }]` 强制；共享技能 CLI 的规则范围见 [STRUCTURE.md](features/STRUCTURE.md) ST-3。
 - 调试用 log 在 commit 前必须清干净（这是 §7 的提交前自查项之一）。
 
 ---

@@ -90,7 +90,9 @@ apsu-home/
 │   └── TODO.md                 任务唯一来源
 ├── ai-logs/                    §8：原始会话记录，未编辑
 ├── tests/                      schema 与纯函数等自动化测试
+├── vitest.config.mts           Node 测试配置；只发现 tests/ 与 content/ 中的 *.test.ts(x)
 ├── .codex/config.toml          Codex 项目级 MCP 服务地址，OAuth 凭据不入库
+├── .env.example                可选 API 地址示例，默认空值；接入归 P2
 ├── .storybook/
 ├── README.md
 └── package-lock.json
@@ -104,23 +106,28 @@ apsu-home/
 
 - P0.1 已完成：`components/{ui,sections}/`、`content/mocks/`、`lib/api/`、`styles/`、`docs/`、`tests/`、`public/images/` 骨架就位；空目录用 `.gitkeep` 保留。`components/index.ts` 暂为 `export {};`，`styles/tokens.css` 暂为说明注释。
 - `app/page.tsx` 仅渲染 `<main />`，五个脚手架 SVG 已删除。真实组件与导出归 P4，token 定义和 `globals.css` 接入归 P3，`scripts/check-responsive.ts` 实现归 P6。
-- `package.json#scripts` 尚缺 `test` `check:responsive`（`sync:ai-logs` `format` `format:check` 已加）
+- P0.2 已补齐 `package.json#scripts` 的 `test` 与 `check:responsive`：前者运行 Vitest，后者在 P6.1 实现前明确报未实现并失败。P0.3 已新增 `vitest.config.mts` 与 `tests/home.test.ts`，测试范围与验证记录见 SELFCHECK ST-2。
+- P0.4 已完成全量格式检查与项目 `no-console` 规则；共享技能 CLI 的例外范围见 ST-3。本文三个 subtasks 已完成，P0 剩余任务仍以 TODO 为准。
 
 ## 实现计划
 
-进度：1 / 3 subtasks 完成（33%）
+进度：3 / 3 subtasks 完成（100%）
 
 - [x] ST-1: 按 §三 建空目录骨架与 `styles/tokens.css` 起步文件，删脚手架占位物（2026-09-17）
   - 影响文件：`app/page.tsx`、`public/*.svg`、`public/images/`、`components/`、`styles/tokens.css`、`content/`、`lib/`、`docs/`、`tests/`、`README.md`
   - 说明：先把树立起来，后续 feature 各自往里填；占位 svg 是 Vercel 素材，不该出现在交付里
-- [ ] ST-2: 补 `package.json#scripts` 的 `test` 与 `check:responsive`（`format` / `format:check` 2026-09-17 已加）
+- [x] ST-2: 补 `package.json#scripts` 的 `test` 与 `check:responsive`（2026-09-17）
   - 影响文件：`package.json`
   - 说明：§9 门禁要求的最少脚本集；`check:responsive` 的实现归 SELFCHECK.md
-- [ ] ST-3: 格式化与 lint 规则收口
-  - 影响文件：`.prettierrc`（用户 2026-09-17 已建：4 空格、printWidth 120、单引号、无尾逗号、`bracketSameLine`）、`eslint.config.mjs`
-  - 说明：`.prettierrc` 是用户手设标准，代码向它看齐（CLAUDE.md「代码风格」）；插件 `prettier-plugin-tailwindcss` 已于 2026-09-17 写进 `plugins`（PROJECT §11 #6）；剩一件： ESLint `no-console: ["error", { allow: ["error"] }]`（PROJECT §5.8）。脚手架与 `.storybook/` 里现有文件是 2 空格双引号，待一次性 `prettier --write` 后再动
+  - P0.2 实施范围：`test` 使用 `vitest run`；`check:responsive` 暂用 Node 向 stderr 输出 `not implemented` 并返回退出码 1，避免未实现时误报通过。P0.3 补测试配置与首个测试，P6.1 替换响应式占位命令。
+- [x] ST-3: 格式化与 lint 规则收口（2026-09-17）
+  - P0.4 范围：全量运行现有 Prettier 配置；在 ESLint 中增加 `no-console: ['error', { allow: ['error'] }]`。该规则覆盖项目代码，仅对 `ai/jaSkills/**` 的共享 CLI 工具不启用；不改技能源码，也不关闭这些文件原有的其他 lint 规则。
+  - 影响文件：`eslint.config.mjs`；沿用 `.prettierrc`，本次未改格式配置。
+  - 说明：全量 `npm run format` 已执行且所有文件均未发生额外格式改动；原有「11 个文件不合格式」与「2 空格双引号」描述已过时。项目 `no-console` 规则已生效，共享技能保持原有命令输出。
 
 ## 测试记录
 
 - 2026-09-16：`npm run typecheck` · `lint` · `build` · `build-storybook` 四绿（脚手架状态）
 - 2026-09-17：P0.1 的 `app/page.tsx`、`components/index.ts`、`styles/tokens.css`、`README.md` 通过 Prettier 检查；`npm run typecheck`、`npm run lint`、`npm run build` 通过。构建提示忽略仓库外的 `/Users/chengzheng/pnpm-lock.yaml`，不影响结果；本次未改构建配置。P0 整阶段门禁尚未完成。
+- 2026-09-17：P0.2 两个入口均实测：`npm test` 成功启动 Vitest 5.0.1，因尚无测试而以退出码 1 结束；`npm run check:responsive` 输出 `check:responsive not implemented (P6.1).`，退出码 1。这是脚本接线验证，不代表测试或响应式门禁已通过。
+- 2026-09-17：P0.4 的 format / format:check / typecheck / lint / test 均通过（1 个测试）。用 ESLint API 的内存探测验证 `console.log/warn/info/debug` 均为 error，`console.error` 放行；app、components、content、lib、scripts、tests、.storybook 均覆盖。共享技能 CLI 未启用该条规则，其他 lint 规则仍保留；未创建探测文件。

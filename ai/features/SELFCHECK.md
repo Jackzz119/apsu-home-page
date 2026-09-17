@@ -24,7 +24,7 @@
 | 5 | Playwright 装完不自带浏览器，`check:responsive` 需要 `npx playwright install` | 这条命令**不进**四条考官命令的依赖链；它是我们自己的门禁，README 里单独说明怎么跑 |
 | 6 | macOS 文件系统不分大小写，`import "./button"` 引 `Button.tsx` 本机能过、Linux 上 build 红 | 仓库加 GitHub Actions，在 `ubuntu-latest` 上跑 `npm ci && npm run build && npm run lint && npm run build-storybook`；绿徽章贴 README，同时是"考官环境能跑"的证明 |
 | 7 | 考官用 Windows，`package.json#scripts` 里的 `rm -rf` / `&&` 链 / bash 语法跑不了 | 四条考官命令只调 `next` / `storybook` 自带 CLI；自研脚本用 Node 写，不用 bash；`sync-ai-logs.sh` 例外，因为它只在我们机器上跑 |
-| 8 | build 依赖某个 env 变量而 `.env` 没提交 | 构建零必填 env；`NEXT_PUBLIC_API_URL` 可空；提交 `.env.example` 说明可选项 |
+| 8 | build 依赖某个 env 变量而 `.env` 没提交 | 构建零必填 env；`NEXT_PUBLIC_API_URL` 可空；P0.5 已添加 `.env.example`，仅含空值与英文注释。当前数据层尚未实现，接入归 P2；示例可入库，真实 `.env*` 仍被忽略 |
 | 9 | `ai-logs/` 里单个 jsonl 超过 GitHub 100MB 硬限 | 每次同步脚本打印文件大小；单 session 逼近 50MB 就结束它开新 session |
 | 10 | `postinstall` 钩子在考官网络下失败 | 本项目不添加任何 `postinstall`；依赖里 `sharp` / `lightningcss` 的平台二进制由 lockfile 记录全部平台变体，`npm install` 自动挑 |
 
@@ -59,13 +59,18 @@
 
 ## 实现计划
 
-进度：0 / 4 subtasks 完成（0%）
+进度：1 / 4 subtasks 完成（25%）
 
 - [ ] ST-1: `scripts/check-responsive.ts` + `npm run check:responsive` + `docs/responsive-report.md` 模板
-- [ ] ST-2: vitest 配置（`vitest.config.ts`，只跑 `tests/**` 与 `content/**`，不含 Storybook 浏览器测试）+ `npm test`
+- [x] ST-2: vitest 配置（`vitest.config.mts`，只跑 `tests/**` 与 `content/**`，不含 Storybook 浏览器测试）+ `npm test`（2026-09-17）
+  - P0.3 范围：Node 环境，仅发现 `tests/**/*.test.{ts,tsx}` 与 `content/**/*.test.{ts,tsx}`；`@/` 指向仓库根。Storybook 与 Playwright 的 `*.spec.ts` 不进入本测试入口。
+  - 冒烟测试：`tests/home.test.ts` 导入首页并用 React 服务端渲染输出 HTML，断言一个 `<main>` 地标；同时覆盖路径别名与 TSX 转换，无需新增依赖或启动浏览器。
+  - 配置采用 `.mts` 显式声明 ESM：初次使用 `.ts` 时 Vite 8 提示配置被视为 CommonJS，后缀调整解决该警告，不改变整个项目的模块类型。
 - [ ] ST-3: §四 的验收测试逐条落地（M5 阶段）
 - [ ] ST-4: CI 决定与 workflow 文件（若进）
 
 ## 测试记录
 
 - 2026-09-16：脚手架四绿；尚无自动化测试
+- 2026-09-17：P0.3 完成，`npm test` 为 1 文件 / 1 测试通过；typecheck、lint、format:check 通过。临时探测文件验证 `tests/**/*.test.ts`、`content/**/*.test.tsx` 会被发现，`.storybook/`、`components/` 下的测试及 `tests/**/*.spec.ts` 不会被发现；探测文件已清理。配置改为 `.mts` 后不再出现 CommonJS / ESM 警告。
+- 2026-09-17：P0.5 用 Node `parseEnv` 验证 `.env.example` 仅解析出 `NEXT_PUBLIC_API_URL: ''`；`git check-ignore --no-index --quiet` 验证示例可跟踪，`.env` / `.env.local` 被忽略。未创建或读取真实环境文件，未改运行时代码。

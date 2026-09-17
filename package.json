@@ -11,8 +11,10 @@
         "start": "next start",
         "lint": "eslint",
         "typecheck": "next typegen && tsc --noEmit",
+        "test": "vitest run",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
+        "check:responsive": "node -e \"process.stderr.write('check:responsive not implemented (P6.1).\\n'); process.exitCode = 1;\"",
         "sync:ai-logs": "bash scripts/sync-ai-logs.sh",
         "format": "prettier --write .",
         "format:check": "prettier --check ."
