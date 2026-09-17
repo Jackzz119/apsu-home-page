@@ -19,6 +19,22 @@
 1. 本文档任何一条规范都必须能追溯到上面两份文件中的某一句（追溯表见 §2）；追溯不到的是我们的自加要求，要在 §3.3 / §11 里标明"自决"。
 2. 甲方文件**只读**：不改名、不改内容、不删。需求理解有变化时改本文档，不改原件。
 3. 验收前逐条对照 §4 A–E、§5、§6 打勾；考官只跑的四条命令（`npm install` · `npm run build` · `npm run dev` · `npm run storybook`）必须在干净 clone 上全绿。
+4. **全程不回问甲方**（2026-09-17 用户设立）。需求、设计稿的任何歧义与缺陷都由我们自行判断、自行修正并登记，不向甲方求证；「问甲方」不作为任何待拍板项的选项。
+5. **发现的缺陷先进 TODO**：开发中看出的设计缺陷、文案问题、稿件缺漏，一律先记到 [TODO.md](TODO.md)「缺陷 / 偏差候选」区，动手修时再按 §6 搬入 `docs/deviations.md` 并编 C/D 号。
+
+## 0.1 设计稿真源（Figma）
+
+| 项 | 值 |
+|---|---|
+| 工作文件 | 甲方原稿的**副本**，在我们自己的 workspace：`https://www.figma.com/design/v6NCYwJXmYtHWKT6Ck5HkD/`（原稿 `DmTQCqCODfpqMmdsZUFCnj` 只有查看权，MCP 读不了） |
+| 桌面板 1440 | 节点 `2002:3098`，高 10183，9 个顶层区块 |
+| 移动板 375 | 节点 `2002:3679`，高 9583，7 个顶层区块（缺 Weight Loss，见 TODO 候选） |
+| 移动端 Menu 抽屉 | 节点 `2002:4211` |
+| 游离移动区块组 | 节点 `2002:4113`（Weight Loss 的移动版，335 宽，画板外） |
+| 结构快照 | [design_system/figma/page-0-1.xml](design_system/figma/page-0-1.xml)：整页每个节点的 ID / 名字 / 坐标 / 宽高，2026-09-17 由 MCP `get_metadata` 导出，几何尺寸以它为准，不再花配额重拉 |
+| MCP 配额 | 账号是 Figma Starter，读取类调用 **20 次 / 月**；只用于变量表、整板截图与少数复合节点的 `get_design_context`，其余靠 XML + 手动 Dev Mode 抄值 |
+| 接入方式 | 项目级 `.mcp.json`（HTTP，`https://mcp.figma.com/mcp`），OAuth 令牌在本机，不入库 |
+
 
 ---
 
@@ -378,7 +394,9 @@ Logged as C-01 in docs/deviations.md.
 | `logs` | **仅**同步 `ai-logs/`（见 §8） |
 
 **scope**（固定词表，新增要先加进这里）：
-`app` `ui` `sections` `schema` `mocks` `api` `tokens` `motion` `responsive` `storybook` `a11y` `copy` `deps` `ci` `readme` `ai-logs`
+`app` `ui` `sections` `schema` `mocks` `api` `tokens` `motion` `responsive` `storybook` `a11y` `copy` `deps` `ci` `readme` `ai-logs` `ai`
+
+`ai` = `ai/` 下的规划文档与项目级 agent 配置（PROJECT / TODO / design_system / `.mcp.json`），2026-09-17 加。
 
 **示例**：
 
