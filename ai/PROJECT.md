@@ -20,7 +20,7 @@
 2. 甲方文件**只读**：不改名、不改内容、不删。需求理解有变化时改本文档，不改原件。
 3. 验收前逐条对照 §4 A–E、§5、§6 打勾；考官只跑的四条命令（`npm install` · `npm run build` · `npm run dev` · `npm run storybook`）必须在干净 clone 上全绿。
 4. **全程不回问甲方**（2026-09-17 用户设立）。需求、设计稿的任何歧义与缺陷都由我们自行判断、自行修正并登记，不向甲方求证；「问甲方」不作为任何待拍板项的选项。
-5. **发现的缺陷先进 TODO**：开发中看出的设计缺陷、文案问题、稿件缺漏，一律先记到 [TODO.md](TODO.md)「缺陷 / 偏差候选」区，动手修时再按 §6 搬入 `docs/deviations.md` 并编 C/D 号。
+5. **先实现甲方源稿，再整体 review 偏差**（2026-09-17 用户更新）：默认视觉与文案按 Figma 保留，发现的缺陷和拟议交互统一进入 `docs/deviations.md`，明确标注 Pending；[TODO.md](TODO.md) 仅追踪待 review 的 C/D 索引。用户整体 review 后才开始修正，不再按 P2/P3 逐项确认。
 
 ## 0.1 设计稿真源（Figma）
 
@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0 工程门禁全绿（`npm ci → format:check → typecheck → lint → build → test → build-storybook`，1 测试）；README 十节骨架齐全，P0.7 按用户决定暂缓。P1 设计读取已完成：3 张原尺寸底图、5 份 context、[设计系统](design_system/design-system.md)、[UI 总览](design_system/uiux/overview.md)、[交互草案](design_system/uiux/interactions.md) 就位，14 区块 / 11 原语登记见 [COMPONENTS](features/COMPONENTS.md)。[TOKENS](features/TOKENS.md) ST-1 完成，Work Sans 主字体与 Syne 局部用途已核实；候选缺陷只记录未修正，实施前须用户确认。P0/P1 已按用户批准分为 `cb818c2` / `344814a` 两条提交并推送 main。新增 P1.8 已完成四个 Emil 技能的固定版本安装与工作流接入，[MOTION](features/MOTION.md) ST-1 完成（1 / 4）；P1.8 已推送 `bd7e435` / `0f7384d`。P2.1 的 [数据契约](features/DATACONTRACT.md) ST-1 已完成：`content/schema.ts` 覆盖 14 区块，20 条契约边界测试通过（加页面 smoke 共 21 条）；mock 与 API 仍待 P2.2 / P2.3，当前契约改动尚未提交。构建发现的 Tailwind 源扫描污染 BUG #14 已修复，详见 [TOKENS](features/TOKENS.md) 测试记录。
+**当前实现（2026-09-17）**：P0.1–P0.6 与 P1 完成，P0.7 暂缓。上一轮三条提交 `9a7b5ac` / `51174cf` / `3e41a7c` 已推送 main。本轮 P2 / P3 全部完成：DATACONTRACT 3/3、TOKENS 3/3、MOTION 2/4、RESPONSIVE 1/4；48 条测试、typecheck/lint/check:tokens、生产和 Storybook build 通过，HTTP mock 深相等与浏览器字体 / 尺寸 / 减动效验证通过。新增实现待用户决定 commit；下一步 P4 原语。源稿缺陷保留，deviations 待整体 review。 14 区块的本地素材仍是透明占位，真实素材与首页组装归 P5。Foundations story 只是字体 / token 验收页，不代表首页 UI 已完成。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
@@ -196,9 +196,9 @@
 
 规则：
 
-1. **先登记再改**：发现缺陷先写一行，再动代码；commit message 引用 id（`fix(copy): correct footer column title (C-01)`）。
+1. **先登记、整体 review、再改**：发现缺陷先写 Pending 行，获批后更新状态再改默认稿；commit message 引用 id（`fix(copy): correct footer column title (C-01)`）。
 2. 每条一个理由，一句话，英文。
-3. 已知候选清单（方案阶段盘出的 19 条）在 `ai/TODO.md` 里，开工第一天逐条确认后搬入本表。
+3. 2026-09-17 用户更新：已知候选全部先登记本表，额外增加 `status` 与 `proposed change after review` 列，当前 `we ship / baseline` 如实描述源稿保留情况；Pending 不等于已获批或已实现。TODO 只保留待 review 索引，用户整体 review 后再修正。
 4. README 的 Deviation log 节直接链接本文件，不复制。
 
 ---
@@ -389,11 +389,12 @@ git -C "$ROOT" status --short ai-logs | head
 | 层级 | 必须通过 |
 |---|---|
 | 每个 commit | §7.3 十二条清单全过（format · typecheck · lint · 无 console.log · lockfile 同步 · story 同 commit · deviations 先登记 · README 同步 · ai-logs 同步 · message 规范） |
+| P2 / P3 收口（2026-09-17 已通过） | 完整 mock parse、默认无首页 HTTP、实际 API 与 mock 一致；字体 / token / 三断点落地，48 测试与 check:tokens 通过，375/1440 字号锚点及 1920 容器实测通过；组件验收仍归 P4/P5 |
 | 每个区块完成 | 375 / 1440 与 Figma 逐项对照 · 对应 story 存在 · 键盘可走通 · MOTION §四：Emil 动效审查通过（无动效记 N/A）与实景视觉复核、减动效 / 打断验证 |
 | 每日收工 | `npm run build` 绿 · `npm run check:responsive` 绿 · push |
 | 最终提交 | 上述全部 + `npm run storybook` 全绿 · a11y 零违规 · README 清单 §10 全勾 · `logs(ai-logs): final sync` 为最后一条 commit |
 
-`package.json#scripts` 至少含：`dev` `build` `start` `lint` `typecheck` `format` `format:check` `test` `storybook` `build-storybook` `check:responsive` `sync:ai-logs`。
+`package.json#scripts` 至少含：`dev` `build` `start` `lint` `typecheck` `format` `format:check` `test` `storybook` `build-storybook` `check:responsive` `check:tokens` `sync:ai-logs`。
 
 `typecheck` = `next typegen && tsc --noEmit`：Next 16 的 `LayoutProps` / `PageProps` 等全局类型由 `next typegen` 生成到 `.next/types/`，干净 clone 上不先 typegen 直接 `tsc` 会报 `Cannot find name 'LayoutProps'`。
 
@@ -428,3 +429,5 @@ git -C "$ROOT" status --short ai-logs | head
 | 6 | `prettier-plugin-tailwindcss` 是否进 `.prettierrc` | **进**。`plugins: ["prettier-plugin-tailwindcss"]`，class 顺序由插件定，人不手排 | 2026-09-17 |
 | 7 | P0.7 本地 agent 自动规则与 shelf 同步 | **暂缓，不阻塞 P0/P1**；用户表示本地 AGENTS 大概率不考虑写回 shelf，到时再定。不改 AGENTS.md / CLAUDE.md 的自动规则块，不做 shelf 上架；本地技能安装另按 #8 | 2026-09-17 |
 | 8 | P1 增加动效准备 | 安装 emil-design-eng / animate / review-animations / find-animation-opportunities，固定来源见 JASKILL；以 Emil 为主要标准，把动效查验与实际 UI 视觉检测接入 P3–P5。motion 已在依赖中，保留并按交互需求选择使用；具体 deviations 仍先确认 | 2026-09-17 |
+
+- 2026-09-17 用户决策补充：本轮完成 P2/P3，按 Figma 逐字实现，以甲方 design 为优先；所有待办缺陷 / 拟议改变先记 deviations，整体 review 之后才修改。该决定覆盖旧的逐阶段 / 逐候选确认时机。
