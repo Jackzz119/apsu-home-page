@@ -1,0 +1,9 @@
+# 协议和本机工具目录按各自授权维护，不由全局格式化改写
+/AGENTS.md
+/CLAUDE.md
+/.agents/
+/.claude/
+ai/jaSkills
+# shelf 的记账本由 shelf CLI 自己以 2 空格 JSON 重写，不参与格式化
+/.shelf.json
+skills-lock.json
