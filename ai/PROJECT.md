@@ -34,7 +34,7 @@
 | 结构快照 | [design_system/figma/page-0-1.xml](design_system/figma/page-0-1.xml)：整页每个节点的 ID / 名字 / 坐标 / 宽高，2026-09-17 由 MCP `get_metadata` 导出，几何尺寸以它为准，不再花配额重拉 |
 | MCP 配额 | 账号是 Figma Starter，读取类调用 **20 次 / 月**；只用于变量表、整板截图与少数复合节点的 `get_design_context`，其余靠 XML + 手动 Dev Mode 抄值 |
 | 接入方式 | Claude Code 用项目级 `.mcp.json`，Codex 用 `.codex/config.toml`；均连接 `https://mcp.figma.com/mcp`。各客户端 OAuth 凭据在本机，不入库。2026-09-17 Codex OAuth 成功，重启后 `whoami` 与桌面根节点 `get_variable_defs` 均通过 |
-| 变量快照与本轮用量 | [design_system/figma/variables.json](design_system/figma/variables.json)：桌面 `2002:3098` 的 75 项变量与样式定义，2026-09-17 保存。本轮计入读取配额的调用 1 次（`get_variable_defs`），`whoami` 不计入；账号当月剩余额度未返回，不能用本轮次数推断 |
+| 设计读取快照与用量 | [variables.json](design_system/figma/variables.json) 为 75 项原始定义；P1.1 已用 1 次变量读取，本轮 3 次截图 + 5 次 context，共计 9 次设计读取，P1 预算用满。未重拉 metadata；账号当月剩余额度未返回。来源尺寸、节点、文件与限制见 [设计系统](design_system/design-system.md)「来源与素材」 |
 
 
 ---
@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0.1 已提交推送；P0.2–P0.5 的脚本入口、Vitest 冒烟测试、格式 / lint 收口与可选环境示例已完成，尚未提交。`npm test` 为 1 测试通过，typecheck / lint / format:check 通过；响应式入口仍为明确失败的占位命令，环境变量接入归 P2。细节见 [STRUCTURE.md](features/STRUCTURE.md) ST-1–ST-3 与 [SELFCHECK.md](features/SELFCHECK.md) ST-2 / §二 #8。下一步 P0.6。
+**当前实现（2026-09-17）**：P0 工程门禁全绿（`npm ci → format:check → typecheck → lint → build → test → build-storybook`，1 测试）；README 十节骨架齐全，P0.7 按用户决定暂缓。P1 设计读取已完成：3 张原尺寸底图、5 份 context、[设计系统](design_system/design-system.md)、[UI 总览](design_system/uiux/overview.md)、[交互草案](design_system/uiux/interactions.md) 就位，14 区块 / 11 原语登记见 [COMPONENTS](features/COMPONENTS.md)。[TOKENS](features/TOKENS.md) ST-1 完成，Work Sans 主字体与 Syne 局部用途已核实；候选缺陷只记录未修正，实施前须用户确认。上次推送仍为 `e468dd8` / `9905af3`，本轮不 commit / push，工作区保留待决改动，未宣称 Git 干净门禁通过。下一步 P2 / P3。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
@@ -122,6 +122,14 @@
 | [A11Y.md](features/A11Y.md) | 语义结构、对比度、alt、键盘路径、图标 aria 约定、a11y addon 零违规 | 原 §5.7 |
 
 规则：细节只在 feature 文档写一份；本文只登记入口、scope 与 §3.1 口供。feature 文档之间有交叉时（如 SELFCHECK 引用 STRUCTURE 的目录），引用不复制。
+
+设计常驻资料：
+
+| 文档 | 管理 scope |
+|---|---|
+| [design-system.md](design_system/design-system.md) | 原稿来源、语义 token 映射、字体 / 几何 / 阴影与读稿边界（Monet） |
+| [uiux/overview.md](design_system/uiux/overview.md) | 14 区块节点与组合、导航锚点、响应式结构（UI Tailor） |
+| [uiux/interactions.md](design_system/uiux/interactions.md) | 控件状态、键盘 / 焦点、菜单 / 轮播 / BMI 交互草案（UI Tailor）；不替代 deviations 批准 |
 
 ## 5. 全局铁律（留在本文的实现规范）
 
@@ -417,3 +425,4 @@ git -C "$ROOT" status --short ai-logs | head
 | 4 | 是否把方案阶段那次讨论的可读摘要写成 `docs/plan.md` | **不写**。方案的结论已全部落在本文与 feature 文档里，README「Design decisions」节即对外说法；旧 session 混有其他项目内容，按 §8.1 第 3 条不交 | 2026-09-17 |
 | 5 | 响应式 Bonus 的证据形式 | **表 + 一张拼图**：`check:responsive` 每次跑都重生成 `docs/responsive-report.md` 的结果表并提交；截图只在最终提交前拍一次，11 个宽度缩成一张横向拼图 `docs/responsive-report.png` 放 `docs/`，README 引用；原始整页截图目录 `docs/responsive-shots/` 进 `.gitignore`。README「Responsive」节写三句：策略是 clamp 流式 + 三个形态断点 + 容器封顶，证据是这张表，画面是这张图。已回写 §3.1 口供 | 2026-09-17 |
 | 6 | `prettier-plugin-tailwindcss` 是否进 `.prettierrc` | **进**。`plugins: ["prettier-plugin-tailwindcss"]`，class 顺序由插件定，人不手排 | 2026-09-17 |
+| 7 | P0.7 本地 agent 自动规则与 shelf 同步 | **暂缓，不阻塞 P0/P1**；用户表示本地 AGENTS 大概率不考虑写回 shelf，到时再定。本轮不改 AGENTS.md / CLAUDE.md / 技能 | 2026-09-17 |

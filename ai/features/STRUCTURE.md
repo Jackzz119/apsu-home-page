@@ -107,7 +107,7 @@ apsu-home/
 - P0.1 已完成：`components/{ui,sections}/`、`content/mocks/`、`lib/api/`、`styles/`、`docs/`、`tests/`、`public/images/` 骨架就位；空目录用 `.gitkeep` 保留。`components/index.ts` 暂为 `export {};`，`styles/tokens.css` 暂为说明注释。
 - `app/page.tsx` 仅渲染 `<main />`，五个脚手架 SVG 已删除。真实组件与导出归 P4，token 定义和 `globals.css` 接入归 P3，`scripts/check-responsive.ts` 实现归 P6。
 - P0.2 已补齐 `package.json#scripts` 的 `test` 与 `check:responsive`：前者运行 Vitest，后者在 P6.1 实现前明确报未实现并失败。P0.3 已新增 `vitest.config.mts` 与 `tests/home.test.ts`，测试范围与验证记录见 SELFCHECK ST-2。
-- P0.4 已完成全量格式检查与项目 `no-console` 规则；共享技能 CLI 的例外范围见 ST-3。本文三个 subtasks 已完成，P0 剩余任务仍以 TODO 为准。
+- P0.4 已完成全量格式检查与项目 `no-console` 规则；共享技能 CLI 的例外范围见 ST-3。本文三个 subtasks 已完成，P0 工程验证已完成；P0.7 按用户指示暂缓，不阻塞后续阶段，提交由用户决定。
 
 ## 实现计划
 
@@ -131,3 +131,5 @@ apsu-home/
 - 2026-09-17：P0.1 的 `app/page.tsx`、`components/index.ts`、`styles/tokens.css`、`README.md` 通过 Prettier 检查；`npm run typecheck`、`npm run lint`、`npm run build` 通过。构建提示忽略仓库外的 `/Users/chengzheng/pnpm-lock.yaml`，不影响结果；本次未改构建配置。P0 整阶段门禁尚未完成。
 - 2026-09-17：P0.2 两个入口均实测：`npm test` 成功启动 Vitest 5.0.1，因尚无测试而以退出码 1 结束；`npm run check:responsive` 输出 `check:responsive not implemented (P6.1).`，退出码 1。这是脚本接线验证，不代表测试或响应式门禁已通过。
 - 2026-09-17：P0.4 的 format / format:check / typecheck / lint / test 均通过（1 个测试）。用 ESLint API 的内存探测验证 `console.log/warn/info/debug` 均为 error，`console.error` 放行；app、components、content、lib、scripts、tests、.storybook 均覆盖。共享技能 CLI 未启用该条规则，其他 lint 规则仍保留；未创建探测文件。
+
+- 2026-09-17：P0 收口重新执行 `npm ci → format:check → typecheck → lint → build → test → build-storybook` 全部通过（Node 22.23.1 / npm 10.9.8，1 测试，npm audit 0 漏洞）。补齐 `app/api/home/.gitkeep` 以保留假后端目录，响应式原始截图目录本地存在且按既有规则忽略。原始目录树的未来文件仍归各阶段实现。Next 仓库外 lockfile 提示与 Storybook 无 stories / chunk 大小 / use client 打包提示不阻塞构建；未改锁文件、依赖与协议。工作区保留待用户决定的文档和日志，未将 git clean 误报为已通过。

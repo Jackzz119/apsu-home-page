@@ -32,28 +32,47 @@
 
 ### ui/（无业务原语）
 
-| 组件 | 状态集 | 状态 |
-|---|---|---|
-| Button | Default / Hover / Focus / Pressed / Disabled；variant primary / secondary / outline | 待做 |
-| Chip | Default / Hover / Selected | 待做 |
-| Card | Default / Hover | 待做 |
-| Accordion（原生 `<details>`） | Collapsed / Expanded / Focus | 待做 |
-| Carousel | Default / FirstSlide / LastSlide（首末箭头 disabled） | 待做 |
-| Marquee | Default / Hover（暂停） / ReducedMotion | 待做 |
-| NumberField | Default / Focus / Invalid / Disabled | 待做 |
-| RadioGroup | Default / Focus / Checked | 待做 |
-| SegmentedControl | Default / Hover / Selected | 待做 |
-| Rating | Default | 待做 |
-| IconButton | Default / Hover / Focus / Pressed / Disabled | 待做 |
+| 组件 | 使用位置 | 状态集（P1 草案，实施时登记 D 类） | 状态 |
+|---|---|---|---|
+| Button | Header、Hero、产品、BMI、FinalCta | Default / Hover / Focus / Pressed / Disabled；primary / secondary / outline | 待做 |
+| Chip | Hero 语言标签 | Default / Selected；交互变体的 Hover / Focus / Pressed / Disabled 待候选 #11 确认 | 待做 |
+| Card | 服务入口、套餐、职责、Profile、证言 | Default；可操作卡才有 InteractiveHover | 待做 |
+| Accordion（原生 `<details>`） | FAQ | Collapsed / Expanded / Focus / Hover / Pressed | 待做 |
+| Carousel | OnlineCare，**不在 SuccessStories** | Default / FirstSlide / LastSlide / Keyboard / ReducedMotion | 待做 |
+| Marquee | LanguageMarquee / TrustMarquee | Default / Paused / ReducedMotion | 待做 |
+| NumberField | BMI 身高 / 体重 | Default / Focus / Invalid / Disabled | 待做 |
+| RadioGroup | BMI Sex | Default / Focus / Checked / Disabled | 待做 |
+| SegmentedControl | BMI 单位 | Default / Hover / Focus / Selected / Disabled | 待做 |
+| Rating | 文本证言 | Default（只读） | 待做 |
+| IconButton | 移动菜单 / OnlineCare 箭头 | Default / Hover / Focus / Pressed / Disabled | 待做 |
 
-### sections/（首页区块，节点 ID 见 PROJECT §0.1 与 `design_system/figma/page-0-1.xml`）
+### sections/（首页区块）
 
-按桌面板顶层顺序登记，14 个区块的拆分待读稿后确定；client 组件仅限白名单：Header（含移动抽屉）、LanguageMarquee、TrustMarquee、BmiCalculator、Carousel、Faq。
+P1 已按两板确认 14 个页面组合单元；精确桌面 / 移动节点、截图、布局和锚点以 [UI 总览](../design_system/uiux/overview.md) 为真源，状态以 [交互草案](../design_system/uiux/interactions.md) 为准。下表只登记组件边界，均未实现。
+
+| 顺序 | 组件 | 边界 / 组合 | 状态 |
+|---|---|---|---|
+| 1 | Header | Client，含移动菜单 | 待做 |
+| 2 | Hero | Server，内含 Client LanguageMarquee | 待做 |
+| 3 | ServiceCards | Server，三类服务入口 | 待做 |
+| 4 | TrustMarquee | Client，两板均存在 | 待做 |
+| 5 | HowItWorks | Server，两张职责卡 | 待做 |
+| 6 | WeightLoss | Server，介绍与套餐；移动缺块修正待批准 | 待做 |
+| 7 | BmiCalculator | Client，紧随 WeightLoss；不是 Sleep 的 Profile | 待做 |
+| 8 | BirthControl | Server | 待做 |
+| 9 | Sleep | Server，含静态 Profile 卡 | 待做 |
+| 10 | OnlineCare | Server 外壳 + Client Carousel | 待做 |
+| 11 | SuccessStories | Server，桌面三列 / 移动堆叠 | 待做 |
+| 12 | Faq | Client，Accordion；首项默认开 | 待做 |
+| 13 | FinalCta | Server，从桌面 Footer 复合实例抽出 | 待做 |
+| 14 | Footer | Server，原生 footer 地标 | 待做 |
+
+LanguageMarquee 为 Hero 子组件，Carousel 为 ui 原语，不重复计为根区块。P1 没有新增 client 岛；白名单仍为 Header、LanguageMarquee、TrustMarquee、BmiCalculator、Carousel、Faq。
 
 ## 五、待实现 / 已知问题
 
 - P0.1 已建立 `components/ui/`、`components/sections/` 与 `index.ts` 空出口；Button、story 和页面消费链路仍待 P4.1 完成，ST-1 尚未完成。
-- 14 个区块的最终拆分与命名待设计读稿（monet / ui-tailor）后回填 §四
+- P1.7 已完成 §四 的 14 区块与 11 原语登记；这不代表 COMPONENTS 的实现 subtasks 完成。缺失移动 BMI、CTA 目标和内容错误见 TODO 候选。
 
 ## 实现计划
 
@@ -65,4 +84,4 @@
 
 ## 测试记录
 
-（空）
+- 2026-09-17：P1 对照三张原尺寸截图、XML 和五份 context 完成组件边界盘点。确认 OnlineCare 使用 Carousel，SuccessStories 移动堆叠；不是运行时测试。

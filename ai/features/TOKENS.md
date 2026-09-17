@@ -27,17 +27,18 @@
 
 ## 四、待实现 / 已知问题
 
-- Figma 桌面根节点 `2002:3098` 的变量与样式定义已于 2026-09-17 拉取，75 项原始返回保存于 `ai/design_system/figma/variables.json`（TODO P1.1 完成）；实际字体使用、色板与字号阶梯仍需结合节点 context 核对，ST-1 尚未完成。
+- P1 读稿已完成：[design-system.md](../design_system/design-system.md) 维护 75 项原始定义的语义映射、主要字号两端值、间距 / 圆角 / 阴影与来源。主字体为 Work Sans 400/500，Syne 仅用于聊天示意；样式名 Bold/Semibold 不代表实际字重。Hero 小字对比度候选 #10 尚未修复。
+- 未精读的桌面实例局部值（如 FinalCta 字号）明确标注 P5 核值，不伪装已测参数；核心 token 表可供 P3 落地。
 - 「无魔法值」需要一个机检手段（grep `#[0-9a-f]{3,6}` / `\[\d+px\]` 或 ESLint 规则），归 SELFCHECK
 
 ## 实现计划
 
-进度：0 / 3 subtasks 完成（0%）
+进度：1 / 3 subtasks 完成（33%）
 
-- [ ] ST-1: 拉 Figma 变量表与 4 个复合节点的 design context，由 monet 写 `design-system.md` 色板 / 字体 / 字号阶梯
+- [x] ST-1: 已保存变量表、4 个桌面复合节点 context、额外移动全页 context 与 3 张底图；Monet 的 `design-system.md` 与 UI 总览 / 交互草案已建立（2026-09-17）
 - [ ] ST-2: `styles/tokens.css` 落地 + `globals.css` 引入 + `next/font/google` 接入
 - [ ] ST-3: 魔法值机检脚本或 lint 规则（与 SELFCHECK 协同）
 
 ## 测试记录
 
-（空）
+- 2026-09-17：P1 对照节点属性与截图，核实 Work Sans 400/500、聊天示意 Syne、Hero 36→72px、产品 / FAQ 标题 32→52px；5 条 clamp 公式以 375 / 1440 锚点核验。源色对比度计算发现 Hero 亮绿小字 2.87:1，登记候选 #10；不是运行时 a11y 通过。

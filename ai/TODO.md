@@ -18,8 +18,8 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## Epics & Milestones
 
-- [~] P0 · 工程收口
-- [~] P1 · 设计读取（Figma，P1.1 已完成）
+- [x] P0 · 工程收口（工程门禁通过；P0.7 暂缓；提交待用户决定）
+- [x] P1 · 设计读取（来源快照、设计系统、UI 清单与候选盘点已完成）
 - [ ] P2 · 数据契约
 - [ ] P3 · 设计 token
 - [ ] P4 · 组件库原语（`components/ui/`）
@@ -34,29 +34,19 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 目标：干净 clone 上考官四条命令 + `typecheck` `lint` `format:check` `test` `build-storybook` 全绿，目录骨架就位，脚手架痕迹清零。
 
-- [x] P0.1 目录骨架 + 清脚手架占位（STRUCTURE ST-1）：目录与空出口就位；五个脚手架 SVG 已删，首页仅渲染 `<main />`；改动文件格式检查及 typecheck / lint / build 通过（2026-09-17）
-- [x] P0.2 scripts 补齐（STRUCTURE ST-2）：`test` 运行 Vitest，`check:responsive` 占位报「not implemented」并返回 1；两个入口均已实测（2026-09-17）
-- [x] P0.3 vitest 配置 + 一个冒烟测试（SELFCHECK ST-2）：Node 环境，只扫 `tests/`、`content/` 的 `*.test.ts(x)`；首页服务端渲染冒烟测试通过，已实测排除 Storybook 与 `*.spec.ts`（2026-09-17）
-- [x] P0.4 格式化与 lint 收口（STRUCTURE ST-3）：全量 format 无额外改动；项目 `no-console` 规则及共享技能 CLI 例外已落地并实测，format:check / typecheck / lint / test 全绿（2026-09-17）
-- [x] P0.5 `.env.example`（SELFCHECK §二 #8）：仅含 `NEXT_PUBLIC_API_URL=` 与英文注释；解析与 Git 忽略规则均已验证，README 已说明当前尚未接入数据层（2026-09-17）
-- [ ] P0.6 README 骨架：按 PROJECT §10 十个标题占位（英文），Node 版本段落已有
-- [ ] P0.7 `next dev` 写回 `AGENTS.md` 的 `nextjs-agent-rules` 块怎么处理：接受并推货架 / 每次手删 / 关掉生成，定一个
+2026-09-17 已完成 P0.1–P0.6：目录 / 工具 / 环境示例 / README 骨架就位，完整工程命令链已通过。P0.7 依用户决定暂缓，见「待澄清想法」。验证记录见 STRUCTURE；当前文档 / 日志尚未提交，Git 干净状态在用户批准提交后复核，不阻塞 P1。
 
 完成判据：`npm ci && npm run format:check && npm run typecheck && npm run lint && npm run build && npm test && npm run build-storybook` 全绿；`git status` 干净；STRUCTURE §三 目录树里每个目录都存在。
 
-## P1 · 设计读取（Figma，MCP 配额预算 ≤ 9 次，剩余额度见 PROJECT §0.1）
+## P1 · 设计读取（已完成，预算内 9 次设计读取）
 
-目标：拿到 token 真值、整板底图、14 区块清单与缺陷候选；建起 `ai/design_system/`。
+2026-09-17 完成 P1.1–P1.7：75 项变量、3 张原尺寸底图、4 份桌面 context + 1 份移动全页补读；[设计系统](design_system/design-system.md)、[UI 总览](design_system/uiux/overview.md)、[交互草案](design_system/uiux/interactions.md) 三份常驻文档齐全；14 区块 / 11 原语已登记 COMPONENTS。TOKENS ST-1 完成。实际修正和运行时实现仍归 P2–P5，不把交互草案当作已获批 deviations。
 
-- [x] P1.1 `get_variable_defs` 打桌面根 `2002:3098`（1 次）→ 75 项原始返回已存 `ai/design_system/figma/variables.json`（2026-09-17，Codex 连接验证时完成）
-- [ ] P1.2 `get_screenshot` 桌面 `2002:3098`、移动 `2002:3679`、Menu `2002:4211`（3 次，`maxDimension` 拉满）→ `ai/design_system/figma/*.png`
-- [ ] P1.3 `get_design_context` 4 个样式最密的复合节点（4 次）：Navbar+Hero `2002:3099`、套餐卡 `2002:3307`、Profile/BMI `2002:3439`、FAQ+Footer `2002:3667` → 返回码原样存 `ai/design_system/figma/context-<id>.md`，只当参考不直接用
-- [ ] P1.4 触发 `monet` 建 `ai/design_system/design-system.md`：色板、字体、字号阶梯、圆角、阴影、间距 → 语义 token 名（TOKENS ST-1）
-- [ ] P1.5 触发 `ui-tailor` 建 `ai/design_system/uiux/`：14 区块清单（桌面 / 移动节点 ID、server / client 判定、所用原语）、导航锚点映射、交互态方案草案（对应 MOTION §二 规则）
-- [ ] P1.6 缺陷候选盘点：逐区块对照桌面 / 移动，补入下方「缺陷 / 偏差候选」
-- [ ] P1.7 回填 COMPONENTS §四 sections 表与 ui 表（原语增减以清单为准）
+原任务标签修正：`2002:3307` 含 Weight Loss / 套餐 / BMI；`2002:3439` 为 Birth Control / Sleep / Profile；`2002:3667` 只有 FAQ。移动整板补读用于确认移动字号、Footer 与聊天插画的 Syne，预算总计 9 次。账号当月余额未知，不等同于项目剩余预算。
 
-完成判据：`design_system/` 三份文档齐；token 表可直接抄进 `tokens.css`；区块清单能一一对应 Figma 节点；配额用量记进 PROJECT §0.1。
+完成依据：三份常驻文档互链；核心 token 均有来源并提供可实施映射；区块对应节点 / 板外位置明确；偏差盘点见下方；预算用量见 PROJECT §0.1。
+
+---
 
 ## P2 · 数据契约
 
@@ -90,13 +80,13 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 按 Figma 桌面顶层帧预排，最终拆分以 P1.5 清单为准。client 组件只限白名单（COMPONENTS §三 第 1 条）。
 
 - [ ] P5.1 Header + 移动抽屉 Menu（client）→ 顺手实测 `lg` 阈值回写 RESPONSIVE（RESPONSIVE ST-2）
-- [ ] P5.2 Hero + LanguageMarquee（client）
+- [ ] P5.2 Hero + LanguageMarquee（client）+ ServiceCards（三类服务入口，Server）
 - [ ] P5.3 信任条 TrustMarquee（client）
 - [ ] P5.4 How it works
-- [ ] P5.5 Weight Loss 套餐卡：桌面照稿，移动板按候选 #1 补做并登记 C 类
-- [ ] P5.6 Birth control / Sleep / Your profile + BmiCalculator（client，`lib/bmi.ts` 纯函数）
-- [ ] P5.7 Completely online（聊天示意）
-- [ ] P5.8 Success Stories + Carousel（client）；社交图标按 PROJECT §11 #1 纯装饰
+- [ ] P5.5 WeightLoss（介绍 + 套餐）与 BmiCalculator（`lib/bmi.ts` 纯函数）：按候选 #1 / #5 确认移动缺块和初始结果后实施并登记 C 类
+- [ ] P5.6 BirthControl / Sleep（含静态 Profile 卡）
+- [ ] P5.7 OnlineCare（Completely online，含 Carousel client 原语与静态聊天示意）
+- [ ] P5.8 SuccessStories（Server，桌面三列 / 移动堆叠）；社交图标按 PROJECT §11 #1 纯装饰
 - [ ] P5.9 FAQ Accordion（client Faq，原生 `<details>`）
 - [ ] P5.10 Footer / Final CTA
 - [ ] P5.11 `app/page.tsx` 组装：`getHomePage()` 分发 + 导航锚点（PROJECT §11 #2）+ 一页一个 `h1`
@@ -131,18 +121,30 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## 缺陷 / 偏差候选（PROJECT §0.0 第 5 条：先记这里，动手修时搬入 `docs/deviations.md` 编号）
 
-- [ ] #1 移动板（`2002:3679`）没有 Weight Loss 区块；其移动版以 335 宽游离组 `2002:4113` 放在画板外，第三块 `2002:4155` 无任何文字。处理：按桌面 `2002:3307` 补进移动板 How it works 之后，登记 C 类。**P5.5 做**
-- [ ] #2 文案品牌名前后不一致：多处正文写「Health Harbor provided excep…」，项目是 Apsu，疑为占位文案未替换。处理待定：统一改 Apsu 并登记 C 类，或按原文保留。**P2.2 抄文案时定**
-- [ ] #3 桌面信任条（`2002:3214`）在移动板是否存在待核，可能并入移动 Hero `2002:3680`。**P1.6 核**
+以下是待用户确认的修正候选，**未改默认稿、未生成 deviations 条目**。已排除项保留判据，避免后续重新误判。
+
+- [ ] #1 移动主板 `2002:3679` 缺 WeightLoss + BMI：板外 `2002:4113` 含介绍 / 两套餐，`2002:4155` 只是无文字的 BMI 空壳。建议在 HowItWorks 后补完整区块，BMI 改上下排。**P5.5 前确认 C 类**。
+- 已排除 #2：XML 多处 “Health Harbor…” 是过时的图层名，截图和 context 实际正文为职责 / 产品 / 证言内容。**不做品牌替换**；以实际 characters 为准。
+- 已排除 #3：移动 TrustMarquee 位于 `2002:3780`，在 Hero 产品入口之后 / HowItWorks 之前；截图可见，并未缺失。
+- [ ] #4 明确拼写：信任条 `2002:3223` / `2002:3789` 的 “No Issuance Needed” 建议改 “No Insurance Needed”；Footer 的 “Comapny” 建议改 “Company”。**P2.2 前确认 C 类，逐条记录**。
+- [ ] #5 BMI 源稿零身高 / 零体重却显示 56，范围文案还有 “<18.5 - 24.9” / “<25.0 - 29.9”。建议空输入不出结果、有效输入计算，区间文字与实际分类一致；不能据演示分数承诺用药资格。来源 `2002:3355` / `2002:3411` context。**P5.5 前确认 C 类**。
+- [ ] #6 WeightLoss 标题 `2002:3315` / `2002:4120` 为 “Loss Weight In Your Way.”，建议改 “Lose Weight Your Way.”。**P2.2 前确认 C 类**。
+- [ ] #7 Hero 某个语言标签把 “Русскийالعربية” 合为一项，两板一致。建议拆成独立俄语与阿拉伯语条目，阿拉伯语方向局部隔离。**P2.2 前确认 C 类**。
+- [ ] #8 OnlineCare 第二卡 `2002:3578` / `2002:4000` 标题 “Easy Manager Treatment” 语法异常，建议改 “Easy Treatment Management”。**P2.2 前确认 C 类**。
+- [ ] #9 产品图与类别不符：三张服务入口均为 Tirzepatide 药瓶，Semaglutide 套餐也复用此图；入口卡图片还与部分文案重叠。建议匹配三类产品 / 两款药物的正确素材并调整文字安全区；现有源素材没有证明正确替代品，不能擅自换图。**P5.2 / P5.5 前确认 C 类方案与来源**。
+- [ ] #10 Hero 小字亮绿 `#21ac88` 在白底为 2.87:1，14px / 移动 12px 低于普通文本 AA。建议文本改用源色 `#00774d`（5.61:1），装饰亮绿保留。**P3 前确认 C 类**；公式 / 来源见 design-system。
+- [ ] #11 语言 chips 多个高亮不代表已经定义了可用的语言切换；双跑马灯只定义 hover 暂停，触控与持续暂停入口未定。建议语言标签先作展示；若提供选择须写清作用，持续动效的暂停入口作为 D 类方案确认。**P4 / P5.2 前确认**。
+- [ ] #12 Contact Us、Login、consultation / Get started、About / Blogs / Legal 和 Footer 社交没有真实目标信息。三个产品项已定页内锚点，其他动作不能编造 URL / 空按钮；需确定 demo 内动作或真实目标。**P2.2 / P5 前确认交互边界**。
+- [ ] #13 FAQ `2002:3667` 三个折叠问题（语言、保险、复方药物）的 body 全部复用 “We are currently able to serve GLP-1 programs in all 50 states.”。建议逐题从已有页面信息整理匹配回答；不增加无来源的医疗 / 法规断言。**P2.2 前确认 C 类文案**。
 
 ## Bugs
 
 ## 待澄清想法
 
-（空）
+- P0.7 暂缓（2026-09-17 用户决定）：本地 AGENTS 的 Next.js 自动规则块与是否同步 shelf 以后再说，不阻塞 P0/P1；本轮不改协议或技能。
 
 ## 当前状态
 
-- 2026-09-17：P0.1 已随两条提交推送；P0.2–P0.5 完成，STRUCTURE 进度 3 / 3、SELFCHECK 进度 1 / 4，当前改动尚未提交；P1.1 变量快照已保存。下一步 P0.6，P0 整阶段门禁尚未完成。
+- 2026-09-17：P0 工程门禁通过、P0.7 暂缓；P1 读稿和三份常驻设计文档完成，TOKENS 1 / 3、STRUCTURE 3 / 3、SELFCHECK 1 / 4。当前改动待用户决定 commit；下一步 P2 / P3，实施偏差前按候选清单确认。
 
 ## 封存
