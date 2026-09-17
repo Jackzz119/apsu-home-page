@@ -33,7 +33,7 @@
 - 脚本：`scripts/check-responsive.ts`（Node + Playwright，不用 bash，见 §二 #7）
 - 宽度：320 / 360 / 375 / 414 / 640 / 768 / 1024 / 1280 / 1440 / 1600 / 1920
 - 每个宽度断言三条：`document.documentElement.scrollWidth <= window.innerWidth`；导航项 `getBoundingClientRect().top` 全部相等（同一行）；区块之间无重叠、无被裁切（元素 `right`/`bottom` 不超出其容器）
-- 产出：每宽度一张截图 + 结果表写入 `docs/responsive-report.md`，README 引用
+- 产出：结果表重生成写入 `docs/responsive-report.md`（入库）；每宽度整页截图写入 `docs/responsive-shots/`（gitignored，每次覆盖）；`--composite` 模式把 11 张缩成一张横向拼图 `docs/responsive-report.png`（入库，最终提交前跑一次）。形式见 RESPONSIVE.md §五、PROJECT §11 #5
 - 浏览器安装 `npx playwright install chromium` 不进考官命令链，README 单独说明
 
 ## 四、验收测试（TODO M5：按 Assignment 逐条推导）

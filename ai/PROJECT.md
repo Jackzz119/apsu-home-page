@@ -97,6 +97,7 @@
 | 路由 | 单路由 `/`；导航三个产品项（Weight Loss / Birth Control / Sleep）锚点滚动到对应区块，不做 `/coming-soon` 占位页 | 产品页不在范围内；占位页是多余的空壳（2026-09-17 拍板，见 §11） |
 | API 契约 | zod schema 即契约；`HomePage` 为根类型 | 考官先读类型 |
 | 数据层 | Route Handler `app/api/home` 当假后端；`lib/api/home.ts` 唯一取数入口；`NEXT_PUBLIC_API_URL` 切真后端 | 有 HTTP 边界又不多起进程 |
+| 响应式策略与证据 | 策略：`clamp()` 流式 + 三个形态断点（`sm` / `lg` / `xl`）+ 容器 1440 封顶。证据：`check:responsive` 每次运行重生成并提交的 `docs/responsive-report.md`（11 宽度 × 3 断言结果表）；画面：最终提交前拍一次的 11 宽度横向拼图 `docs/responsive-report.png`，README 引用。原始整页截图目录 gitignored | 表可复现、图直观、历史里不堆几十兆截图（2026-09-17 拍板，§11 #5） |
 | **组件库形态**（甲方原文 "React component library + page"） | 组件实现成**组件库**：`components/index.ts` 统一导出，消费者只 `import { X } from "@/components"`；组件通用、只吃 props、不依赖页面上下文，别人 import 就能用；页面本身也只是这个库的一个消费者。细则见 [COMPONENTS.md](features/COMPONENTS.md) §二 | 交付物是「组件库 + 页面」，页面私有组件不算库 |
 
 ---
@@ -411,3 +412,5 @@ git -C "$ROOT" status --short ai-logs | head
 | 2 | 导航三个产品项的目标 | **锚点**滚动到对应区块，不做 `/coming-soon` 占位页。已回写 §3.1 口供「路由」行 | 2026-09-17 |
 | 3 | `ai/` 内部文档语言 | **中文入库**。README 与一切考官可见文本是英文，内部规划文档中文不减分（PROJECT §5.0） | 2026-09-17 |
 | 4 | 是否把方案阶段那次讨论的可读摘要写成 `docs/plan.md` | **不写**。方案的结论已全部落在本文与 feature 文档里，README「Design decisions」节即对外说法；旧 session 混有其他项目内容，按 §8.1 第 3 条不交 | 2026-09-17 |
+| 5 | 响应式 Bonus 的证据形式 | **表 + 一张拼图**：`check:responsive` 每次跑都重生成 `docs/responsive-report.md` 的结果表并提交；截图只在最终提交前拍一次，11 个宽度缩成一张横向拼图 `docs/responsive-report.png` 放 `docs/`，README 引用；原始整页截图目录 `docs/responsive-shots/` 进 `.gitignore`。README「Responsive」节写三句：策略是 clamp 流式 + 三个形态断点 + 容器封顶，证据是这张表，画面是这张图。已回写 §3.1 口供 | 2026-09-17 |
+| 6 | `prettier-plugin-tailwindcss` 是否进 `.prettierrc` | **进**。`plugins: ["prettier-plugin-tailwindcss"]`，class 顺序由插件定，人不手排 | 2026-09-17 |

@@ -82,7 +82,9 @@ apsu-home/
 │   └── check-responsive.ts     SELFCHECK.md §三：Playwright 11 宽度扫描
 ├── docs/
 │   ├── deviations.md           §6：偏差日志（C 类 + D 类）
-│   └── responsive-report.md    check:responsive 的输出表
+│   ├── responsive-report.md    check:responsive 每次重生成的结果表（入库）
+│   ├── responsive-report.png   11 宽度横向拼图，最终提交前生成一次（入库）
+│   └── responsive-shots/       原始整页截图，每次覆盖（gitignored）
 ├── ai/
 │   ├── PROJECT.md              本文
 │   └── TODO.md                 任务唯一来源
@@ -114,7 +116,7 @@ apsu-home/
   - 说明：§9 门禁要求的最少脚本集；`check:responsive` 的实现归 SELFCHECK.md
 - [ ] ST-3: 格式化与 lint 规则收口
   - 影响文件：`.prettierrc`（用户 2026-09-17 已建：4 空格、printWidth 120、单引号、无尾逗号、`bracketSameLine`）、`eslint.config.mjs`
-  - 说明：`.prettierrc` 是用户手设标准，代码向它看齐（CLAUDE.md「代码风格」）；剩余两件：是否把 `prettier-plugin-tailwindcss` 写进 `plugins`（需用户点头），以及 ESLint `no-console: ["error", { allow: ["error"] }]`（PROJECT §5.8）。脚手架与 `.storybook/` 里现有文件是 2 空格双引号，待一次性 `prettier --write` 后再动
+  - 说明：`.prettierrc` 是用户手设标准，代码向它看齐（CLAUDE.md「代码风格」）；插件 `prettier-plugin-tailwindcss` 已于 2026-09-17 写进 `plugins`（PROJECT §11 #6）；剩一件： ESLint `no-console: ["error", { allow: ["error"] }]`（PROJECT §5.8）。脚手架与 `.storybook/` 里现有文件是 2 空格双引号，待一次性 `prettier --write` 后再动
 
 ## 测试记录
 

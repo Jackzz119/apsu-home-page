@@ -37,7 +37,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [ ] P0.1 目录骨架 + 清脚手架占位（STRUCTURE ST-1）：建 `components/{ui,sections}/` + `components/index.ts`、`content/mocks/`、`lib/api/`、`styles/tokens.css`、`docs/`、`tests/`；删 `public/*.svg` 与 `app/page.tsx` 的示例内容，页面先渲染空壳 `<main>`
 - [ ] P0.2 scripts 补齐（STRUCTURE ST-2）：`test`、`check:responsive`（先占位报「not implemented」，P6 换真）
 - [ ] P0.3 vitest 配置 + 一个冒烟测试（SELFCHECK ST-2）：只扫 `tests/**` 与 `content/**`，不含 Storybook 浏览器测试
-- [ ] P0.4 格式化与 lint 收口（STRUCTURE ST-3）：`npm run format` 全量跑一次（当前 11 个文件不合 `.prettierrc`）；ESLint 加 `no-console: ["error", { allow: ["error"] }]`；`prettier-plugin-tailwindcss` 是否写进 `.prettierrc` 等用户定
+- [ ] P0.4 格式化与 lint 收口（STRUCTURE ST-3）：`npm run format` 全量跑一次（当前 11 个文件不合 `.prettierrc`）；ESLint 加 `no-console: ["error", { allow: ["error"] }]`；`prettier-plugin-tailwindcss` 已进 `.prettierrc`（§11 #6）
 - [ ] P0.5 `.env.example`（SELFCHECK §二 #8）：只有 `NEXT_PUBLIC_API_URL=` 一行加注释
 - [ ] P0.6 README 骨架：按 PROJECT §10 十个标题占位（英文），Node 版本段落已有
 - [ ] P0.7 `next dev` 写回 `AGENTS.md` 的 `nextjs-agent-rules` 块怎么处理：接受并推货架 / 每次手删 / 关掉生成，定一个
@@ -106,7 +106,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 ## P6 · 响应式门禁
 
 - [ ] P6.1 `scripts/check-responsive.ts`（SELFCHECK ST-1）：11 宽度三断言 + `docs/responsive-report.md`
-- [ ] P6.2 全页 320–1920 扫描修复；板间优雅适配的手法写成 README「Responsive strategy」（RESPONSIVE ST-3）
+- [ ] P6.2 全页 320–1920 扫描修复；README「Responsive strategy」三句：策略 / 表 / 图（RESPONSIVE ST-3）
 
 完成判据：11 宽度全绿；报告表进 README。
 
@@ -122,7 +122,8 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [ ] P8.1 `docs/deviations.md` 定稿：C 类 + D 类全，README「Deviation log」链接
 - [ ] P8.2 README §10 十项逐条勾：Directory · Data layer · Design decisions（§3.1 口供英文版）· Responsive · Motion · Deviations · Storybook · AI usage（session id 对应）· Known limitations
 - [ ] P8.3 ai-logs：最终 `sync:ai-logs` + `readable/` 导出 + `ai-logs/README.md` 索引补齐；`logs(ai-logs): final sync` 为最后一条 commit
-- [ ] P8.4 干净 clone 走考官四条命令；CI 在 Linux 上绿即视为大小写复核通过
+- [ ] P8.4 `check:responsive --composite` 拍一次 11 宽度拼图 `docs/responsive-report.png`（RESPONSIVE ST-4）
+- [ ] P8.5 干净 clone 走考官四条命令；CI 在 Linux 上绿即视为大小写复核通过
 
 完成判据：PROJECT §1 交付物清单七项全勾。
 
@@ -138,8 +139,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## 待澄清想法
 
-- `prettier-plugin-tailwindcss` 要不要写进 `.prettierrc`（P0.4）
-- 板间适配的「证据」形式：README 贴 11 宽度缩略图，还是只贴结果表（P6.2）
+（空）
 
 ## 当前状态
 

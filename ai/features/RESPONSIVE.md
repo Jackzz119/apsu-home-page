@@ -32,18 +32,29 @@
 - `clamp()` 字号与间距 token：TOKENS.md §三
 - 导航不换行的实测阈值一旦改动 `lg`，写进 `docs/deviations.md`（PROJECT §6）并回改本文 §二 第 2 条
 
+## 五、Bonus 证据形式（2026-09-17 拍板）
+
+| 产物 | 何时生成 | 入库 |
+|---|---|---|
+| `docs/responsive-report.md` | `npm run check:responsive` 每次运行重生成 | 是，随区块 commit 提交 |
+| `docs/responsive-shots/<width>.png` | 每次运行重生成的原始整页截图 | 否，`.gitignore` |
+| `docs/responsive-report.png` | 最终提交前跑一次 `--composite`，11 宽度缩成一张横向拼图 | 是，只提交一次 |
+
+README「Responsive strategy」节三句话：策略是 `clamp()` 流式 + 三个形态断点 + 容器封顶；证据是这张表；画面是这张图。
+
 ## 四、待实现 / 已知问题
 
 - 三个断点的最终阈值待 Header 实做后实测
-- 板间适配的「证据」形式待定：README 贴 11 宽度截图缩略，还是只贴结果表
+- ~~板间适配的「证据」形式待定~~ → 2026-09-17 拍板（PROJECT §11 #5）：表每次跑都重生成并提交，拼图最终提交前拍一次，见 §五
 
 ## 实现计划
 
-进度：0 / 3 subtasks 完成（0%）
+进度：0 / 4 subtasks 完成（0%）
 
 - [ ] ST-1: 容器与断点在 `tokens.css` / Tailwind 配置落地（随 TOKENS ST-2）
 - [ ] ST-2: Header 实做时确定 `lg` 阈值并回写
-- [ ] ST-3: 全页 320–1920 扫描通过后，把 Bonus 适配手法写成 README 段落
+- [ ] ST-3: 全页 320–1920 扫描通过后，README「Responsive strategy」写三句：策略（clamp 流式 + 三形态断点 + 容器封顶）、证据（`docs/responsive-report.md` 表）、画面（`docs/responsive-report.png` 拼图）
+- [ ] ST-4: 最终提交前拍一次 11 宽度整页截图，拼成一张横向 PNG 放 `docs/responsive-report.png`（脚本产出，SELFCHECK ST-1 的 `--composite` 模式）
 
 ## 测试记录
 
