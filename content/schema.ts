@@ -298,6 +298,17 @@ export const BmiCalculator = z.strictObject({
     submitLabel: Text,
     /** Result heading fragments; the score itself is computed on the client. */
     resultTitle: z.array(TextRun).min(1),
+    /** Source artwork only; never treat this inconsistent example as a calculated result. */
+    sourcePreview: z.strictObject({
+        /** Initial measurement-system appearance in the source artwork. */
+        unit: z.enum(['imperial', 'metric']),
+        /** Initial selected sex option's stable backend ID. */
+        sexOptionId: z.string(),
+        /** Displayed input text in the artwork, not validated patient measurements. */
+        inputText: Text,
+        /** Displayed example score, independent of input and calculation state. */
+        scoreText: Text
+    }),
     /** Ordered range labels; no medical eligibility decision is encoded here. */
     ranges: z
         .array(

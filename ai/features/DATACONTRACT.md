@@ -32,7 +32,7 @@
 - Action 以 `kind` 区分 `anchor` / `external` / `unresolved`；anchor 只允许已登记的页面目标，external 只接受 HTTP(S)。`unresolved` 仅显式保留源稿尚无目的地的 CTA，禁止在组件中变成 `href="#"` 或假成功；P5 交付前必须按候选 #12 解决，不代表已批准 disabled 方案。
 - SuccessStories 区分 quote / photo，OnlineCare 区分 chat / image；不能用缺失 quote / image 猜卡片形态。聊天与 Profile 是静态示意数据，不建立真实诊疗会话。
 - Heading 保存有序 plain / accent 文本片段；桌面与移动确有文案差异时分别保存 paragraphs，不在数据里放 Tailwind class。语言标签的 highlighted 只表示源稿外观，不代表功能性语言选择已批准。
-- BMI 契约只存标题、字段 / 单位 / 结果标签和范围文字，不把稿件的演示分数 56 当服务端结果，也不在本步骤实现计算或修改区间文案。具体修正仍归候选 #5。
+- BMI 契约保留标题、字段 / 单位 / 结果标签与范围文字，新增 `sourcePreview` 显式保留源稿零输入、Female / imperial 选中与演示分数 56；这些是稿件字符串，不是服务端计算结果。计算与区间修正归 deviations C-04 / C-05，尚未实施。
 - 对象采用 strictObject 拒绝拼错字段与混合卡片形态；schema 不截断、不强转文案或金额。id 是后端稳定字符串，mock 预置，不运行时生成。
 
 ```
@@ -49,22 +49,25 @@ app/api/home/route.ts    假后端：返回同一份 mock，形状 = HomePage
 - `getHomePage()` 双分支（SELFCHECK.md §二 #4）：无 `NEXT_PUBLIC_API_URL` → 直接 import mock，构建期不发 HTTP；有 → ``fetch(`${url}/api/home`)`` 后 parse。
 - 切真后端只改一处：`.env` 里的 `NEXT_PUBLIC_API_URL`；README「Data layer」节要写这句。
 
-## 四、待实现 / 已知问题
+## 四、当前实现 / 已知问题
 
-- P2.1 已实现 `content/schema.ts`：14 个根字段、区块子 schema 与共享类型；`tests/schema.test.ts` 覆盖金额、素材路径 / 尺寸、Action、卡片和单位变体边界。
-- P2.2 完整 mock 尚未实现；待确认 TODO #4 / #6 / #7 / #8 的文案修正，FAQ #13 与 CTA #12 仍须明确。图片真实素材归 P5。
-- `lib/api/`、`app/api/home/` 目录已由 P0 建立，P2.3 取数函数和 route handler 尚未实现；本阶段没有声称 build 零 HTTP 分支或 curl 验收已完成。
+- P2 三步完成：14 区块严格契约、逐字 mock、取数入口与 Route Handler。mock 使用 `satisfies HomePage` 并通过整页 parse。
+- 2026-09-17 用户要求先实现源稿，全部候选已进入 `docs/deviations.md` 等整体 review；错字、重复 FAQ、BMI 示意值与桌面 / 移动正文差异均保留。原先 P2.2 前逐项确认的要求被本次决定替代。
+- 默认分支直接 import + parse，不发首页 HTTP；设置 API base URL 后请求其 `/api/home`，校验 HTTP 状态与响应 schema，10 秒超时，失败抛出而不回退。URL 不允许凭据、query 或 fragment。Route Handler 始终返回相同本地 mock。
+- `app/page.tsx` 已通过唯一入口取数并提供 main 的源文案标签；区块组装仍归 P5。图片为本地 1×1 透明 SVG，P5 换源稿导出与真实尺寸。
 
 ## 实现计划
 
-进度：1 / 3 subtasks 完成（33%）
+进度：3 / 3 subtasks 完成（100%）
 
 - [x] ST-1: `content/schema.ts` 定 `HomePage` 根类型与各区块子 schema，字段带 JSDoc；20 条契约边界测试通过（2026-09-17）
-- [ ] ST-2: `content/mocks/home.ts`（`satisfies HomePage`）+ vitest `HomePage.parse(homeMock)`
-- [ ] ST-3: `lib/api/home.ts` 双分支 + `app/api/home/route.ts`
+- [x] ST-2: `content/mocks/home.ts`（`satisfies HomePage`）+ vitest `HomePage.parse(homeMock)`
+- [x] ST-3: `lib/api/home.ts` 双分支 + `app/api/home/route.ts`
 
 ## 测试记录
 
 - 2026-09-17：P2.1 typecheck / lint / Vitest 通过，2 个文件共 21 条测试（20 条契约测试 + 1 条页面 smoke）。测试包含整数美分 / 非有限值 / 错拼字段、临时图片 URL / 非法尺寸、危险协议 / 假锚点、未解析 CTA 混入 href、quote/photo 与 chat/image 混形、英公制字段约束、嵌套错误路径。完整 `HomePage.parse(homeMock)` 留待 P2.2，不用边界测试代替整页 fixture 验收。
 
 - 2026-09-17：生产构建通过；期间发现并修复 Tailwind 源扫描 BUG #14（见 TOKENS），修复后生产与 Storybook 构建均通过。未新增依赖或 HTTP 请求。
+
+- 2026-09-17：P2/P3 合计 48 条测试通过；新增完整 mock、源文案保留、稳定 id / 本地素材、无 HTTP 默认分支、远端正常 / 失败 / 非法响应与 route 一致性测试。生产 build 的首页静态生成成功，实际 `curl http://127.0.0.1:3030/api/home` 与完整 mock 深相等。无首页取数 HTTP 不代表字体构建完全离线；next/font/google 下载风险已接受。
