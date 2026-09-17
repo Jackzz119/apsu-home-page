@@ -16,7 +16,7 @@
 
 规则：
 
-1. 本文档任何一条规范都必须能追溯到上面两份文件中的某一句（追溯表见 §2）；追溯不到的是我们的自加要求，要在 §3.3 / §11 里标明"自决"。
+1. 本文档任何一条规范都必须能追溯到上面两份文件中的某一句（追溯表见 §2）；追溯不到的是我们的自加要求，要在 §3.1 口供 / §11 决策记录里标明"自决"。
 2. 甲方文件**只读**：不改名、不改内容、不删。需求理解有变化时改本文档，不改原件。
 3. 验收前逐条对照 §4 A–E、§5、§6 打勾；考官只跑的四条命令（`npm install` · `npm run build` · `npm run dev` · `npm run storybook`）必须在干净 clone 上全绿。
 4. **全程不回问甲方**（2026-09-17 用户设立）。需求、设计稿的任何歧义与缺陷都由我们自行判断、自行修正并登记，不向甲方求证；「问甲方」不作为任何待拍板项的选项。
@@ -67,139 +67,61 @@
 
 | PDF 条目 | 原文要点 | 落到哪条规范 |
 |---|---|---|
-| §1 Tech stack | Next.js App Router + React + TS strict + Tailwind；commit the lockfile | §3 技术栈锁定 |
-| §1 其余自决 | tokens / 图片图标 / 状态 / 路由 / API 契约 / 数据层 | §3.3 自决项决议 |
-| §2 Directory | 结构是评分项，README 解释 | §4 目录结构；§10 README 清单 |
-| §3 Data | 无 API 文档，自己设计数据形状 = 未来 API 契约，提供 mock；**考官先读类型** | §5.2 数据契约规范 |
-| §4A Fidelity | 375 / 1440 两块板默认态保真（在 C 类修正之后） | §5.4 响应式规范 |
-| §4B Floor | 320–1920 每个宽度不横滚、导航不换行、不重叠不裁切 | §5.4 响应式规范 + `check:responsive` 门禁 |
-| §4B Bonus | 板间与板外的优雅适配，defense 会问 | §5.4 流式策略，README 贴证据 |
+| 开头 "component library + page" | 交付的是 React 组件库 + 页面 | §3.1 口供「组件库形态」；[COMPONENTS.md](features/COMPONENTS.md) |
+| §1 Tech stack | Next.js App Router + React + TS strict + Tailwind；commit the lockfile | [STRUCTURE.md](features/STRUCTURE.md) §二 技术栈锁定 |
+| §1 其余自决 | tokens / 图片图标 / 状态 / 路由 / API 契约 / 数据层 | §3.1 项目决策口供 |
+| §2 Directory | 结构是评分项，README 解释 | [STRUCTURE.md](features/STRUCTURE.md) §三 目录结构；§10 README 清单 |
+| §3 Data | 无 API 文档，自己设计数据形状 = 未来 API 契约，提供 mock；**考官先读类型** | [DATACONTRACT.md](features/DATACONTRACT.md) 数据契约 |
+| §4A Fidelity | 375 / 1440 两块板默认态保真（在 C 类修正之后） | [RESPONSIVE.md](features/RESPONSIVE.md) 保真线 |
+| §4B Floor | 320–1920 每个宽度不横滚、导航不换行、不重叠不裁切 | [RESPONSIVE.md](features/RESPONSIVE.md) 完整性线 + [SELFCHECK.md](features/SELFCHECK.md) §三 扫描 |
+| §4B Bonus | 板间与板外的优雅适配，defense 会问 | [RESPONSIVE.md](features/RESPONSIVE.md) 流式策略，README 贴证据 |
 | §4C Flaw fixes | 稿里有真错误；修并逐条记录 | §6 偏差日志规范 |
-| §4D States & motion | 每个交互元素 hover/focus/pressed + 过渡；稿没画 hover，自己设计；一致与克制 > 数量；README 列出 | §5.5 交互态与动效规范；§6 偏差日志 D 类 |
-| §4E Storybook | 有状态组件一态一 story，考官逐个点 | §5.6 Storybook 规范 |
+| §4D States & motion | 每个交互元素 hover/focus/pressed + 过渡；稿没画 hover，自己设计；一致与克制 > 数量；README 列出 | [MOTION.md](features/MOTION.md)；§6 偏差日志 D 类 |
+| §4E Storybook | 有状态组件一态一 story，考官逐个点 | [STORYBOOK.md](features/STORYBOOK.md) |
 | §5 README | 用了哪些 AI、写了哪些部分、指向日志；Deviation log | §10 README 清单 |
 | §6 Submission | 不 squash；AI 日志完整未编辑放 `ai-logs/`；不可复现的 AI 使用不合格 | §7 commit 规范；§8 日志规范 |
 
 ---
 
-## 3. 技术栈与版本锁定
+## 3. 项目决策口供与规范文档索引
 
-### 3.1 固定项与版本锁定（2026-09-16 查 npm registry 的实际最新版）
+### 3.1 项目决策口供（2026-09-17 由「由你决定项的决议」升级；写进 README 的 Design decisions 节）
 
-| 项 | 包 | 版本 | 备注 |
-|---|---|---|---|
-| 运行时 | Node | **22 LTS**（本机 22.23.1） | `.nvmrc` = `22`；`engines.node = ">=20.9"`，取 Next 16 的真实下限，**不开** `engine-strict`，避免把考官挡在门外 |
-| 包管理 | npm | 10.x（随 Node 22） | 提交 `package-lock.json`（lockfileVersion 3，npm 7+ 都能读）；不写 `packageManager` 字段，不锁 npm 版本，锁文件本身就是版本保证 |
-| 框架 | `next` | **16.3.5** | App Router；latest 稳定线 |
-| UI | `react` / `react-dom` | **19.3.0** | Next 16 peer 允许 ^19 |
-| 语言 | `typescript` | **5.9.3** | `create-next-app` 写的是 `^5`，本来就装不到 7.x；我们只是把 `^5` 改成精确的 `5.9.3` |
-| 类型 | `@types/react` `@types/react-dom` | 19.3.x | 跟 react 同大版本 |
-| 类型 | `@types/node` | 22.x | 跟 Node 同大版本 |
-| 样式 | `tailwindcss` `@tailwindcss/postcss` | **4.3.3** | v4：无 `tailwind.config.js`，token 写在 CSS `@theme` |
-| 校验 | `zod` | **4.6.5** | 数据契约的运行时形态，见 §5.2 |
-| 动效 | `motion` | **13.4.0** | 只用于抽屉、手风琴、轮播，见 §5.5 |
-| 图标 | `lucide-react` | 1.46.0 | 品牌图标自绘 SVG |
-| 变体 | `class-variance-authority` | 0.7.1 | 原语组件的 variant 映射 |
-| Storybook | `storybook` `@storybook/nextjs-vite` `@storybook/addon-a11y` `storybook-addon-pseudo-states` | **10.6.0** 四包同版本 | peer 已声明支持 Next 16 |
-| 单测 | `vitest` | 5.0.1 | schema 与纯函数 |
-| E2E | `@playwright/test` | 1.63.0 | 响应式扫描，见 §5.4 |
-| Lint | `eslint` `eslint-config-next` | **9.39.5** / 16.3.5 | `eslint-config-next` 跟 next 同版本。原定 `eslint@10.10.0`，实测 `eslint-config-next@16.3.5` 内置的 `eslint-plugin-react@7.37.5`（已是最新）peer 只到 `^9.7`，在 ESLint 10 下 `react/display-name` 规则直接抛 `getFilename is not a function`，`npm run lint` 红；改用 9.x 维护线最新版（2026-09-16 实测） |
-| 格式 | `prettier` `prettier-plugin-tailwindcss` | 3.9.7 / 0.8.1 | 一次定死，全程不改 |
-
-**初始化命令**（喂给项目 agent 的第一步；在 `~/Desktop/Files/apsu-home` 的**上一级**目录执行）：
-
-```bash
-npx create-next-app@16.3.5 apsu-home \
-  --typescript --tailwind --eslint --app --src-dir=false \
-  --import-alias "@/*" --use-npm --turbopack
-cd apsu-home
-npm i -E zod@4.6.5 motion@13.4.0 lucide-react@1.46.0 class-variance-authority@0.7.1
-npm i -DE typescript@5.9.3 vitest@5.0.1 @playwright/test@1.63.0 prettier@3.9.7 prettier-plugin-tailwindcss@0.8.1
-npx storybook@10.6.0 init --builder vite --no-dev
-npm i -DE @storybook/addon-a11y@10.6.0 storybook-addon-pseudo-states@10.6.0
-echo 22 > .nvmrc
-```
-
-`-E` = `--save-exact`，写进 `package.json` 的是 `5.9.3` 而不是 `^5.9.3`。脚手架自己写的几行（`next` `react` `react-dom` `typescript` `tailwindcss` `eslint` 等）带 `^`，初始化后**手动把 `^` 全部去掉**，让 `package.json` 与 `package-lock.json` 说的是同一句话。
-
-
-**实际初始化记录（2026-09-16）**：仓库目录名是 `apsu-home-page-init`（非 `apsu-home`），且目录已有 AI 工作流文件，所以脚手架先在临时目录生成再拷入仓库；`package.json#name` 仍为 `apsu-home`。`create-next-app@16.3.5` 已无 `--turbopack` / `--src-dir=false` 参数（Turbopack 默认开启，不加 `--src-dir` 即不建 `src/`）。脚手架默认写的 `react@19.2.8`、`@types/node@^20`、`eslint@^9` 已按上表改为 `19.3.0` / `22.20.3` / `10.10.0`。`storybook init` 会额外塞入 `@chromatic-com/storybook`、`addon-vitest`、`addon-docs`、`addon-mcp`、`vitest.config.ts` 与示例 `stories/`，已全部移除，只保留上表四包 + `vite@8.3.0`（`@storybook/nextjs-vite` 的 peer）。所有依赖无 `^` / `~`。
-
-初始化后自查：`package.json` 里所有依赖无 `^` / `~`；`next` 与 `eslint-config-next` 同版本；storybook 四包同版本；`npm run build && npm run lint && npm run build-storybook` 三绿再做第一次 commit。
-
-### 3.2 "考官跑不起来"的隐患与对策
-
-考官只跑四条命令：`npm install` · `npm run build` · `npm run dev` · `npm run storybook`。下面每条都是"在我们机器上绿、在考官机器上红"的已知成因：
-
-| # | 隐患 | 对策 |
-|---|---|---|
-| 1 | 考官 Node 版本低于 20.9，Next 16 拒绝启动 | `.nvmrc` + `engines.node` + README 首段写明 "Node 22 LTS (tested on 22.23.1); minimum 20.9" |
-| 2 | `package.json` 与 lockfile 不一致，`npm install` 静默改写 lock 装出别的版本 | 两个文件永远同一 commit 提交；每次改依赖后跑一次 `npm ci` 验证 lock 能独立复现 |
-| 3 | `next/font/google` 在 build 时联网下载字体，考官完全离线则 build 失败 | **接受此风险**，仍用 `next/font/google`：一行代码、无授权与文件管理成本；考官跑 `npm install` 本来就要联网。字体名从 Figma Dev Mode 读，不猜 |
-| 4 | `next build` 会在构建期预渲染 `/`，此时没有任何服务器在监听，页面若 `fetch("http://localhost:3000/api/home")` 会连接被拒，build 直接红 | `getHomePage()` 双分支：`NEXT_PUBLIC_API_URL` 为空 → 直接 `import { homeMock }` 返回，不发 HTTP；设置了 → `fetch(\`${url}/api/home\`)` 并 zod 校验。默认构建走前者，永不依赖运行中的服务 |
-| 5 | Playwright 装完不自带浏览器，`check:responsive` 需要 `npx playwright install` | 这条命令**不进**四条考官命令的依赖链；它是我们自己的门禁，README 里单独说明怎么跑 |
-| 6 | macOS 文件系统不分大小写，`import "./button"` 引 `Button.tsx` 本机能过、Linux 上 build 红 | 仓库加 GitHub Actions，在 `ubuntu-latest` 上跑 `npm ci && npm run build && npm run lint && npm run build-storybook`；绿徽章贴 README，同时是"考官环境能跑"的证明 |
-| 7 | 考官用 Windows，`package.json#scripts` 里的 `rm -rf` / `&&` 链 / bash 语法跑不了 | 四条考官命令只调 `next` / `storybook` 自带 CLI；自研脚本用 Node 写，不用 bash；`sync-ai-logs.sh` 例外，因为它只在我们机器上跑 |
-| 8 | build 依赖某个 env 变量而 `.env` 没提交 | 构建零必填 env；`NEXT_PUBLIC_API_URL` 可空；提交 `.env.example` 说明可选项 |
-| 9 | `ai-logs/` 里单个 jsonl 超过 GitHub 100MB 硬限 | 每次同步脚本打印文件大小；单 session 逼近 50MB 就结束它开新 session |
-| 10 | `postinstall` 钩子在考官网络下失败 | 本项目不添加任何 `postinstall`；依赖里 `sharp` / `lightningcss` 的平台二进制由 lockfile 记录全部平台变体，`npm install` 自动挑 |
-
-
-### 3.3 "由你决定"项的决议（写进 README 的 Design decisions 节）
+> **口供** = 项目对所有「甲方说由你决定」问题的唯一统一说法。代码、README、Storybook 说明、deviations、答辩回答都必须与这张表一致；要改说法先改这里，再改别处。每条一句话理由，考官问「为什么」就答这句。
 
 | 自决项 | 决议 | 一句话理由 |
 |---|---|---|
 | Design tokens | Tailwind v4 `@theme` CSS 变量，**语义命名**（`--color-brand`、`--color-surface-mint`），禁止按色值命名 | 换肤与后端主题接入不用改组件 |
 | 图片 | `next/image` 静态导入；每张图是 `{ src, alt, width, height }` 数据 | alt 是内容不是代码；宽高防 CLS |
 | 状态管理 | 无全局 store；`useState` / `useReducer`；BMI 计算抽纯函数 | 首页只有局部状态，引 store 是过度设计 |
-| 路由 | 单路由 `/`；导航项锚点滚动到区块 | 产品页不在范围内（**待拍板**：锚点 vs `/coming-soon` 占位页） |
+| 路由 | 单路由 `/`；导航三个产品项（Weight Loss / Birth Control / Sleep）锚点滚动到对应区块，不做 `/coming-soon` 占位页 | 产品页不在范围内；占位页是多余的空壳（2026-09-17 拍板，见 §11） |
 | API 契约 | zod schema 即契约；`HomePage` 为根类型 | 考官先读类型 |
 | 数据层 | Route Handler `app/api/home` 当假后端；`lib/api/home.ts` 唯一取数入口；`NEXT_PUBLIC_API_URL` 切真后端 | 有 HTTP 边界又不多起进程 |
+| **组件库形态**（甲方原文 "React component library + page"） | 组件实现成**组件库**：`components/index.ts` 统一导出，消费者只 `import { X } from "@/components"`；组件通用、只吃 props、不依赖页面上下文，别人 import 就能用；页面本身也只是这个库的一个消费者。细则见 [COMPONENTS.md](features/COMPONENTS.md) §二 | 交付物是「组件库 + 页面」，页面私有组件不算库 |
 
 ---
 
-## 4. 目录结构（评分项，README 里必须解释）
+### 3.2 规范文档索引（feature 文档，各管一个 scope）
 
-```
-apsu-home/
-├── app/                        路由层：只放 layout / page / route handler，页面是薄壳
-│   ├── layout.tsx
-│   ├── page.tsx                const data = await getHomePage(); 分发给 14 个区块
-│   └── api/home/route.ts       假后端：返回 mock，形状 = HomePage schema
-├── components/
-│   ├── ui/                     无业务原语：Button Chip Card Accordion Carousel Marquee
-│   │                           NumberField RadioGroup SegmentedControl Rating IconButton
-│   └── sections/               14 个首页区块，只吃 props，不 import mock
-├── content/
-│   ├── schema.ts               zod schema + z.infer 类型，就是"API 契约"
-│   └── mocks/home.ts           mock 数据，satisfies HomePage
-├── lib/
-│   ├── api/home.ts             getHomePage()：fetch + zod parse
-│   ├── motion.ts               动效 token：时长 / easing / reduced-motion
-│   └── bmi.ts                  纯函数：换算与分类
-├── styles/
-│   └── tokens.css              @theme：颜色 字体 字号阶梯 圆角 阴影 容器宽
-├── public/images/              Figma 导出 1x/2x
-├── scripts/
-│   ├── sync-ai-logs.sh         §8：拷会话日志进 ai-logs/
-│   └── check-responsive.ts     §5.4：Playwright 11 宽度扫描
-├── docs/
-│   ├── deviations.md           §6：偏差日志（C 类 + D 类）
-│   └── responsive-report.md    check:responsive 的输出表
-├── ai/
-│   ├── PROJECT.md              本文
-│   └── TODO.md                 任务唯一来源
-├── ai-logs/                    §8：原始会话记录，未编辑
-├── .storybook/
-├── README.md
-└── package-lock.json
-```
+> 2026-09-17 用户设立：PROJECT.md 的职责是**实时上下文与每一 turn 的追溯**，不装规范细节。规范类内容按 scope 拆到 `ai/features/` 下，本表是唯一入口；加新规范文档必须在此登记一行并写明 scope。
 
-命名：目录 kebab-case；组件文件 PascalCase（`Button.tsx` + `Button.stories.tsx` 同目录）；其余 camelCase；文档全小写 kebab-case，`README.md` / `PROJECT.md` / `TODO.md` 例外。
+| 文档 | 管理 scope | 迁出自 |
+|---|---|---|
+| [STRUCTURE.md](features/STRUCTURE.md) | 技术栈与精确版本、升降版决定、脚手架实录、目录结构与命名、`scripts` 清单 | 原 §3.1、§4 |
+| [SELFCHECK.md](features/SELFCHECK.md) | 考官环境可复现性隐患与对策、响应式 11 宽度扫描、按 Assignment 推导的验收测试（M5）、CI 决定 | 原 §3.2 |
+| [COMPONENTS.md](features/COMPONENTS.md) | 组件库形态与统一导出、ui/ 与 sections/ 组件规范、client 白名单、组件清单登记 | 原 §5.1 |
+| [DATACONTRACT.md](features/DATACONTRACT.md) | zod 契约与类型推导、mock 约束、`getHomePage()` 取数链路、真后端切换 | 原 §5.2 |
+| [MOTION.md](features/MOTION.md) | 交互态规则（hover / focus / pressed / disabled）、动效 token、reduced-motion、D 类状态来源；开发时拉入 `emil-design-eng` 技能 | 原 §5.5 |
+| [STORYBOOK.md](features/STORYBOOK.md) | `.storybook/` 配置、一态一 story 规则、viewport 预设、pseudo-states 与 a11y 策略 | 原 §5.6 |
+| [TOKENS.md](features/TOKENS.md) | `@theme` token 文件与语义命名、魔法值禁令、字体接入、不引 UI 库 | 原 §5.3 |
+| [RESPONSIVE.md](features/RESPONSIVE.md) | 保真线 / 完整性线定义、流式 + 三断点策略、容器规则、320–375 保底 | 原 §5.4 |
+| [A11Y.md](features/A11Y.md) | 语义结构、对比度、alt、键盘路径、图标 aria 约定、a11y addon 零违规 | 原 §5.7 |
 
----
+规则：细节只在 feature 文档写一份；本文只登记入口、scope 与 §3.1 口供。feature 文档之间有交叉时（如 SELFCHECK 引用 STRUCTURE 的目录），引用不复制。
 
-## 5. 实现规范
+## 5. 全局铁律（留在本文的实现规范）
+
+> 只有跨所有 feature 的全局规则留在这里；分领域的规范在 §3.2 索引的 feature 文档里。
 
 ### 5.0 语言与注释规范（全局铁律）
 
@@ -240,86 +162,7 @@ apsu-home/
     */
    ```
 3. **不写**：复述代码的注释（`// increment i`）、注释掉的代码、`TODO` 不带 `ai/TODO.md` 条目引用。
-4. JSDoc 里的 schema 字段说明（§5.2）视为注释，同样英文、一句话。
-
-### 5.1 组件规范
-
-1. **区块组件默认是 Server Component**。只有 6 个交互岛加 `"use client"`：Header（含移动端抽屉）、LanguageMarquee、TrustMarquee、BmiCalculator、Carousel、Faq。新增 client 组件要在 PR/commit 说明里给理由。
-2. **组件里不许出现文案与图片路径的硬编码**。所有文字、链接、图片从 props 进来，props 的类型来自 `content/schema.ts`。
-3. 原语组件 (`ui/`) 不知道业务：`Button` 不知道自己是 "See plans"。
-4. 每个原语导出一个 `variant` / `size` 的有限集合，用 `cva` 或对象映射，不在调用处拼 class 串。
-5. 所有可交互元素必须是原生可聚焦元素（`button` / `a` / `input`），禁止 `div onClick`。
-6. 图标一律 `aria-hidden`，含义由旁边文本或 `aria-label` 承担。
-
-### 5.2 数据契约规范（考官先读的那份）
-
-1. `content/schema.ts` 是**唯一**的数据形状真源；TS 类型只允许 `z.infer` 得到，禁止手写重复 interface。
-2. 每个 schema 与字段带 JSDoc，说明业务含义与来源，写给后端看。
-3. 金额是结构不是字符串：`{ amount: 2000, currency: "USD", interval: "month", prefix: "From" }`。
-4. 图片是结构：`{ src, alt, width, height }`。
-5. 同类不同形态用 `z.discriminatedUnion("kind", ...)`，禁止用可选字段堆出"可能有图可能没图"。
-6. id 一律 `z.string()` 并在 JSDoc 注明"后端稳定 id"，前端不生成。
-7. `HomePage` 是根类型，字段顺序 = 页面区块顺序。
-8. mock 用 `satisfies HomePage` 约束；另有 vitest 用例 `HomePage.parse(homeMock)` 必须通过。
-9. `getHomePage()` 是页面**唯一**取数入口，进门先 `parse`，失败抛错不吞。
-
-### 5.3 样式规范
-
-1. 颜色、字号、间距、圆角、阴影只能引用 `@theme` token；出现魔法值（`#1f3a2a`、`text-[17px]`）视为缺陷。
-2. 断点只允许三个语义名（见 §5.4），禁止散落的任意 `min-[900px]`。
-3. `min-w-0` 是泄压阀不是默认值：只在被压穿的 flex 子项上加，并注释为什么。
-4. 不引 UI 组件库（shadcn/Radix 亦不引）——原语是评分对象，要自己写；手风琴用原生 `<details>`。
-
-### 5.4 响应式规范
-
-**两条线分开达标**：
-
-- **保真线**：375 与 1440 两块板逐区块对照 Figma，默认态。
-- **完整性线**：320–1920 任意宽度：`scrollWidth <= innerWidth`、导航项同一行、无重叠无裁切。
-
-**策略：流式为主，形态断点为辅**
-
-1. 字号与大间距用 `clamp()`，两端锚点 = 375 稿值与 1440 稿值，中间自动插值。
-2. 只在布局**换形态**处设断点，命名固定为：`sm`（≥640，卡片 1→2 列）、`lg`（≥1024，导航展开 / 特写左右排）、`xl`（≥1280，内容容器到满宽）。具体阈值以 Header 不换行的实测为准，可调但要写进 deviations。
-3. 容器 `max-width: 1440px` 居中，背景铺满；>1440 不放大内容。
-4. 320–375 区间靠自动换行与 `min-w-0` 保底，不另做设计。
-5. **门禁**：`npm run check:responsive` 在 320 / 360 / 375 / 414 / 640 / 768 / 1024 / 1280 / 1440 / 1600 / 1920 截图并断言以上三条；结果表写入 `docs/responsive-report.md`，README 引用。
-
-### 5.5 交互态与动效规范（一致与克制 > 数量）
-
-**token（`lib/motion.ts` + `tokens.css`）**
-
-| token | 值 | 用途 |
-|---|---|---|
-| `--dur-fast` | 150ms | 颜色、透明度、小位移 |
-| `--dur-base` | 200ms | 抬起、缩放、箭头位移 |
-| `--dur-slow` | 300ms | 高度展开、抽屉、轮播 |
-| `--ease-out` | `cubic-bezier(0.2, 0, 0, 1)` | 所有进场与状态切换 |
-| `--ease-in` | `cubic-bezier(0.4, 0, 1, 1)` | 离场，且离场时长取进场的 0.75 |
-
-**状态规则（每条都要在 deviations D 类里登记）**
-
-1. hover：按钮背景加深/提亮一级，右箭头 `translateX(2px)`；卡片 `translateY(-2px)` + 阴影升一级；chip 底色切薄荷。
-2. focus-visible：全站统一 2px 强调色外环 + 2px offset，禁止 `outline: none` 不配替代。
-3. active/pressed：`scale(0.98)`，`--dur-fast`。
-4. disabled：`opacity .5` + `cursor-not-allowed`，且保留在 tab 序列外。
-5. 首/末位轮播箭头 disabled；跑马灯 hover 暂停。
-6. `prefers-reduced-motion: reduce` 时所有 transition/animation 归零，`motion` 组件走 `useReducedMotion`。
-7. **禁止**：弹跳、overshoot、超过 300ms 的过渡、进场 scale 起点小于 0.96、视差。
-
-### 5.6 Storybook 规范
-
-1. 每个 `ui/` 原语与每个 client 区块必有 `*.stories.tsx`，与组件同目录。
-2. **一态一 story，story 名 = 状态名**：`Default` / `Hover` / `Focus` / `Pressed` / `Disabled` / `Loading`…；hover/focus/active 用 `pseudo-states` 固化，不靠鼠标。
-3. 数据从 `content/mocks` 取，不在 story 里再造一份文案。
-4. 全局 viewport 预设两块板：`mobile-375`、`desktop-1440`。
-5. `a11y` addon 违规 = 阻塞，不允许 disable 规则。
-
-### 5.7 无障碍与语义
-
-- 一页一个 `h1`，区块用 `section` + `aria-labelledby`。
-- 颜色对比 AA；图片 alt 来自数据。
-- 键盘走通全页：导航、抽屉、手风琴、轮播、BMI 表单。
+4. JSDoc 里的 schema 字段说明（[DATACONTRACT.md](features/DATACONTRACT.md)）视为注释，同样英文、一句话。
 
 ### 5.8 代码内 log 规范
 
@@ -348,6 +191,17 @@ apsu-home/
 ---
 
 ## 7. Commit 与分支规范
+
+### 7.0 谁决定 commit（2026-09-17 用户设立）
+
+**commit 的时机、次数与切分由用户决定，AI 不自主提交。**
+
+- AI 做完一段工作后只报告「哪些文件动了、建议怎么切成几条 commit、每条的 message 草稿」，然后**停下等指令**。
+- 用户说了「commit」「提交」「按你建议的切」之类的话才动手；说了几条就几条，不合并、不多拆。
+- 用户没说 push 就不 push；push 授权只在当轮有效（同 CLAUDE.md「Auto 模式报告规范」第 6 条）。
+- 例外：无。包括 `logs(ai-logs)` 同步提交，也等用户开口。
+
+> 为什么：commit 历史是评分项（PDF §6），每条的粒度和叙事要由人把关；AI 顺手提交会把中间状态、搭车改动和未定稿文档混进历史，事后按 §7.1 又不能改。
 
 ### 7.1 分支模型
 
@@ -412,18 +266,28 @@ docs(readme): explain directory structure and data layer
 logs(ai-logs): sync claude code sessions through 2026-09-18
 ```
 
-### 7.3 粒度与自查
+### 7.3 每次 commit 必做清单（2026-09-17 由「粒度与自查」升级）
 
-1. **一个 commit 一件事**：一个组件、一个区块、一条缺陷修复、一份文档。能拆就拆，历史是评分项。
-2. 每个 commit 必须能 `tsc --noEmit` 与 `eslint` 通过；`build` 允许在中间 commit 短暂红，但同一工作日内必须回绿。
-3. 提交前自查（AI 执行时逐条报告）：
-   - [ ] 只 `git add` 本次改动相关文件，禁止 `git add -A`
-   - [ ] 无 `console.log`、无注释掉的代码、无 TODO 不带 issue 引用
-   - [ ] 涉及设计偏差的，`docs/deviations.md` 已先登记且 message 引用 id
-   - [ ] `scripts/sync-ai-logs.sh` 已跑，日志变更**随本 commit 一起进**，或紧接一条 `logs(ai-logs)` commit
-4. AI 生成的 commit 末尾加 `Co-Authored-By` 行（Claude Code 默认带），不删。这与 README 的 AI 披露互为证据。
+**粒度**：一个 commit 一件事——一个组件、一个区块、一条缺陷修复、一份文档。能拆就拆，历史是评分项（PDF §6）。
 
----
+**清单**：用户说「commit」之后、`git commit` 之前，AI 逐条执行并在报告里逐条打勾；任何一条不过就停下报告，不提交。
+
+| # | 必做 | 依据 |
+|---|---|---|
+| 1 | `npm run format`（全局 prettier `--write`），改动的文件重新 `git add` | 用户 2026-09-17 口头设立；`.prettierrc` 是标准，`.prettierignore` 已排除协议、`ai/`、`ai-logs/`、锁文件 |
+| 2 | `npm run typecheck` 与 `npm run lint` 绿 | §9 每 commit 门禁 |
+| 3 | 只 `git add` 本次改动相关文件，禁止 `git add -A`；别的 session / 用户改的文件不带 | CLAUDE.md Auto 模式第 6 条 |
+| 4 | 无 `console.log`、无注释掉的代码、无不带 TODO.md 条目引用的 `TODO` | §5.8、§5.0 |
+| 5 | 动了依赖：`package.json` 与 `package-lock.json` 同一 commit，且 `npm ci` 能独立复现 | PDF §1 "commit the lockfile"；SELFCHECK §二 #2 |
+| 6 | 新增或改动有状态组件：同目录 `*.stories.tsx` 同 commit，一态一 story | PDF §4E；STORYBOOK.md |
+| 7 | 涉及设计修正（C）或自设计交互态（D）：`docs/deviations.md` **先**登记，message 引用 id | PDF §4C / §4D；§6 |
+| 8 | 改了目录结构、数据层、AI 使用范围：README 对应节同 commit 更新 | PDF §2 / §5；§10 |
+| 9 | 区块级 commit：`npm run check:responsive` 绿（脚本就位后） | PDF §4B；§9 每区块门禁 |
+| 10 | `npm run sync:ai-logs`，日志随本 commit 进，或紧接一条 `logs(ai-logs)` commit；报告写「ai-logs 已同步：N 个文件」 | PDF §6；§8.5 |
+| 11 | message 按 §7.2：type(scope) 在词表内、英文祈使句 ≤ 72 字符、3–4 句 description、保留 `Co-Authored-By` | §7.2 |
+| 12 | 不 squash、不 `--amend` 已推送的提交、不 force-push、不 push（除非当轮授权） | PDF §6；§7.0 / §7.1 |
+
+`build` 允许在中间 commit 短暂红，但同一工作日内必须回绿。
 
 ## 8. AI 会话日志规范（`ai-logs/`）
 
@@ -481,7 +345,8 @@ if [[ -d "$CLAUDE_SRC" ]]; then
 fi
 # Codex: only rollouts whose cwd is this repo
 if [[ -d "$CODEX_SRC" ]]; then
-  grep -rl --include='*.jsonl' "\"cwd\":\"$ROOT\"" "$CODEX_SRC" 2>/dev/null | while read -r f; do
+  # `|| true`: grep exits 1 when this repo has no Codex sessions yet; with pipefail that would abort before the manifest.
+  { grep -rl --include='*.jsonl' "\"cwd\":\"$ROOT\"" "$CODEX_SRC" 2>/dev/null || true; } | while read -r f; do
     cp -p "$f" "$DST/codex/"
   done
 fi
@@ -510,12 +375,12 @@ git -C "$ROOT" status --short ai-logs | head
 
 | 层级 | 必须通过 |
 |---|---|
-| 每个 commit | `tsc --noEmit` · `eslint` · 无 console.log · deviations 已登记 · ai-logs 已同步 |
+| 每个 commit | §7.3 十二条清单全过（format · typecheck · lint · 无 console.log · lockfile 同步 · story 同 commit · deviations 先登记 · README 同步 · ai-logs 同步 · message 规范） |
 | 每个区块完成 | 375 / 1440 与 Figma 逐项对照 · 对应 story 存在 · 键盘可走通 |
 | 每日收工 | `npm run build` 绿 · `npm run check:responsive` 绿 · push |
 | 最终提交 | 上述全部 + `npm run storybook` 全绿 · a11y 零违规 · README 清单 §10 全勾 · `logs(ai-logs): final sync` 为最后一条 commit |
 
-`package.json#scripts` 至少含：`dev` `build` `start` `lint` `typecheck` `test` `storybook` `build-storybook` `check:responsive` `sync:ai-logs`。
+`package.json#scripts` 至少含：`dev` `build` `start` `lint` `typecheck` `format` `format:check` `test` `storybook` `build-storybook` `check:responsive` `sync:ai-logs`。
 
 `typecheck` = `next typegen && tsc --noEmit`：Next 16 的 `LayoutProps` / `PageProps` 等全局类型由 `next typegen` 生成到 `.next/types/`，干净 clone 上不先 typegen 直接 `tsc` 会报 `Cannot find name 'LayoutProps'`。
 
@@ -526,7 +391,7 @@ git -C "$ROOT" status --short ai-logs | head
 - [ ] 一段话：这是什么、怎么跑（四条命令）
 - [ ] Directory structure：树 + 每层职责（§4）
 - [ ] Data layer & API contract：schema 在哪、mock 怎么校验、切真后端只改哪一行
-- [ ] Design decisions：§3.3 那张表的英文版
+- [ ] Design decisions：§3.1 口供那张表的英文版
 - [ ] Responsive strategy：流式 + 三断点 + `responsive-report.md` 结果表
 - [ ] Interaction states & motion：token 表 + D 类清单链接
 - [ ] Deviation log：链接 `docs/deviations.md`
@@ -536,12 +401,13 @@ git -C "$ROOT" status --short ai-logs | head
 
 ---
 
-## 11. 待拍板（方案阶段遗留）
+## 11. 决策记录（方案阶段遗留问题的拍板）
 
-| # | 问题 | 选项 | 倾向 |
+> 已拍板的写在这里，一行一条，带日期；影响「自决项说法」的同时回写 §3.1 口供。新冒出的待拍板问题先进 [TODO.md](TODO.md)「待澄清想法」，拍板后搬来。
+
+| # | 问题 | 决定 | 日期 |
 |---|---|---|---|
-| 1 | 证言卡上的 X / Instagram / LinkedIn 图标 | a. 删除并记 C 类 · b. 保留为不可点击装饰 | a |
-| 2 | 导航三个产品项的目标 | a. 锚点到对应区块 · b. `/coming-soon` 占位页 | a |
-| 3 | 本文档语言 | a. 中文入库 · b. 入库前译英 | a，README 已是英文，内部文档中文不减分 |
-| 4 | 是否把方案讨论 session 的可读摘要放进 `docs/plan.md` | 由新 session 重述生成 | 是 |
-
+| 1 | 证言卡上的 X / Instagram / LinkedIn 图标 | **保留设计，不可点击**：渲染为装饰性图标（`aria-hidden`，不是链接、不是按钮），无 hover / focus 态。不算设计缺陷，不进 deviations | 2026-09-17 |
+| 2 | 导航三个产品项的目标 | **锚点**滚动到对应区块，不做 `/coming-soon` 占位页。已回写 §3.1 口供「路由」行 | 2026-09-17 |
+| 3 | `ai/` 内部文档语言 | **中文入库**。README 与一切考官可见文本是英文，内部规划文档中文不减分（PROJECT §5.0） | 2026-09-17 |
+| 4 | 是否把方案阶段那次讨论的可读摘要写成 `docs/plan.md` | **不写**。方案的结论已全部落在本文与 feature 文档里，README「Design decisions」节即对外说法；旧 session 混有其他项目内容，按 §8.1 第 3 条不交 | 2026-09-17 |
