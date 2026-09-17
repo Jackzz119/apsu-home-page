@@ -33,7 +33,8 @@
 | 游离移动区块组 | 节点 `2002:4113`（Weight Loss 的移动版，335 宽，画板外） |
 | 结构快照 | [design_system/figma/page-0-1.xml](design_system/figma/page-0-1.xml)：整页每个节点的 ID / 名字 / 坐标 / 宽高，2026-09-17 由 MCP `get_metadata` 导出，几何尺寸以它为准，不再花配额重拉 |
 | MCP 配额 | 账号是 Figma Starter，读取类调用 **20 次 / 月**；只用于变量表、整板截图与少数复合节点的 `get_design_context`，其余靠 XML + 手动 Dev Mode 抄值 |
-| 接入方式 | 项目级 `.mcp.json`（HTTP，`https://mcp.figma.com/mcp`），OAuth 令牌在本机，不入库 |
+| 接入方式 | Claude Code 用项目级 `.mcp.json`，Codex 用 `.codex/config.toml`；均连接 `https://mcp.figma.com/mcp`。各客户端 OAuth 凭据在本机，不入库。2026-09-17 Codex OAuth 成功，重启后 `whoami` 与桌面根节点 `get_variable_defs` 均通过 |
+| 变量快照与本轮用量 | [design_system/figma/variables.json](design_system/figma/variables.json)：桌面 `2002:3098` 的 75 项变量与样式定义，2026-09-17 保存。本轮计入读取配额的调用 1 次（`get_variable_defs`），`whoami` 不计入；账号当月剩余额度未返回，不能用本轮次数推断 |
 
 
 ---
@@ -48,6 +49,8 @@
 ---
 
 ## 1. 项目一句话与交付物
+
+**当前实现（2026-09-17）**：P0.1 目录骨架与首页空壳完成，脚手架 SVG 已移除，改动文件格式检查与 typecheck / lint / build 通过；细节见 [STRUCTURE.md](features/STRUCTURE.md) ST-1 与测试记录。下一步 P0.2。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 

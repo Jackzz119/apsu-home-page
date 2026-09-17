@@ -19,7 +19,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 ## Epics & Milestones
 
 - [~] P0 · 工程收口
-- [ ] P1 · 设计读取（Figma）
+- [~] P1 · 设计读取（Figma，P1.1 已完成）
 - [ ] P2 · 数据契约
 - [ ] P3 · 设计 token
 - [ ] P4 · 组件库原语（`components/ui/`）
@@ -34,7 +34,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 目标：干净 clone 上考官四条命令 + `typecheck` `lint` `format:check` `test` `build-storybook` 全绿，目录骨架就位，脚手架痕迹清零。
 
-- [ ] P0.1 目录骨架 + 清脚手架占位（STRUCTURE ST-1）：建 `components/{ui,sections}/` + `components/index.ts`、`content/mocks/`、`lib/api/`、`styles/tokens.css`、`docs/`、`tests/`；删 `public/*.svg` 与 `app/page.tsx` 的示例内容，页面先渲染空壳 `<main>`
+- [x] P0.1 目录骨架 + 清脚手架占位（STRUCTURE ST-1）：目录与空出口就位；五个脚手架 SVG 已删，首页仅渲染 `<main />`；改动文件格式检查及 typecheck / lint / build 通过（2026-09-17）
 - [ ] P0.2 scripts 补齐（STRUCTURE ST-2）：`test`、`check:responsive`（先占位报「not implemented」，P6 换真）
 - [ ] P0.3 vitest 配置 + 一个冒烟测试（SELFCHECK ST-2）：只扫 `tests/**` 与 `content/**`，不含 Storybook 浏览器测试
 - [ ] P0.4 格式化与 lint 收口（STRUCTURE ST-3）：`npm run format` 全量跑一次（当前 11 个文件不合 `.prettierrc`）；ESLint 加 `no-console: ["error", { allow: ["error"] }]`；`prettier-plugin-tailwindcss` 已进 `.prettierrc`（§11 #6）
@@ -48,7 +48,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 目标：拿到 token 真值、整板底图、14 区块清单与缺陷候选；建起 `ai/design_system/`。
 
-- [ ] P1.1 `get_variable_defs` 打桌面根 `2002:3098`（1 次）→ 原样存 `ai/design_system/figma/variables.json`
+- [x] P1.1 `get_variable_defs` 打桌面根 `2002:3098`（1 次）→ 75 项原始返回已存 `ai/design_system/figma/variables.json`（2026-09-17，Codex 连接验证时完成）
 - [ ] P1.2 `get_screenshot` 桌面 `2002:3098`、移动 `2002:3679`、Menu `2002:4211`（3 次，`maxDimension` 拉满）→ `ai/design_system/figma/*.png`
 - [ ] P1.3 `get_design_context` 4 个样式最密的复合节点（4 次）：Navbar+Hero `2002:3099`、套餐卡 `2002:3307`、Profile/BMI `2002:3439`、FAQ+Footer `2002:3667` → 返回码原样存 `ai/design_system/figma/context-<id>.md`，只当参考不直接用
 - [ ] P1.4 触发 `monet` 建 `ai/design_system/design-system.md`：色板、字体、字号阶梯、圆角、阴影、间距 → 语义 token 名（TOKENS ST-1）
@@ -143,6 +143,6 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## 当前状态
 
-- 2026-09-17：workflow 与文档体系定稿（PROJECT + 9 份 feature 文档）；脚手架四绿；Figma 副本可读，结构 XML 已入库；ai-logs 同步脚本可用。下一步 P0.1。
+- 2026-09-17：P0.1 完成，STRUCTURE 进度 1 / 3；Codex Figma OAuth 与实际读稿验证通过，P1.1 变量快照已保存；下一步 P0.2。P0 整阶段门禁与提交尚未完成。
 
 ## 封存

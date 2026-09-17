@@ -52,7 +52,7 @@
 
 ## 五、待实现 / 已知问题
 
-- `components/` 目录与 `index.ts` 尚未创建
+- P0.1 已建立 `components/ui/`、`components/sections/` 与 `index.ts` 空出口；Button、story 和页面消费链路仍待 P4.1 完成，ST-1 尚未完成。
 - 14 个区块的最终拆分与命名待设计读稿（monet / ui-tailor）后回填 §四
 
 ## 实现计划

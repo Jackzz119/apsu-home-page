@@ -2,7 +2,7 @@
 
 Front-end take-home: the Apsu home page (desktop 1440 / mobile 375) implemented as a Next.js App Router page plus a React component library, with Storybook.
 
-**Status:** scaffold only. No sections or components yet.
+**Status:** directory skeleton and empty home page shell are ready. No sections or components yet.
 
 ## Requirements
 
@@ -25,11 +25,26 @@ Next.js 16 (App Router) · React 19 · TypeScript 5 (strict) · Tailwind CSS 4 �
 
 ## Repository layout
 
-To be documented as the codebase grows. Planning documents (in Chinese) live under `ai/`; `ai/PROJECT.md` is the project spec and `ai/TODO.md` the task list. AI agent protocol files (`CLAUDE.md`, `AGENTS.md`, `.claude/`, `.agents/`) are committed on purpose so the AI-assisted process is fully visible.
+```text
+app/                  Next.js routes and the root layout; the home page is currently an empty shell
+components/index.ts   Public entry point for the component library; no exports yet
+components/ui/        Reusable UI primitives
+components/sections/  Home page sections composed from props
+content/mocks/        Mock content for the future home page contract
+lib/api/              Data access functions
+styles/tokens.css     Design token placeholder, pending the Figma audit
+public/images/        Exported design assets
+docs/                 Deviation logs and responsive evidence
+tests/                Automated tests
+scripts/              Project utilities, including AI log synchronization
+.storybook/           Storybook configuration
+```
+
+Empty directories contain `.gitkeep` files so they survive a fresh clone. Planning documents (in Chinese) live under `ai/`; `ai/PROJECT.md` is the project spec and `ai/TODO.md` the task list. AI agent protocol files (`CLAUDE.md`, `AGENTS.md`, `.claude/`, `.agents/`) are committed on purpose so the AI-assisted process is fully visible.
 
 ## AI usage
 
-This project is built with Claude Code. Complete, unedited session logs will be committed under `ai-logs/` (see `ai/PROJECT.md` §8). A per-section breakdown of what the AI wrote will be added here.
+This project uses Claude Code and Codex. Codex added the P0.1 directory skeleton and removed the starter page and SVG assets. Complete, unedited session logs will be committed under `ai-logs/` (see `ai/PROJECT.md` §8). A per-section breakdown with session references will be added here.
 
 ## Deviation log
 

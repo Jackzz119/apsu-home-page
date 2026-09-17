@@ -89,6 +89,8 @@ apsu-home/
 │   ├── PROJECT.md              本文
 │   └── TODO.md                 任务唯一来源
 ├── ai-logs/                    §8：原始会话记录，未编辑
+├── tests/                      schema 与纯函数等自动化测试
+├── .codex/config.toml          Codex 项目级 MCP 服务地址，OAuth 凭据不入库
 ├── .storybook/
 ├── README.md
 └── package-lock.json
@@ -100,16 +102,16 @@ apsu-home/
 
 ## 四、待实现 / 已知问题
 
-- `components/index.ts` 统一出口尚未建立（COMPONENTS.md 负责其规则，本文只登记它在树里的位置）
-- `content/` `lib/` `styles/` `scripts/check-responsive.ts` `docs/` 目录尚未创建；脚手架占位页 `app/page.tsx` 与 `public/*.svg` 待清理
+- P0.1 已完成：`components/{ui,sections}/`、`content/mocks/`、`lib/api/`、`styles/`、`docs/`、`tests/`、`public/images/` 骨架就位；空目录用 `.gitkeep` 保留。`components/index.ts` 暂为 `export {};`，`styles/tokens.css` 暂为说明注释。
+- `app/page.tsx` 仅渲染 `<main />`，五个脚手架 SVG 已删除。真实组件与导出归 P4，token 定义和 `globals.css` 接入归 P3，`scripts/check-responsive.ts` 实现归 P6。
 - `package.json#scripts` 尚缺 `test` `check:responsive`（`sync:ai-logs` `format` `format:check` 已加）
 
 ## 实现计划
 
-进度：0 / 3 subtasks 完成（0%）
+进度：1 / 3 subtasks 完成（33%）
 
-- [ ] ST-1: 按 §三 建空目录骨架与 `styles/tokens.css` 起步文件，删脚手架占位物
-  - 影响文件：`app/page.tsx`、`public/*.svg`、`styles/tokens.css`、`content/`、`lib/`、`docs/`
+- [x] ST-1: 按 §三 建空目录骨架与 `styles/tokens.css` 起步文件，删脚手架占位物（2026-09-17）
+  - 影响文件：`app/page.tsx`、`public/*.svg`、`public/images/`、`components/`、`styles/tokens.css`、`content/`、`lib/`、`docs/`、`tests/`、`README.md`
   - 说明：先把树立起来，后续 feature 各自往里填；占位 svg 是 Vercel 素材，不该出现在交付里
 - [ ] ST-2: 补 `package.json#scripts` 的 `test` 与 `check:responsive`（`format` / `format:check` 2026-09-17 已加）
   - 影响文件：`package.json`
@@ -121,3 +123,4 @@ apsu-home/
 ## 测试记录
 
 - 2026-09-16：`npm run typecheck` · `lint` · `build` · `build-storybook` 四绿（脚手架状态）
+- 2026-09-17：P0.1 的 `app/page.tsx`、`components/index.ts`、`styles/tokens.css`、`README.md` 通过 Prettier 检查；`npm run typecheck`、`npm run lint`、`npm run build` 通过。构建提示忽略仓库外的 `/Users/chengzheng/pnpm-lock.yaml`，不影响结果；本次未改构建配置。P0 整阶段门禁尚未完成。
