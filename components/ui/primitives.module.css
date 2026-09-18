@@ -59,7 +59,6 @@ button.chip,
     width: var(--spacing-icon-md);
     height: var(--spacing-icon-md);
     border-radius: var(--radius-pill);
-    background: var(--color-surface);
     color: var(--color-brand);
 }
 .controlSmall .trailingIcon {
@@ -101,6 +100,7 @@ button.chip,
 .interactiveCard:focus-visible,
 .summary:focus-visible,
 .numberInput:focus-visible,
+.numberStepper button:focus-visible,
 .radioInput:focus-visible,
 .track:focus-visible {
     outline: var(--focus-width) solid var(--color-accent);
@@ -174,7 +174,7 @@ button.chip,
     min-height: var(--spacing-input);
     padding-inline: var(--spacing-content-gap);
     border: var(--border-width) solid var(--color-border);
-    border-radius: var(--radius-compact);
+    border-radius: var(--radius-pill);
     background: var(--color-surface-input);
 }
 .numberShell[data-size='sm'] {
@@ -189,6 +189,7 @@ button.chip,
 }
 /* The number input must shrink beside its visible unit on the narrow source board. */
 .numberInput {
+    appearance: textfield;
     min-width: 0;
     width: 100%;
     border: 0;
@@ -197,6 +198,49 @@ button.chip,
     font: inherit;
     font-size: var(--text-button);
     padding-block: var(--spacing-label-gap);
+}
+.numberInput::-webkit-inner-spin-button,
+.numberInput::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+.numberSuffix {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+.numberStepper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: var(--spacing-glyph);
+    height: var(--spacing-control-sm);
+    margin-block: calc(-1 * var(--border-width));
+}
+.numberStepperIcon {
+    display: flex;
+}
+.numberStepper button {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    width: var(--spacing-glyph);
+    height: var(--spacing-glyph);
+    border: 0;
+    padding: 0;
+    border-radius: var(--radius-compact);
+    background: transparent;
+    cursor: pointer;
+}
+.numberStepper button:last-child {
+    top: auto;
+    bottom: 0;
+}
+.numberStepper button:disabled {
+    cursor: not-allowed;
+}
+.numberStepper:has(button:disabled) .numberStepperIcon {
+    opacity: var(--disabled-opacity);
 }
 .unit {
     color: var(--color-text-unit);

@@ -1,5 +1,6 @@
+import Image from 'next/image';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ArrowUpRight, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import {
     Button,
     Chip,
@@ -20,7 +21,9 @@ import { carouselArgs, marqueeArgs, sexOptions, unitOptions } from './storyFixtu
 /** An overview for visual review; individual colocated stories remain the state-by-state contract. */
 function Primitives() {
     const specimens = [
-        <Button key="button" trailingIcon={<ArrowUpRight />}>
+        <Button
+            key="button"
+            trailingIcon={<Image {...primitiveMock.buttonArrow} alt={primitiveMock.buttonArrow.alt} unoptimized />}>
             {homeMock.hero.action.label}
         </Button>,
         <div key="chip" className="gap-label-gap flex flex-wrap">
@@ -41,7 +44,9 @@ function Primitives() {
         <Marquee key="marquee" {...marqueeArgs} />,
         <NumberField
             key="number"
-
+            stepperIcon={<Image {...primitiveMock.numberStepper} alt={primitiveMock.numberStepper.alt} unoptimized />}
+            incrementLabel={primitiveMock.incrementLabel}
+            decrementLabel={primitiveMock.decrementLabel}
             label={homeMock.bmiCalculator.heightLabel}
             unit={homeMock.bmiCalculator.units[0].heightUnit}
             defaultValue={0}

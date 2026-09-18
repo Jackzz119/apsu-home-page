@@ -80,7 +80,7 @@ LanguageMarquee 为 Hero 子组件，Carousel 为 ui 原语，不重复计为根
 进度：2 / 3 subtasks 完成（67%）
 
 - [x] ST-1: 建 `components/ui/`、`components/sections/`、`components/index.ts`，先放 Button 一个原语走通「组件 + story + 从 `@/components` import」链路
-- [x] ST-2: 其余 ui/ 原语逐个落地，原语实现与 stories 完成；按用户决定拆成原先建议的 14 条提交，本次源稿修正另加第 15 条
+- [x] ST-2: 其余 ui/ 原语逐个落地，原语实现与 stories 完成；用户本轮决定保留原先建议的 14 条提交，本次源稿修正另加第 15 条
 - [ ] ST-3: sections/ 按设计文档逐区块落地，只吃 props
 
 ## 测试记录
@@ -104,10 +104,17 @@ Emil 四技能版本 `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`；同一 agent �
 | Accordion | Approve：原生 details；量高度 + opacity 200ms 是 recipe 的明确例外 | 8 stories；原稿 12px 圆角、16→24px 内距、白色正文、4px 分隔和虚线；快速反向、键盘即时、reduce、4 倍慢放 + 4 倍 CPU 节流通过 |
 | Carousel | Approve：手动 scroll-snap，指针 smooth、键盘 / reduce instant | 7 stories；首末边界、空数据、屏外 inert、Home / End / arrows、resize；没有自动播放或自定义触摸物理 |
 | Marquee | Approve：默认静态；显式 autoPlay 后 CSS linear 30s | 5 stories；用户 / hover / focus 暂停，复制轨道隐藏且 inert；等宽循环、后台 visibility 处理、实时 reduce 换行；Pause / Resume 为普通动作按钮，不混用改名与 aria-pressed |
-| NumberField | N/A：原生数字编辑与即时焦点，不加动画 | 6 stories；关联 label / unit / error、native spinner / ArrowUp、invalid / disabled；禁用输入变淡，单位保留对比度 |
+| NumberField | N/A：原生数字编辑与即时焦点，不加动画 | 6 stories；关联 label / unit / error、原稿绿色 SVG 双箭头 / 原生 ArrowUp、受控 / 非受控、小数步长、上下限、空值、readOnly / step=any / disabled；禁用输入变淡，单位保留对比度 |
 | RadioGroup | N/A：高频互斥选择即时 | 6 stories；fieldset / legend、原生方向键、组禁用 / 单项禁用；没有自写 roving tabindex |
 | SegmentedControl | Approve：共享 radio 语义，指针轻反馈、键盘即时 | 7 stories；源稿 0.5px 外圈、4.5px 内衬、4px 间距；无移动指示器 |
 | Rating | N/A：只读信息不动画 | 4 stories；单一可访问名称，完整 / 半星 / 空分数，星形隐藏于读屏 |
 | IconButton | Approve：共享 Button 按压和媒体门控 | 7 stories；必填 label，图标 aria-hidden，原生 disabled |
 
 视觉证据：[375](../../docs/primitive-review-375.png) / [1440](../../docs/primitive-review-1440.png)，可运行入口 `Primitives/Overview → Default`。这是原语库验收，不是 14 区块像素验收。未测实体手机、Safari / Firefox、读屏软件实听和 P6 全页 11 宽度；CPU 节流测试不等于所有硬件稳定帧率保证。Motion 依赖保留，本阶段没有 runtime import。
+
+### P4 用户复核修正（2026-09-17）
+
+- MCP 重新读取 `2002:3135`、`2002:3197`、`2002:3375`，附带截图确认水平箭头、40 / 32px 图标框内的实际圆形留白，以及 52px 高的胶囊输入框与 24px 绿色圆润 sort 图标。前次用 ArrowUpRight / 满框白圆 / 12px 输入圆角 / 浏览器 spinner 是实现误差，本轮修正不属于修改甲方设计。
+- Button 的 `trailingIcon` 接收完整源稿圆箭头；NumberField 新增 `stepperIcon`、`incrementLabel`、`decrementLabel` props。素材路径和标签由调用者传入，组件内不写页面素材路径。原稿 sort SVG 保持完整，由两个 24×24 原生 button 覆盖上下操作区。
+- 步进调用原生 `stepUp`，尊重 min / max / step 并派发 input 通知 React 受控值；readOnly、disabled 和 step=any 禁用步进。WithHint 使用受控小数示例，不新增 story 数量。NumberField 高频编辑不加动画，Button 已验收动效保持原样。
+- 用户授权按原建议拆分 P4 基线 14 条 commit，再追加这两处修正 1 条 commit，一共 15 条并推送；产品 C / D 类仍按原流程等待整体 review。

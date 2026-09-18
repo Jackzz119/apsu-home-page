@@ -25,7 +25,9 @@
 | Birth Control / Sleep / Profile | [context-2002-3439.md](figma/context-2002-3439.md) | Profile 是 Sleep 内的两张浮层卡 |
 | FAQ | [context-2002-3667.md](figma/context-2002-3667.md) | 不含 Footer；保留组件 props，含折叠答案的错误复用 |
 | 移动全页补读 | [context-2002-3679.md](figma/context-2002-3679.md) | 补移动字号、Footer 内容及 Syne 的真实使用位置 |
-| 运行时素材目录 | [public/images/](../../public/images/) | 尚无产品素材；P5 从源素材导出，不能把整板截图当页面图片 |
+| 运行时素材目录 | [public/images/](../../public/images/) | 已下载原始 Button / NumberField SVG；其余产品素材待 P5 导出，不能把整板截图当页面图片 |
+
+2026-09-17 用户复核后增加 3 次定点 MCP context 读取，素材原样下载：`arrow-right-circle.svg`（40×40，`2002:3137`）、`arrow-right-circle-small.svg`（32×32，`2002:3197`）、`number-sort.svg`（24×24，`2002:3379`）。Button 不再另画满框圆底；NumberField 使用 `--radius-pill` 和原稿 sort 图标。素材通过 props 传入，临时 Figma URL 不进入运行时代码。
 
 本轮 3 次截图 + 5 次 context = 8 次设计读取；加已有 P1.1 变量读取共 9 次，P1 预算用满。未重拉 metadata。五份 context 按返回 text block 顺序以空行连接，保留原文，不将生成代码直接粘进应用。它们含 7 天有效的素材地址，只供来源追踪；P5 使用前须下载 / 必要时刷新并核验素材，不得把临时地址放进运行时代码。context 的附带图片用于本轮审图，三张原始整板另行保存。
 

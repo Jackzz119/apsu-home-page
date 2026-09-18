@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P4 完成，P0.7 按用户决定暂缓。已审计前轮原始记录：可见 turn_context 均为 gpt-6-astra，没有 Luna；最后一次 interrupted 发生在开场白后、工具工作前，没有 credit 耗尽导致缺码的证据。P2/P3 四条提交 4adae67 / 97a905b / 4863536 / 0ca4e3c 已推送 main。P4 11 原语、统一导出、79 原语 stories（总计 80）、页面消费标本与 a11y / motion / 375/1440 同 agent 视觉复核完成；48 Node + 18 浏览器测试、format/typecheck/lint/token guard、生产和 Storybook build 通过。COMPONENTS 2/3、STORYBOOK 1/3（原语部分完成）、A11Y 1/2；P4 按用户决定拆成原先建议的 14 条提交，本次源稿修正另加第 15 条，下一步 P5。源稿缺陷和产品 D 类仍待整体 review；图片仍为 P5 待替换的透明占位。
+**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P4 完成，P0.7 按用户决定暂缓。已审计前轮原始记录：可见 turn_context 均为 gpt-6-astra，没有 Luna；最后一次 interrupted 发生在开场白后、工具工作前，没有 credit 耗尽导致缺码的证据。P2/P3 四条提交 4adae67 / 97a905b / 4863536 / 0ca4e3c 已推送 main。P4 11 原语、统一导出、79 原语 stories（总计 80）、页面消费标本与 a11y / motion / 375/1440 同 agent 视觉复核完成；48 Node + 18 浏览器测试、format/typecheck/lint/token guard、生产和 Storybook build 通过。COMPONENTS 2/3、STORYBOOK 1/3（原语部分完成）、A11Y 1/2；P4 经用户复核修正 Button / NumberField（见 COMPONENTS），按用户决定保留原先建议的 14 条提交，本次源稿修正另加第 15 条，下一步 P5。源稿缺陷和产品 D 类仍待整体 review；原稿控件 SVG 已下载，其余产品图片仍为 P5 待替换的透明占位。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 

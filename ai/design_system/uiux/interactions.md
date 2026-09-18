@@ -63,7 +63,7 @@ Profile 两张分数卡、OnlineCare 聊天示意、证言星级和证言社交�
 
 ## P4 已实现的库级边界
 
-11 原语与全部状态 stories 已完成，详见 [COMPONENTS 测试记录](../../features/COMPONENTS.md)。库层采用颜色 hover，不增加箭头 / 卡片装饰位移；只有可操作 Chip / 链接 Card 有按压反馈。RadioGroup 与 SegmentedControl 共用原生 radio 语义；NumberField 保留原生 spinner，错误文本关联字段。默认 `<details>` 可在没有 JS 时工作；指针 measured height / opacity 200ms，键盘 / reduce 即时。
+11 原语与全部状态 stories 已完成，详见 [COMPONENTS 测试记录](../../features/COMPONENTS.md)。库层采用颜色 hover，不增加箭头 / 卡片装饰位移；只有可操作 Chip / 链接 Card 有按压反馈。RadioGroup 与 SegmentedControl 共用原生 radio 语义；NumberField 保留原生数字键盘编辑，以原稿绿色双箭头覆盖浏览器 spinner，错误文本关联字段。默认 `<details>` 可在没有 JS 时工作；指针 measured height / opacity 200ms，键盘 / reduce 即时。
 
 Carousel 手动且非循环，轨道首尾位置扣除 focus 留白并同步 scroll-padding；完全屏外卡 inert，正在获得焦点的内容离屏时回到轨道。Marquee 默认静态；显式 autoPlay 的隔离候选才出现 Pause / Resume，用户暂停、hover / focus、后台 visibility 分别控制暂停；reduce 展开所有原始条目，重复轨道 aria-hidden + inert。按钮名称随动作变化，因此不使用 aria-pressed；与固定名称的 Chip toggle 区分。
 

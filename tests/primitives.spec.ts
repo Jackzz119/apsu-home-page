@@ -55,6 +55,8 @@ test('every primitive state has zero axe violations and no horizontal overflow',
 test('buttons preserve native disabled, destination and keyboard feedback behavior', async ({ page }) => {
     await story(page, 'button--default');
     const button = page.getByRole('button');
+    await expect(button.locator('img')).toHaveAttribute('src', '/images/arrow-right-circle.svg');
+    expect(await button.locator('img').evaluate((node) => (node as HTMLImageElement).naturalWidth)).toBe(40);
     await page.keyboard.press('Tab');
     await expect(button).toBeFocused();
     await page.keyboard.down('Space');
@@ -117,6 +119,41 @@ test('native input groups expose labels, validity, exclusive keyboard selection 
     await number.focus();
     await number.press('ArrowUp');
     await expect(number).toHaveValue('1');
+    await page.getByRole('button', { name: primitiveMock.incrementLabel }).click();
+    await expect(number).toHaveValue('2');
+    await page.getByRole('button', { name: primitiveMock.decrementLabel }).press('Space');
+    await expect(number).toHaveValue('1');
+    await expect(number.locator('..')).toHaveCSS('border-radius', '9999px');
+    await expect(number.locator('..').locator('img')).toHaveAttribute('src', '/images/number-sort.svg');
+    // This specimen stores the value in React state, so a missing change event loses edits on rerender.
+    await story(page, 'numberfield--with-hint');
+    const increase = page.getByRole('button', { name: primitiveMock.incrementLabel });
+    const decrease = page.getByRole('button', { name: primitiveMock.decrementLabel });
+    await increase.click();
+    await increase.click();
+    await expect(number).toHaveValue('1');
+    await expect(page.locator('[data-controlled-value]')).toHaveAttribute('data-controlled-value', '1');
+    await number.fill('2');
+    await increase.click();
+    await expect(number).toHaveValue('2');
+    await decrease.click();
+    await expect(number).toHaveValue('1.5');
+    await expect(page.locator('[data-controlled-value]')).toHaveAttribute('data-controlled-value', '1.5');
+    await number.fill('0');
+    await decrease.click();
+    await expect(number).toHaveValue('0');
+    await number.fill('');
+    await increase.click();
+    await expect(number).toHaveValue('0.5');
+    for (const args of ['readOnly:true', 'step:any']) {
+        await page.goto(`/iframe.html?id=primitives-numberfield--with-hint&viewMode=story&args=${args}`);
+        await expect(increase).toBeDisabled();
+        await expect(decrease).toBeDisabled();
+    }
+    await story(page, 'numberfield--disabled');
+    await expect(number).toBeDisabled();
+    await expect(increase).toBeDisabled();
+    await expect(decrease).toBeDisabled();
     for (const id of ['radiogroup', 'segmentedcontrol']) {
         await story(page, `${id}--default`);
         const options = page.getByRole('radio');

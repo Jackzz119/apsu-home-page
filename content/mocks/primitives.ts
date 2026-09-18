@@ -1,8 +1,13 @@
 /** Development-only labels and fixtures; product copy remains in homeMock, including source defects. */
 export const primitiveMock = {
+    buttonArrow: { src: '/images/arrow-right-circle.svg', alt: '', width: 40, height: 40 },
+    smallButtonArrow: { src: '/images/arrow-right-circle-small.svg', alt: '', width: 32, height: 32 },
+    numberStepper: { src: '/images/number-sort.svg', alt: '', width: 24, height: 24 },
     heading: 'Component library preview',
     notice: 'Development specimen. Product sections and action destinations are pending P5 and design review.',
     unitsLabel: 'Units',
+    incrementLabel: 'Increase height',
+    decrementLabel: 'Decrease height',
     error: 'Enter a positive value.',
     hint: 'Use the unit shown beside the field.',
     pauseLabel: 'Pause languages',

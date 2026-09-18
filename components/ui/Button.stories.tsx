@@ -1,4 +1,4 @@
-import { ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Button } from './Button';
 import { primitiveDecorators } from '../../.storybook/primitiveDecorators';
@@ -13,7 +13,7 @@ const meta = {
     parameters: { layout: 'fullscreen' },
     args: {
         children: homeMock.hero.action.label,
-        trailingIcon: <ArrowUpRight />,
+        trailingIcon: <Image {...primitiveMock.buttonArrow} alt={primitiveMock.buttonArrow.alt} unoptimized />,
         onClick: fn()
     }
 } satisfies Meta<typeof Button>;
@@ -27,7 +27,15 @@ export const Pressed: Story = { parameters: { pseudo: { active: true } } };
 export const Disabled: Story = { args: { disabled: true } };
 export const Secondary: Story = { args: { variant: 'secondary' } };
 export const Outline: Story = { args: { variant: 'outline' } };
-export const Compact: Story = { args: { size: 'sm', children: homeMock.serviceCards.items[0].action.label } };
+export const Compact: Story = {
+    args: {
+        size: 'sm',
+        trailingIcon: (
+            <Image {...primitiveMock.smallButtonArrow} alt={primitiveMock.smallButtonArrow.alt} unoptimized />
+        ),
+        children: homeMock.serviceCards.items[0].action.label
+    }
+};
 export const Link: Story = {
     args: { href: `#${primitiveMock.destinationId}` },
     render: (args) => (
