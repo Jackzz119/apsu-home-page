@@ -149,6 +149,8 @@ Emil 固定版本沿用；同 agent review-animations Approve、UI Tailor / Mone
 
 ### BMI 点击恢复与数值适配（2026-09-18）
 
-SegmentedControl 的透明原生 radio 以 inset: 0 / z-index: 1 覆盖完整选项，装饰文字 pointer-events: none，避免按压 transform 后装饰层拦截点击。BmiScore 保持 Work Sans / 500 和正常 score 字号上限；用隐藏的最终值测量同字体宽度，按可用宽度等比设置字号，ResizeObserver 监听容器与字体度量变化。数值补间期间不逐帧重新量字号，固定数字行高度，清理观察器；读屏终值与键盘 / reduced-motion 规则保留。
+SegmentedControl 的透明原生 radio 以 inset: 0 / z-index: 1 覆盖完整选项，装饰文字 pointer-events: none，避免按压 transform 后装饰层拦截点击。BmiScore 保持 Work Sans / 500 和正常 score 字号上限；用隐藏的最终值测量同字体宽度，按可用宽度等比缩放原字号文字，ResizeObserver 监听容器与字体度量变化。数值补间期间不逐帧重新量缩放比例，固定数字行高度，清理观察器；读屏终值与键盘 / reduced-motion 规则保留。
 
 验收：110 Node / 48 浏览器用例通过；BMI 三态几何覆盖 11 宽，新增点击命中与数值实测测试包含容器收窄再恢复、长分数全页无横滚。320/375/1440 触控模拟与 1083.9 实景由同 agent UI Tailor / Monet 复核，正常字号 52px / 500；隐藏测量不参与布局且限制在数字槽内。生产 / Storybook 构建与 token / 格式 / 类型 / lint 通过。原有计数时长与中断策略未变，Emil review Approve；未做真机或跨浏览器认证。
+
+Linux CI 追加发现：极长数值按 font-size 比例缩小时，按比例推算未能守住实际边界，宽度超出 6px。改为保持 52px 字形并对数字节点做静态等比 transform，容器尺寸不变；测试仍检查实际边界，未放宽容差。
