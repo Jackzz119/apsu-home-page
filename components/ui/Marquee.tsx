@@ -15,6 +15,10 @@ export type MarqueeProps = {
     defaultPaused?: boolean;
     motion?: 'auto' | 'reduced';
     size?: 'sm' | 'md';
+    /** Optional shared pause state for multi-row compositions. */
+    paused?: boolean;
+    onPausedChange?: (paused: boolean) => void;
+    showControl?: boolean;
 };
 
 /** Repeat two equal tracks, with a persistent pause control and a wrapping reduced-motion fallback. */
@@ -26,11 +30,15 @@ export function Marquee({
     autoPlay = false,
     defaultPaused = false,
     motion = 'auto',
-    size = 'md'
+    size = 'md',
+    paused: controlledPaused,
+    onPausedChange,
+    showControl = true
 }: MarqueeProps) {
     const root = useRef<HTMLElement>(null);
     const viewport = useRef<HTMLDivElement>(null);
-    const [paused, setPaused] = useState(defaultPaused);
+    const [localPaused, setPaused] = useState(defaultPaused);
+    const paused = controlledPaused ?? localPaused;
     const osReduced = useReducedMotionPreference();
     const reduced = osReduced || motion === 'reduced' || !autoPlay;
     useEffect(() => {
@@ -71,12 +79,15 @@ export function Marquee({
                     </ul>
                 </div>
             </div>
-            {autoPlay && !reduced && (
+            {showControl && autoPlay && !reduced && (
                 <Button
                     className={styles.marqueeControl}
                     variant="outline"
                     size="sm"
-                    onClick={() => setPaused(!paused)}>
+                    onClick={() => {
+                        setPaused(!paused);
+                        onPausedChange?.(!paused);
+                    }}>
                     {paused ? resumeLabel : pauseLabel}
                 </Button>
             )}
