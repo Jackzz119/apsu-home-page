@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { animate } from 'motion';
 import { motionDuration, motionEase, motionMedia } from '@/lib/motion';
@@ -211,6 +211,26 @@ export function BmiCalculator({ content, ui }: BmiCalculatorProps) {
  */
 function BmiScore({ value, play }: { value: number; play: boolean }) {
     const number = useRef<HTMLElement>(null);
+    const frame = useRef<HTMLSpanElement>(null);
+    const measure = useRef<HTMLSpanElement>(null);
+    useLayoutEffect(() => {
+        const node = number.current;
+        const container = frame.current;
+        const specimen = measure.current;
+        if (!node || !container || !specimen) return;
+        // Measure the final score at its normal font size, independent of the animated text.
+        const fit = () => {
+            const width = specimen.getBoundingClientRect().width;
+            if (!width || !container.clientWidth) return;
+            const scale = Math.min(1, container.clientWidth / width);
+            node.style.fontSize = `${parseFloat(getComputedStyle(specimen).fontSize) * scale}px`;
+        };
+        fit();
+        const observer = new ResizeObserver(fit);
+        observer.observe(container);
+        observer.observe(specimen);
+        return () => observer.disconnect();
+    }, [value]);
     useEffect(() => {
         const node = number.current;
         if (!node || !play) return;
@@ -243,8 +263,13 @@ function BmiScore({ value, play }: { value: number; play: boolean }) {
         };
     }, [value, play]);
     return (
-        <strong ref={number} className={styles.bmiScore} data-compact={value.toFixed(1).length > 5} aria-hidden="true">
-            {play ? '0.0' : value.toFixed(1)}
-        </strong>
+        <span ref={frame} className={styles.bmiScoreFrame} aria-hidden="true">
+            <strong ref={number} className={styles.bmiScore} aria-hidden="true">
+                {play ? '0.0' : value.toFixed(1)}
+            </strong>
+            <span ref={measure} className={styles.bmiScoreMeasure}>
+                {value.toFixed(1)}
+            </span>
+        </span>
     );
 }

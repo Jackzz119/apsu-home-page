@@ -105,3 +105,7 @@ feet / inches / weight 均空白起步；英寸留空为可选，不把 0 预填
 - 机检口径：链接 / 按钮 / FAQ summary 四项（hover、pressed、focus-visible、过渡）全要；文本输入、单选、轮播轨道只要 focus-visible；已 `aria-hidden` 的跑马灯复制、`inert` 幻灯片、关闭的菜单与 skip link 不计。
 - 补齐项：Header logo 链接 hover 变为 85% 不透明并有 0.97 按压；NumberField 上下步进按钮 hover 显示 `surface-selected` 底色并有 0.97 按压；FAQ chevron 圆底的 hover 变色带 160ms 过渡。其余控件维持 P4 / P5 已审状态。
 - 证据：`tests/acceptance/states.spec.ts` 两视口通过（65 / 69 个控件），附件 `interaction-state-audit` 列出每个控件的四项判定。
+
+## BMI 后续修复（2026-09-18）
+
+单位选项整个可见区域由原生 radio 接收点击，装饰标签不能在按压缩放时遮住输入层。大分数保持正常分数的字体与 500 字重，仅在最终值的实测宽度超过数字容器时缩小；不按字符数切换为标签字体，不换行。字号在计数前按最终值固定，容器 / 字体改变时重新适配，圆盘与分类位置保持稳定。

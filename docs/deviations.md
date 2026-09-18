@@ -107,3 +107,7 @@ Verification: 91 Node tests, eight targeted browser cases, four affected stories
 ### BMI layout follow-up (C-04 / D-04, owner decision)
 
 Validation text stretched grid rows and changed the numeric input heights; the imperial inches field also started at zero while other inputs were empty. The result note appeared only after calculation, changing panel height. Reserve message and result space, display each height error once for the feet/inches group, and initialize every measurement field empty. Empty optional inches mean zero only during calculation; an entirely empty height stays invalid. The user also approves D-04 count-up, superseding its earlier rejection in the P5 opportunity audit.
+
+### BMI follow-up: unit recovery and fitted scores (C-04 / D-04)
+
+The owner reported repeated clicks when changing units after invalid submission and abrupt tiny text for large scores. Keep the native radio hit area above its decorative pressed surface, and fit score text to the available container using the normal score font and weight. Size against the final value before count-up so the numeral does not change size during the animation. Approved — Completed. Pointer hit-testing during press, first-click recovery, keyboard switching, emulated touch, long-score bounds and resize recovery pass. The 1083.9 example retains the normal 52px score size at 320, 375 and 1440; only wider values shrink. Hidden measurement text is clipped within the score slot to prevent page overflow.

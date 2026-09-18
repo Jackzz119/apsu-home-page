@@ -10,7 +10,7 @@ import { homePresentation as ui } from '@/content/presentation';
  * Links, buttons and disclosure summaries must change on hover and press; text inputs, radios and focusable
  * regions are keyboard controls and must show focus-visible.
  */
-test.use({ baseURL: 'http://127.0.0.1:3000' });
+test.use({ baseURL: process.env.PLAYWRIGHT_APP_URL ?? 'http://127.0.0.1:3000' });
 test.setTimeout(300_000);
 
 type Kind = 'pointer' | 'keyboard';
