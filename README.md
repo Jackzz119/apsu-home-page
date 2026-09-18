@@ -2,7 +2,7 @@
 
 Front-end take-home: the Apsu home page (desktop 1440 / mobile 375) implemented as a Next.js App Router page plus a React component library, with Storybook.
 
-**Status:** P5 is implemented: fourteen homepage sections, eleven reusable primitives, real source assets, a working BMI calculator and accessible menu/carousel/FAQ/marquees. Storybook contains 104 stories. Local page acceptance passes; CI and final delivery remain P7/P8 work. See [P5 evidence](docs/p5-review.md).
+**Status:** P5 is implemented: fourteen homepage sections, eleven reusable primitives, real source assets, a working BMI calculator and accessible menu/carousel/FAQ/marquees. Storybook contains 106 stories. Local page acceptance passes; CI and final delivery remain P7/P8 work. See [P5 evidence](docs/p5-review.md).
 
 **Live:** [Home page](https://apsu-home.vercel.app) · [Storybook](https://apsu-home-storybook.vercel.app). Both are Vercel projects on this repository and redeploy automatically on every push to `main`.
 
@@ -120,7 +120,7 @@ Run `npm run storybook` for the development server at `http://localhost:6006`, o
 
 Stories are colocated with components and discovered under `components/` and `app/` as `*.stories.ts` or `*.stories.tsx`. The current configuration includes accessibility and pseudo-state addons, with 375 × 812 and 1440 × 900 viewport presets.
 
-**Available:** `Foundations/Design tokens → Source Baseline`, using the same next/font Work Sans 400/500 and Syne 400/500 configuration as the app. Font loading, five type anchors, source surfaces, gutters, and the container cap have been verified in Chromium at 375/1440/1920. This is a token specimen, not the homepage design. The primitive/state inventory is below. Sections add 23 stories, including open menu, expanded/invalid/calculated BMI, paused strips and expanded FAQ; all 104 stories passed axe and overflow checks at 375/1440.
+**Available:** `Foundations/Design tokens → Source Baseline`, using the same next/font Work Sans 400/500 and Syne 400/500 configuration as the app. Font loading, five type anchors, source surfaces, gutters, and the container cap have been verified in Chromium at 375/1440/1920. This is a token specimen, not the homepage design. The primitive/state inventory is below. Sections add 25 stories, including open menu, expanded/invalid/calculated BMI, paused strips and expanded FAQ; all 104 stories passed axe and overflow checks at 375/1440.
 
 `npm run check:tokens` scans application styling sources for literal colors, arbitrary length utilities, nonstandard breakpoint variants, and common nonsemantic palette classes. `styles/tokens.css` is the source-value exception. The guard ignores comments and JSX URL attributes; it complements code and visual review rather than proving all CSS semantics.
 
@@ -142,9 +142,9 @@ Import components and props from `@/components`. The library uses the project's 
 | Rating           | read-only full / partial / empty rating; sm / md                                                          | 4       |
 | IconButton       | required accessible label; primary / outline; sm / md; five interaction states                            | 7       |
 
-`Primitives/Overview → Default` combines all eleven for review: [375 px](docs/primitive-review-375.png), [1440 px](docs/primitive-review-1440.png). These are library specimens, not homepage replacements. Button actions use native `type="button"` unless a caller requests submit/reset; destinations render anchors. Do not nest interactive controls in a linked Card. Marquee items are informational and must not contain controls or DOM IDs, because its second track repeats them.
+`Primitives/Overview → Default` combines all eleven for review: [375 px](docs/primitive-review-375.png), [1440 px](docs/primitive-review-1440.png). These are library specimens, not homepage replacements. Button actions use native `type="button"` unless a caller requests submit/reset; destinations render anchors. Do not nest interactive controls in a linked Card. Marquee items may be informational or explicitly interactive. Interactive items supply pointer-only `duplicateContent` with `tabIndex=-1` and no DOM IDs; copies mirror the original state and remain hidden from assistive technology. Keyboard interaction exposes the original items as a static wrapping list.
 
-Pointer press feedback uses scale .97 for 160ms, releasing in 100ms. Focus and keyboard operations are immediate. Accordion measures actual height for a reversible 200ms transition; height is the documented recipe exception. Carousel uses native scroll-snap with no autoplay; keyboard/reduced-motion movement is immediate, and completely offscreen slides are inert. Marquee starts static; `autoPlay` opts into a 30-second linear loop with user, hover, focus, and background-tab pause, and a wrapping reduced-motion fallback. Pause/Resume changes the action label without `aria-pressed`, consistent with the [W3C button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/).
+Pointer press feedback uses scale .97 for 160ms, releasing in 100ms. Focus and keyboard operations are immediate. Accordion measures actual height for a reversible 200ms transition; height is the documented recipe exception. Carousel uses native scroll-snap with no autoplay; keyboard/reduced-motion movement is immediate, and completely offscreen slides are inert. Marquee starts static; `autoPlay` opts into a 30-second linear loop with user, fine-hover, keyboard-focus, and background-tab pause, and a wrapping reduced-motion fallback. Pause/Resume changes the action label without `aria-pressed`, consistent with the [W3C button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/).
 
 Run the browser gate after installing Chromium once:
 
@@ -178,3 +178,5 @@ The continuation transcript `01a0b177-a7b3-7770-bb84-af67c9b1bfcc` records the p
 - next/font/google needs network access during a fresh build; Storybook's adapter also loads Google fonts.
 - Physical phones, Safari/Firefox and screen-reader listening were not tested. CPU throttling is not a frame-rate guarantee; source comparison is same-agent visual review, not a certified pixel diff.
 - P7 CI/final acceptance and P8 clean-clone checks, readable-log export and final eleven-width composite remain pending.
+
+The owner-approved language chips demonstrate local selection with `aria-pressed`; they do not translate the page. Missing business destinations do not prevent appropriate local interaction feedback. Resume now continues on pointer exit without blurring the control, including a keyboard-to-pointer switch. This follow-up passed ten targeted browser cases and forty affected-story viewport checks; the original P5 full-audit numbers above remain historical.

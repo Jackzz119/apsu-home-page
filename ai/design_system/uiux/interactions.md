@@ -9,7 +9,7 @@
 |---|---|---|---|
 | Button / IconButton / 导航链接 | 稿件深绿、白色、描边 CTA | Hover 背景一级变化，不加箭头装饰位移；Focus 2px accent 外环 + 2px offset；Pressed scale .97（指针；键盘 / 减动效不缩放）；Disabled opacity .5、不可触发且退出 Tab | Default / Hover / Focus / Pressed / Disabled |
 | Card | 对应源色与阴影 | 可操作卡采用已审颜色/按压反馈（hover/fine 门控）；不增加装饰位移或阴影动画；纯信息卡不伪装点击；卡内 CTA 独立交互 | Default / InteractiveHover（如使用） |
-| Chip | 原稿语言标签含高亮底 | 原语可支持 default / selected / interactive 状态；D-01 已批语言带仅作展示，不触发 locale 切换 | Default / Selected；交互变体补 Hover / Focus / Pressed / Disabled |
+| Chip | 原稿语言标签含高亮底 | 原语可支持 default / selected / interactive 状态；D-01 用户更新：语言带支持本地选中切换的展示交互，不触发 locale 切换 | Default / Selected；交互变体补 Hover / Focus / Pressed / Disabled |
 | Accordion | FAQ 首项开、其余闭 | summary 原生点击 / Enter / Space；focus 环；展开内容与箭头同步，收起后内容退出可达树 | Collapsed / Expanded / Focus / Hover / Pressed |
 | Carousel | OnlineCare 两个方向箭头 | 非循环、手动前后切换；首末 disabled；可触摸横滑，切换后焦点留在触发按钮 | Default / FirstSlide / LastSlide / Keyboard / ReducedMotion |
 | Marquee | 语言双行、信任条单行 | 持久 Pause / Resume + hover / focus-within 暂停；复制轨道 aria-hidden；减动效静态展示，所有真实条目仍可读 | Default / Paused / ReducedMotion |
@@ -77,3 +77,11 @@ Profile 两张分数卡、OnlineCare 聊天示意、证言星级和证言社交�
 Carousel 手动且非循环，轨道首尾位置扣除 focus 留白并同步 scroll-padding；完全屏外卡 inert，正在获得焦点的内容离屏时回到轨道。Marquee 默认静态；显式 autoPlay 的隔离候选才出现 Pause / Resume，用户暂停、hover / focus、后台 visibility 分别控制暂停；reduce 展开所有原始条目，重复轨道 aria-hidden + inert。按钮名称随动作变化，因此不使用 aria-pressed；与固定名称的 Chip toggle 区分。
 
 这些 P4 库行为已按 D-01/D-03 在真实页面验收；P5 原生 dialog 菜单、BMI 计算、导航锚点与焦点链已实施。无目标业务控件按 D-02 展示，不模拟业务效果。正常 / reduce / 键盘 / 触控模拟与快速反向结果见 docs/p5-review.md。
+
+## 语言展示交互与暂停修复（2026-09-17 用户实测后更新）
+
+遵循 PROJECT §5.0a：缺少业务目标或 callback 不是取消交互的理由。语言 chips 采用真实 button / aria-pressed，沿用源稿两项初始高亮；点击独立切换本地状态，不接页面翻译。无限循环副本镜像状态、tabIndex=-1、aria-hidden，阻止指针把焦点留在隐藏副本；键盘只走唯一原始列表。键盘进入某行时立即静态换行，显示完整选项与焦点环；减动效同样静态显示。
+
+两处 Resume 卡住的根因是鼠标点击后仍有 focus-within。仅改 focus-visible 仍不足：Chromium 从键盘改用鼠标时可能保留它。useInputModality 订阅捕获阶段 keydown / pointerdown，再结合 focus-visible 识别真正的键盘暂停；不主动 blur。手动 Pause 持久优先，鼠标 Resume 后离开区域继续原时间线，触屏释放后继续，键盘操作内容时暂停。
+
+验收：10 个针对性浏览器用例、20 个相关 stories ×两板共 40 次 axe/溢出检查通过；触控模拟中循环副本可切换、Resume 后 animation-play-state=running。正常/键盘 375/1440 实景由同一 agent 按 UI Tailor/Monet 复核，focus 环不被轨道裁切。沿用 CSS linear 跑马灯和 160/100ms Chip 反馈，不新增动效库；实体手机未测。

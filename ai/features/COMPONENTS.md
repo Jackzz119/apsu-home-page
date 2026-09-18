@@ -128,3 +128,7 @@ Emil 四技能版本 `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`；同一 agent �
 源稿真图与尺寸见 [assets](../../docs/assets.md)；Semaglutide 缺匹配瓶图，以 null 明示并记录 C-12，不冒用 Tirzepatide。Mobile C-01 总高 1407.7px（375 宽，含区块间距）；无固定高度压字，折叠保留表单。BMI 纯函数覆盖边界、非法值及公英制往返；用户输入后提交才计算。
 
 91 Node、18 原语 + 14 区块浏览器用例通过；104 stories × 两板 = 208 次 axe / 溢出检查通过。生产与 Storybook 构建通过。11 宽完整性检查、源稿逐段同 agent UI Tailor / Monet 视觉复核及 Emil 审查见 [P5 evidence](../../docs/p5-review.md)。新增动效限 CSS 菜单与共享暂停编排；按钮/FAQ/轮播沿用已审原语，静态区块 N/A。正常 / reduce / 键盘 / 模拟触控 / 慢放反向通过；未做真机、跨浏览器与读屏实听。
+
+### 语言交互复核（2026-09-17）
+
+用户新增 PROJECT §5.0a 展示交互规则。LanguageMarquee 使用 Chip 的真实 toggle，保留源稿初始高亮；新增 Toggled/Keyboard stories。Marquee 支持显式 pointer-only duplicateContent，Chip 透传 tabIndex；键盘静态换行只暴露原始列表。useInputModality 与 :focus-visible 联合判断暂停，修复两个条带 Resume 残留焦点问题；原有测试去掉 Resume 后的人工 blur，并覆盖键盘→鼠标切换、动画时间继续、复制项选中同步和静态键盘访问。Emil review Approve：反馈沿用既定 CSS 预算，触控/减动效/快速切换及 375/1440 通过。当前总计 106 stories，新增行为细节与证据见 uiux/interactions.md。
