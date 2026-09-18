@@ -101,6 +101,13 @@
     width: var(--measure-logo);
     overflow: hidden;
     flex-shrink: 0;
+    transition:
+        opacity var(--dur-fast) ease,
+        transform var(--dur-release) var(--ease-out);
+}
+.logo:active:not(:focus-visible) {
+    transform: scale(var(--motion-press-scale));
+    transition-duration: var(--dur-fast);
 }
 .logo img {
     width: auto;
@@ -1060,6 +1067,9 @@
     }
     .footer .textAction:hover {
         color: var(--color-cta-end);
+    }
+    .logo:hover {
+        opacity: var(--hover-opacity);
     }
 }
 @media (prefers-reduced-motion: reduce) {

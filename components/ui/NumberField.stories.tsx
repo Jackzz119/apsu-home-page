@@ -29,6 +29,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 export const Focus: Story = { parameters: { pseudo: { focusVisible: true } } };
+const stepper = `button[aria-label="${primitiveMock.incrementLabel}"]`;
+export const StepperHover: Story = { parameters: { pseudo: { hover: [stepper] } } };
+export const StepperPressed: Story = { parameters: { pseudo: { active: [stepper] } } };
 export const Invalid: Story = { args: { defaultValue: -1, error: primitiveMock.error } };
 export const ExternalError: Story = {
     args: { 'aria-invalid': true, 'aria-describedby': 'numberfield-external-error' },

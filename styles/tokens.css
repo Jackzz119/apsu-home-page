@@ -152,6 +152,7 @@
     --border-width: 1px;
     --border-hairline: 0.5px;
     --disabled-opacity: 0.5;
+    --hover-opacity: 0.85;
     --dur-marquee: 30s;
 }
 
