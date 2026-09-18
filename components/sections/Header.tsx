@@ -1,12 +1,14 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useInputModality } from '@/lib/useInputModality';
 import type { Header as Content } from '@/content/schema';
 import { IconButton } from '../ui/IconButton';
 import { ActionControl, SourceImage, TextAction, type SectionProps } from './SectionPrimitives';
 import styles from './sections.module.css';
 export type HeaderProps = SectionProps<Content>;
 export function Header({ content, ui }: HeaderProps) {
+    const modality = useInputModality();
     const dialog = useRef<HTMLDialogElement>(null);
     const [open, setOpen] = useState(false);
     useEffect(() => {
@@ -24,7 +26,7 @@ export function Header({ content, ui }: HeaderProps) {
         };
     }, [open]);
     return (
-        <header id={content.id} className={styles.header} data-section="header">
+        <header id={content.id} className={styles.header} data-section="header" data-input={modality}>
             <a href="#main-content" className={styles.skip} data-scan-exempt>
                 {ui.skipLabel}
             </a>

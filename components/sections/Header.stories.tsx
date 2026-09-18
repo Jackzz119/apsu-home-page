@@ -7,7 +7,15 @@ import { homePresentation } from '@/content/presentation';
 const meta = {
     title: 'Sections/Header',
     component: Header,
-    parameters: { layout: 'fullscreen' },
+    parameters: {
+        layout: 'fullscreen',
+        docs: {
+            description: {
+                component:
+                    'Native page anchors scroll smoothly for pointer input. Keyboard and reduced-motion navigation remain instant; full-page travel is covered by browser tests.'
+            }
+        }
+    },
     args: { content: homeMock.header, ui: homePresentation }
 } satisfies Meta<typeof Header>;
 export default meta;

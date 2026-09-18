@@ -5,3 +5,10 @@
 @source './';
 @source '../components';
 @source '../.storybook';
+
+/* Native anchors keep URL/history behavior; keyboard and reduced motion stay instant. */
+@media (prefers-reduced-motion: no-preference) {
+    html:has(header[data-input='pointer']) {
+        scroll-behavior: smooth;
+    }
+}

@@ -80,6 +80,57 @@ test('native menu traps focus, closes with Escape, restores focus and navigates 
     expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
 });
 
+test('page anchors scroll smoothly for pointers and immediately for keyboard or reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.evaluate(async () => {
+        for (const image of document.images) image.loading = 'eager';
+        await Promise.all(Array.from(document.images, (image) => image.decode()));
+    });
+    const trigger = page.getByRole('button', { name: homeMock.header.openMenuLabel });
+    const mobile = await trigger.isVisible();
+    if (mobile) await trigger.click();
+    const link = (mobile ? page.getByRole('dialog') : page.locator('header nav').first()).getByRole('link', {
+        name: 'Weight Loss',
+        exact: true
+    });
+    const target = page.locator('#weight-loss');
+    const destination = await target.evaluate((node) => node.getBoundingClientRect().top + scrollY);
+    // Record real frames: a final hash and CSS value alone would also pass for a hard jump.
+    const travel = page.evaluate(
+        () =>
+            new Promise<number[]>((resolve) => {
+                const positions: number[] = [];
+                const started = performance.now();
+                function sample() {
+                    positions.push(scrollY);
+                    if (performance.now() - started < 1800) requestAnimationFrame(sample);
+                    else resolve(positions);
+                }
+                sample();
+            })
+    );
+    await link.click();
+    const positions = await travel;
+    expect(positions.some((y) => y > 5 && y < destination - 5)).toBe(true);
+    await expect.poll(() => target.evaluate((node) => Math.abs(node.getBoundingClientRect().top))).toBeLessThan(2);
+    await expect(page).toHaveURL(/#weight-loss$/);
+    if (mobile) {
+        await expect(page.getByRole('dialog')).not.toBeVisible();
+        await expect(target).toBeFocused();
+        expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+    }
+    await page.keyboard.press('Tab');
+    await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
+    await page.locator('header > div > a').focus();
+    await page.keyboard.press('Enter');
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    if (mobile) await trigger.click();
+    await link.click();
+    await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
+    await expect.poll(() => target.evaluate((node) => Math.abs(node.getBoundingClientRect().top))).toBeLessThan(2);
+});
+
 test('BMI validates, calculates only after submit, preserves physical units and clears stale results', async ({
     page
 }) => {
