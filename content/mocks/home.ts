@@ -59,7 +59,8 @@ export const homeMock = {
                 { id: 'language-tl', label: 'Tagalog', direction: 'ltr', highlighted: false }
             ],
             [
-                { id: 'language-ru-ar', label: 'Русскийالعربية', direction: 'auto', highlighted: false },
+                { id: 'language-ru', label: 'Русский', direction: 'ltr', highlighted: false },
+                { id: 'language-ar', label: 'العربية', direction: 'rtl', highlighted: false },
                 { id: 'language-fr', label: 'Français', direction: 'ltr', highlighted: false },
                 { id: 'language-pt', label: 'Português', direction: 'ltr', highlighted: true },
                 { id: 'language-hi', label: 'हिन्दी', direction: 'ltr', highlighted: false }
