@@ -25,7 +25,7 @@ describe('source fixture', () => {
         expect(homeMock.onlineCare.cards[1].title).toBe('Easy Manager Treatment');
         expect(new Set(homeMock.faq.items.map((item) => item.answer[0])).size).toBe(1);
         expect(homeMock.bmiCalculator.sourcePreview).toMatchObject({ inputText: '0', scoreText: '56' });
-        expect(homeMock.bmiCalculator.ranges[1].description).toBe('<18.5 - 24.9');
+        expect(homeMock.bmiCalculator.ranges[1].description).toBe('18.5–<25');
     });
 
     it('keeps source board differences and static illustration data', () => {

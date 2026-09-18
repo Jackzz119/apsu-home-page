@@ -208,8 +208,8 @@ export const homeMock = {
         sourcePreview: { unit: 'imperial', sexOptionId: 'sex-female', inputText: '0', scoreText: '56' },
         ranges: [
             { id: 'bmi-underweight', label: 'Underweight', description: '<18.5' },
-            { id: 'bmi-healthy', label: 'Healthy Weight', description: '<18.5 - 24.9' },
-            { id: 'bmi-overweight', label: 'Overweight', description: '<25.0 - 29.9' },
+            { id: 'bmi-healthy', label: 'Healthy Weight', description: '18.5–<25' },
+            { id: 'bmi-overweight', label: 'Overweight', description: '25–<30' },
             { id: 'bmi-obese', label: 'Obese', description: '≥ 30' }
         ],
         action: { id: 'bmi-options', kind: 'anchor', label: 'See your GLP-1 Options', target: 'weight-loss-plans' }
