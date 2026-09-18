@@ -25,7 +25,7 @@ Other checks: `npm run test:ui`, `npm run lint`, `npm run typecheck`, `npm run f
 
 No environment variables are required. Leave `NEXT_PUBLIC_API_URL` empty to import the local mock directly, or set it to an HTTP(S) backend base URL; see [.env.example](.env.example).
 
-`npm test` runs Node-based tests once using `vitest.config.mts`. It discovers `*.test.ts` and `*.test.tsx` under `tests/` and `content/`; Storybook and Playwright `*.spec.ts` files are outside this scope. The suite contains 91 tests covering content/API contracts, motion/token rules, BMI calculations and decoded asset dimensions.
+`npm test` runs Node-based tests once using `vitest.config.mts`. It discovers `*.test.ts` and `*.test.tsx` under `tests/` and `content/`; Storybook and Playwright `*.spec.ts` files are outside this scope. The suite contains 110 tests covering content/API contracts, motion/token rules, BMI calculations, decoded asset dimensions and the delivery acceptance checks in `tests/acceptance/`: the committed lockfile with exact pins, a colocated story per state, the README sections and links, and the raw AI-log checksums and session index.
 With an app server running, `npm run check:responsive` checks eleven widths and updates the responsive report; set `RESPONSIVE_URL` to target a different origin.
 
 ### Stack

@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { Action, BmiUnits, Heading, HomePage, ImageAsset, OnlineCareCard, Price, SuccessStory } from '@/content/schema';
 
@@ -134,5 +135,18 @@ describe('content variants', () => {
             ).toBe(true);
             expect(result.error.issues.some((issue) => issue.path.join('.') === 'header')).toBe(true);
         }
+    });
+});
+
+describe('schema as the single type source', () => {
+    const source = readFileSync('content/schema.ts', 'utf8');
+
+    it('infers every exported type from its zod schema instead of a hand-written interface', () => {
+        expect(source).not.toMatch(/\binterface\b/);
+        const types = Array.from(source.matchAll(/^export type (\w+) = (.+);$/gm), (match) => [match[1], match[2]]);
+        const schemas = Array.from(source.matchAll(/^export const (\w+) = z\./gm), (match) => match[1]);
+        expect(types.length).toBeGreaterThan(20);
+        for (const [name, definition] of types) expect(definition, name).toBe(`z.infer<typeof ${name}>`);
+        expect(types.map(([name]) => name).sort()).toEqual([...schemas].sort());
     });
 });
