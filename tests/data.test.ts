@@ -19,7 +19,7 @@ describe('source fixture', () => {
 
     it('applies approved corrections while retaining the requested source copy and provenance', () => {
         expect(homeMock.trustMarquee.items[2].text).toBe('Cash-pay, No Insurance Needed');
-        expect(homeMock.footer.columns[1].title).toBe('Comapny');
+        expect(homeMock.footer.columns[1].title).toBe('Company');
         expect(homeMock.weightLoss.heading.title[0].text).toBe('Loss Weight In Your Way.');
         expect(homeMock.hero.languageRows[1][0].label).toBe('Русскийالعربية');
         expect(homeMock.onlineCare.cards[1].title).toBe('Easy Manager Treatment');

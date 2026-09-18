@@ -405,7 +405,7 @@ export const homeMock = {
             },
             {
                 id: 'footer-company',
-                title: 'Comapny',
+                title: 'Company',
                 links: [
                     { id: 'footer-about', kind: 'unresolved', label: 'About Apsu' },
                     { id: 'footer-blogs', kind: 'unresolved', label: 'Blogs' },
