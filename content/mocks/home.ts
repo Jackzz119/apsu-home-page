@@ -300,7 +300,7 @@ export const homeMock = {
                     }
                 ]
             },
-            { id: 'online-care-treatment', kind: 'image', title: 'Easy Manager Treatment', image: placeholder },
+            { id: 'online-care-treatment', kind: 'image', title: 'Easy Treatment Management', image: placeholder },
             {
                 id: 'online-care-medication',
                 kind: 'image',

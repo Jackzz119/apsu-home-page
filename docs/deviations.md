@@ -42,7 +42,7 @@ Language and payment answers use claims already in the source page. The compound
 
 ## Internal execution tracker
 
-**Current totals: 0 Pending · 9 Approved — Not implemented · 5 Approved — Completed.**
+**Current totals: 0 Pending · 8 Approved — Not implemented · 6 Approved — Completed.**
 
 Only these three statuses are used:
 
@@ -61,7 +61,7 @@ Copy corrections can finish in shared data before P5 consumes them; this does no
 | C-05 | Approved — Completed       | Shared labels now read 18.5–<25 / 25–<30; data regression passes.                                            | No remaining copy work; runtime category agreement is part of C-04 acceptance.                                                                     |
 | C-06 | Approved — Completed       | Source title retained by explicit owner decision.                                                            | None for this entry.                                                                                                                               |
 | C-07 | Approved — Completed       | Separate stable IDs; rendered Russian LTR and Arabic RTL verified at 375/1440, with no overflow.             | None for the label correction; product strip integration remains D-01.                                                                             |
-| C-08 | Approved — Not implemented | Owner decision recorded above.                                                                               | Apply the shared correction and verify data and relevant stories.                                                                                  |
+| C-08 | Approved — Completed       | Corrected shared heading; Carousel stories pass both viewport scans.                                         | None for the copy correction; P5.7 consumes the shared data.                                                                                       |
 | C-09 | Approved — Not implemented | Asset policy approved; current images are transparent fixtures.                                              | P5.2/P5.5: export matching images with real dimensions; inspect overlap at 375/1440. Record specific missing assets if needed.                     |
 | C-10 | Approved — Not implemented | Dark benefit-text role approved; source palette retained.                                                    | Add semantic token, then apply and verify in P5 Hero.                                                                                              |
 | C-11 | Approved — Not implemented | Owner decision recorded above.                                                                               | Apply the shared correction and verify data and relevant stories.                                                                                  |
