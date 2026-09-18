@@ -67,7 +67,7 @@ No new animation is recommended. Existing interactions already explain state cha
 
 ## Remaining limits
 
-C-12 requires an accurate Semaglutide export or explicit approval for a text-only card. Login, Contact, consultation and destination-free footer controls remain visual demos by owner decision. Physical devices, Safari/Firefox and screen-reader listening were not tested. Google font downloads need network access during a fresh build. P7 CI/final acceptance and P8 clean-clone, readable-log export and final eleven-width composite remain pending.
+C-12 requires an accurate Semaglutide export or explicit approval for a text-only card. Login, Contact, consultation and destination-free footer controls remain visual demos by owner decision. Physical devices, Safari/Firefox and screen-reader listening were not tested. Google font downloads need network access during a fresh build. P7 acceptance tests and CI, the P8 clean-clone verification, the readable-log export and the eleven-width composite were completed afterwards; the README status and the deviation tracker record the closing state.
 
 ## Subsequent owner decision
 

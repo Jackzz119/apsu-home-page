@@ -1,6 +1,6 @@
 # Design deviations and approved decisions
 
-Reviewed with the owner on 2026-09-17, before P5 page composition. The first part explains each decision for the client; the execution tracker distinguishes delivered corrections from approved work still to implement. C entries address source issues; D entries define interactions absent from the static design. P5 page composition and its local acceptance are complete; CI and final delivery remain separate phases.
+Reviewed with the owner on 2026-09-17, before P5 page composition. The first part explains each decision for the client; the execution tracker distinguishes delivered corrections from approved work still to implement. C entries address source issues; D entries define interactions absent from the static design. P5 page composition, the P7 acceptance suite with CI, and the P8 delivery checks are complete; every entry below is closed.
 
 ## Client review: problems and resolutions
 
@@ -80,7 +80,7 @@ Copy corrections can finish in shared data before P5 consumes them; this does no
 - Sleep's heading is “Sleep”; “Real rest without the dependency.” is body copy. Preserve desktop/mobile punctuation differences.
 - Footer social artwork is X, Facebook, Instagram, LinkedIn in source order; these are demo controls under D-02. Testimonial social icons remain decorative under the earlier owner decision.
 - Product assets are local source exports with real dimensions; see [asset provenance](assets.md). No homepage image uses the old transparent fixture.
-- The root page now composes all fourteen source sections. The P4 development specimen has been replaced; CI and final delivery checks remain P7/P8.
+- The root page now composes all fourteen source sections. The P4 development specimen has been replaced; GitHub Actions and the clean-clone verification described in the README cover the delivery path.
 
 ### Verification for this review batch
 
