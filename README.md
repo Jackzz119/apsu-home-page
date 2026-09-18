@@ -4,6 +4,8 @@ Front-end take-home: the Apsu home page (desktop 1440 / mobile 375) implemented 
 
 **Status:** P5 is implemented: fourteen homepage sections, eleven reusable primitives, real source assets, a working BMI calculator and accessible menu/carousel/FAQ/marquees. Storybook contains 104 stories. Local page acceptance passes; CI and final delivery remain P7/P8 work. See [P5 evidence](docs/p5-review.md).
 
+**Live:** [Home page](https://apsu-home.vercel.app) · [Storybook](https://apsu-home-storybook.vercel.app). Both are Vercel projects on this repository and redeploy automatically on every push to `main`.
+
 ## Getting started
 
 ### Requirements
@@ -114,7 +116,7 @@ The adopted workflow follows Emil Kowalski’s motion guidance: use the cheapest
 
 ## Storybook
 
-Run `npm run storybook` for the development server at `http://localhost:6006`, or `npm run build-storybook` to generate `storybook-static/`.
+Run `npm run storybook` for the development server at `http://localhost:6006`, or `npm run build-storybook` to generate `storybook-static/`. A hosted build is available at [apsu-home-storybook.vercel.app](https://apsu-home-storybook.vercel.app); Vercel rebuilds it from `main` on every push using the same `build-storybook` script.
 
 Stories are colocated with components and discovered under `components/` and `app/` as `*.stories.ts` or `*.stories.tsx`. The current configuration includes accessibility and pseudo-state addons, with 375 × 812 and 1440 × 900 viewport presets.
 
