@@ -9,11 +9,20 @@ export type ChipProps = {
     size?: 'sm' | 'md';
     direction?: 'ltr' | 'rtl' | 'auto';
     disabled?: boolean;
+    tabIndex?: number;
     onClick?: ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
 };
 
 /** A chip is informational unless the caller supplies a real action. */
-export function Chip({ label, selected = false, size = 'md', direction = 'auto', disabled, onClick }: ChipProps) {
+export function Chip({
+    label,
+    selected = false,
+    size = 'md',
+    direction = 'auto',
+    disabled,
+    tabIndex,
+    onClick
+}: ChipProps) {
     const className = `${styles.chip} ${size === 'sm' ? styles.chipSmall : ''}`;
     if (onClick)
         return (
@@ -24,6 +33,7 @@ export function Chip({ label, selected = false, size = 'md', direction = 'auto',
                 aria-pressed={selected}
                 data-selected={selected}
                 disabled={disabled}
+                tabIndex={tabIndex}
                 onClick={onClick}>
                 {label}
             </button>

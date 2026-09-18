@@ -252,7 +252,8 @@
 .languages > section > div {
     mask-image: linear-gradient(to right, transparent, var(--color-text) 8%, var(--color-text) 92%, transparent);
 }
-.languages:has([data-reduced='true']) > section > div {
+.languages:has([data-reduced='true']) > section > div,
+.languages[data-input='keyboard']:has(ul :focus-visible) > section > div {
     mask-image: none;
 }
 .languages > section:nth-child(2) ul {
@@ -264,7 +265,7 @@
     font-size: var(--text-mini);
     padding: var(--spacing-segment-block) var(--spacing-content-gap);
 }
-.languages:focus-within [data-reduced='false'] > div > div {
+.languages[data-input='keyboard']:has(:focus-visible) [data-reduced='false'] > div > div {
     animation-play-state: paused;
 }
 .services {

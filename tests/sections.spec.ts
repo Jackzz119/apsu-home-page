@@ -151,6 +151,73 @@ test('shared language pause is persistent, reduced motion reveals all unique con
     await expect(page.getByRole('button', { name: ui.resumeLanguages })).toBeVisible();
 });
 
+test('Resume restarts both strips on pointer exit without blurring the control', async ({ page }) => {
+    const languageRows = page.locator('section[aria-label^="Supported languages"]');
+    const trust = page.getByRole('region', { name: ui.trustLabel, exact: true });
+    for (const [pauseLabel, resumeLabel, rows] of [
+        [ui.pauseLanguages, ui.resumeLanguages, languageRows],
+        [ui.pauseTrust, ui.resumeTrust, trust]
+    ] as const) {
+        await page.getByRole('button', { name: pauseLabel }).click();
+        await page.mouse.move(0, 0);
+        for (const row of await rows.all()) {
+            await expect(row).toHaveAttribute('data-paused', 'true');
+            await expect(row.locator('ul').first().locator('..')).toHaveCSS('animation-play-state', 'paused');
+        }
+        const resume = page.getByRole('button', { name: resumeLabel });
+        // Cover a keyboard-to-pointer switch: Chromium can retain :focus-visible on this button.
+        await page.keyboard.press('Tab');
+        await resume.focus();
+        await expect(resume).toBeFocused();
+        await resume.click();
+        await page.mouse.move(0, 0);
+        await expect(page.getByRole('button', { name: pauseLabel })).toBeFocused();
+        for (const row of await rows.all()) {
+            const track = row.locator('ul').first().locator('..');
+            await expect(track).toHaveCSS('animation-play-state', 'running');
+            const time = await track.evaluate((node) => Number(node.getAnimations()[0].currentTime));
+            await expect
+                .poll(() => track.evaluate((node) => Number(node.getAnimations()[0].currentTime)))
+                .toBeGreaterThan(time);
+        }
+    }
+});
+
+test('language demo toggles synchronize loop copies and remain keyboard accessible', async ({ page }) => {
+    const row = page.getByRole('region', { name: `${ui.languagesLabel} 1` });
+    await row.scrollIntoViewIfNeeded();
+    await row.hover();
+    const track = row.locator('ul').first().locator('..');
+    await track.evaluate((node) => {
+        const animation = node.getAnimations()[0];
+        animation.currentTime = Number(animation.effect!.getTiming().duration) * 0.9;
+    });
+    const copy = row.locator('ul[aria-hidden] button').filter({ hasText: 'English' });
+    const original = row.getByRole('button', { name: 'English', exact: true });
+    await expect(copy).toHaveAttribute('tabindex', '-1');
+    await copy.click();
+    await expect(original).toHaveAttribute('aria-pressed', 'true');
+    await expect(copy).toHaveAttribute('aria-pressed', 'true');
+    await page.mouse.move(0, 0);
+    await page.keyboard.press('Tab');
+    await original.focus();
+    await expect(track).toHaveCSS('animation-name', 'none');
+    await expect(row.locator('ul[aria-hidden]')).not.toBeVisible();
+    await original.press('Space');
+    await expect(original).toHaveAttribute('aria-pressed', 'false');
+    for (let index = 0; index < 6; index++) {
+        const focused = page.locator(':focus');
+        await expect(focused).toBeInViewport();
+        expect(await focused.evaluate((node) => Boolean(node.closest('[aria-hidden="true"]')))).toBe(false);
+        await page.keyboard.press('Tab');
+    }
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const chinese = page.getByRole('button', { name: '中文', exact: true });
+    await chinese.click();
+    await expect(chinese).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByRole('button', { name: 'Português', exact: true })).toHaveAttribute('aria-pressed', 'true');
+});
+
 test('FAQ keyboard toggles and carousel keyboard boundaries remain usable', async ({ page }) => {
     const first = page.locator('#faq details').first();
     await expect(first).toHaveAttribute('open', '');

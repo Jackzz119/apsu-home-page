@@ -19,3 +19,17 @@ export const Paused: Story = {
         if (button) await userEvent.click(button);
     }
 };
+
+export const Toggled: Story = {
+    play: async ({ canvasElement }) => {
+        const chip = within(canvasElement).getByRole('button', { name: '中文' });
+        await userEvent.click(chip);
+    }
+};
+export const Keyboard: Story = {
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        await userEvent.tab();
+        canvas.getByRole('button', { name: 'English' }).focus();
+    }
+};
