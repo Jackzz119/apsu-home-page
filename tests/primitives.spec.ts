@@ -214,6 +214,9 @@ test('accordion retargets under four-times slow motion and CPU throttling withou
     await expect.poll(height).toBeGreaterThan(1);
     const opening = await height();
     await summary.dispatchEvent('click', { detail: 1 });
+    // Wait for the retarget itself: on a throttled two-core runner the handler's frame can land after a
+    // fixed delay, which would sample the still-opening panel and misreport a jump.
+    await expect(page.locator('details')).toHaveAttribute('data-target-open', 'false');
     const reversal = await height();
     expect(reversal).toBeGreaterThan(0);
     // Sample the shortened reverse transition; dispatch avoids Playwright waiting for a stable summary.
