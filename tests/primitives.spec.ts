@@ -279,9 +279,12 @@ test('marquee supports persistent pause, focus pause, equal loops and live reduc
     await expect(track).toHaveCSS('animation-play-state', 'paused');
     await page.getByRole('button', { name: primitiveMock.resumeLabel }).click();
     await expect(track).toHaveCSS('animation-play-state', 'paused');
-    await page.getByRole('button').evaluate((node) => (node as HTMLElement).blur());
+    // Pointer focus must not latch the hover pause after Resume.
     await page.mouse.move(0, 800);
     await expect(track).toHaveCSS('animation-play-state', 'running');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Shift+Tab');
+    await expect(track).toHaveCSS('animation-play-state', 'paused');
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(track).toHaveCSS('animation-name', 'none');
     await expect(region.locator('ul').nth(1)).not.toBeVisible();

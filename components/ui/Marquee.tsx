@@ -1,14 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useInputModality } from '@/lib/useInputModality';
 import { useReducedMotionPreference } from '@/lib/useReducedMotionPreference';
 import { Button } from './Button';
 import styles from './primitives.module.css';
 
 export type MarqueeProps = {
     label: string;
-    /** Repeated content is informational: do not supply controls or DOM ids. */
-    items: readonly { id: string; content: ReactNode }[];
+    /** Interactive items supply a pointer-only duplicate (tabIndex -1), without DOM ids. */
+    items: readonly { id: string; content: ReactNode; duplicateContent?: ReactNode }[];
     pauseLabel: string;
     resumeLabel: string;
     autoPlay?: boolean;
@@ -39,7 +40,9 @@ export function Marquee({
     const viewport = useRef<HTMLDivElement>(null);
     const [localPaused, setPaused] = useState(defaultPaused);
     const paused = controlledPaused ?? localPaused;
+    const interactive = items.some((item) => item.duplicateContent !== undefined);
     const osReduced = useReducedMotionPreference();
+    const modality = useInputModality();
     const reduced = osReduced || motion === 'reduced' || !autoPlay;
     useEffect(() => {
         const node = root.current;
@@ -62,6 +65,8 @@ export function Marquee({
             ref={root}
             aria-label={label}
             className={styles.marquee}
+            data-input={modality}
+            data-interactive={interactive}
             data-paused={paused}
             data-reduced={reduced}
             data-size={size}>
@@ -72,9 +77,13 @@ export function Marquee({
                             <li key={item.id}>{item.content}</li>
                         ))}
                     </ul>
-                    <ul className={styles.marqueeGroup} aria-hidden="true" inert>
+                    <ul
+                        className={styles.marqueeGroup}
+                        aria-hidden="true"
+                        inert={!interactive}
+                        onPointerDownCapture={interactive ? (event) => event.preventDefault() : undefined}>
                         {items.map((item) => (
-                            <li key={item.id}>{item.content}</li>
+                            <li key={item.id}>{item.duplicateContent ?? item.content}</li>
                         ))}
                     </ul>
                 </div>

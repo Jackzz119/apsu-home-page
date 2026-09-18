@@ -483,6 +483,9 @@ button.chip,
 .marqueeViewport {
     overflow: hidden;
 }
+.marquee[data-input='keyboard']:has(.marqueeViewport :focus-visible) .marqueeViewport {
+    overflow: visible;
+}
 .marqueeTrack {
     display: flex;
     width: max-content;
@@ -504,21 +507,33 @@ button.chip,
 }
 .marquee[data-paused='true'] .marqueeTrack,
 .marquee[data-hidden='true'] .marqueeTrack,
-.marquee:focus-within .marqueeTrack {
+.marquee[data-input='keyboard']:has(:focus-visible) .marqueeTrack {
     animation-play-state: paused;
 }
-.marquee[data-reduced='true'] .marqueeTrack {
+.marquee:is(
+        [data-reduced='true'],
+        [data-interactive='true'][data-input='keyboard']:has(.marqueeViewport :focus-visible)
+    )
+    .marqueeTrack {
     animation: none;
     width: 100%;
 }
-.marquee[data-reduced='true'] .marqueeGroup {
+.marquee:is(
+        [data-reduced='true'],
+        [data-interactive='true'][data-input='keyboard']:has(.marqueeViewport :focus-visible)
+    )
+    .marqueeGroup {
     min-width: 0;
     width: 100%;
     flex-wrap: wrap;
     justify-content: flex-start;
     padding: 0;
 }
-.marquee[data-reduced='true'] .marqueeGroup[aria-hidden] {
+.marquee:is(
+        [data-reduced='true'],
+        [data-interactive='true'][data-input='keyboard']:has(.marqueeViewport :focus-visible)
+    )
+    .marqueeGroup[aria-hidden] {
     display: none;
 }
 .marqueeControl {
