@@ -3,7 +3,7 @@
 > 本文档是新仓库 `apsu-home` 的**项目规范总纲**。它规范三件事：实现规范、commit 规范、日志规范。
 > 每一条规范都能追溯到甲方 PDF《Front-end Take-Home — Apsu Home Page》的某一句要求，追溯表见 §2。
 > 落点：仓库根目录 `ai/PROJECT.md`，随仓库入库（AI 过程透明本身就是加分项）。
-> 语言：内部文档用中文；**进入 README、commit message、代码注释、deviation log 的一切文本用英文**，因为读者是考官。
+> 语言：内部文档用中文；**进入 README、commit message、代码注释、deviation log 的一切文本用英文**，因为读者是甲方。
 
 ---
 
@@ -18,7 +18,7 @@
 
 1. 本文档任何一条规范都必须能追溯到上面两份文件中的某一句（追溯表见 §2）；追溯不到的是我们的自加要求，要在 §3.1 口供 / §11 决策记录里标明"自决"。
 2. 甲方文件**只读**：不改名、不改内容、不删。需求理解有变化时改本文档，不改原件。
-3. 验收前逐条对照 §4 A–E、§5、§6 打勾；考官只跑的四条命令（`npm install` · `npm run build` · `npm run dev` · `npm run storybook`）必须在干净 clone 上全绿。
+3. 验收前逐条对照 §4 A–E、§5、§6 打勾；甲方只跑的四条命令（`npm install` · `npm run build` · `npm run dev` · `npm run storybook`）必须在干净 clone 上全绿。
 4. **全程不回问甲方**（2026-09-17 用户设立）。需求、设计稿的任何歧义与缺陷都由我们自行判断、自行修正并登记，不向甲方求证；「问甲方」不作为任何待拍板项的选项。
 5. **先实现甲方源稿，再整体 review 偏差**（2026-09-17 用户更新）：默认视觉与文案按 Figma 保留，发现的缺陷和拟议交互统一进入 `docs/deviations.md`，明确标注 Pending；[TODO.md](TODO.md) 追踪 C/D 执行索引。现有条目已整体 review 敲定，按 §11 最新决定执行；新的偏差仍先 Pending，不再按 P2/P3 逐项确认。
 
@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-18）**：P0.1–P0.6 与 P1–P8 完成，P0.7 继续暂缓（新事实见 TODO「待澄清想法」）。14 区块、11 原语、111 stories；Node 110 / 浏览器 48 测试，其中 `tests/acceptance/` 按 Assignment 逐条机检（lockfile、stories、README、ai-logs、schema 单一类型源、全页交互态扫描）。GitHub Actions `quality` + `browser` 两 job 贴 README 徽章（首两跑的红与修法见 SELFCHECK §五）；干净 clone 四条考官命令全过，lockfile 缩进已归一化使 `npm install` 后工作区保持干净。16 项偏差全部完成（D-03 于 P7 补齐 logo 链接反馈；步进按钮两态按用户意见撤回）。首页与 Storybook 部署在 Vercel（`apsu-home.vercel.app` / `apsu-home-storybook.vercel.app`，push `main` 自动重发）。原始日志与 `readable/` 派生版随 `logs(ai-logs): final sync` 入库；用户 audit 后需再同步一次。历史证据见 [P5 review](../docs/p5-review.md)，验证记录见 [SELFCHECK](features/SELFCHECK.md)。
+**当前实现（2026-09-18）**：P0.1–P0.6 与 P1–P8 完成，P0.7 继续暂缓（新事实见 TODO「待澄清想法」）。14 区块、11 原语、111 stories；Node 110 / 浏览器 48 测试，其中 `tests/acceptance/` 按 Assignment 逐条机检（lockfile、stories、README、ai-logs、schema 单一类型源、全页交互态扫描）。GitHub Actions `quality` + `browser` 两 job 贴 README 徽章（首两跑的红与修法见 SELFCHECK §五）；干净 clone 四条甲方命令全过，lockfile 缩进已归一化使 `npm install` 后工作区保持干净。16 项偏差全部完成（D-03 于 P7 补齐 logo 链接反馈；步进按钮两态按用户意见撤回）。首页与 Storybook 部署在 Vercel（`apsu-home.vercel.app` / `apsu-home-storybook.vercel.app`，push `main` 自动重发）。原始日志与 `readable/` 派生版随 `logs(ai-logs): final sync` 入库；用户 audit 后需再同步一次。历史证据见 [P5 review](../docs/p5-review.md)，验证记录见 [SELFCHECK](features/SELFCHECK.md)。
 
 **BMI 后续（2026-09-18）**：独立 worktree 修复单位切换按压命中层及大分数容器适配；保持源字体 / 字重与原计数反馈。新增两态后 Storybook 共 111 态（撤回步进两态后），细节见 COMPONENTS 最新记录；合并目标依用户本轮决定为 main，走 PR rebase。
 
@@ -78,13 +78,13 @@
 | §1 Tech stack | Next.js App Router + React + TS strict + Tailwind；commit the lockfile | [STRUCTURE.md](features/STRUCTURE.md) §二 技术栈锁定 |
 | §1 其余自决 | tokens / 图片图标 / 状态 / 路由 / API 契约 / 数据层 | §3.1 项目决策口供 |
 | §2 Directory | 结构是评分项，README 解释 | [STRUCTURE.md](features/STRUCTURE.md) §三 目录结构；§10 README 清单 |
-| §3 Data | 无 API 文档，自己设计数据形状 = 未来 API 契约，提供 mock；**考官先读类型** | [DATACONTRACT.md](features/DATACONTRACT.md) 数据契约 |
+| §3 Data | 无 API 文档，自己设计数据形状 = 未来 API 契约，提供 mock；**甲方先读类型** | [DATACONTRACT.md](features/DATACONTRACT.md) 数据契约 |
 | §4A Fidelity | 375 / 1440 两块板默认态保真（在 C 类修正之后） | [RESPONSIVE.md](features/RESPONSIVE.md) 保真线 |
 | §4B Floor | 320–1920 每个宽度不横滚、导航不换行、不重叠不裁切 | [RESPONSIVE.md](features/RESPONSIVE.md) 完整性线 + [SELFCHECK.md](features/SELFCHECK.md) §三 扫描 |
 | §4B Bonus | 板间与板外的优雅适配，defense 会问 | [RESPONSIVE.md](features/RESPONSIVE.md) 流式策略，README 贴证据 |
 | §4C Flaw fixes | 稿里有真错误；修并逐条记录 | §6 偏差日志规范 |
 | §4D States & motion | 每个交互元素 hover/focus/pressed + 过渡；稿没画 hover，自己设计；一致与克制 > 数量；README 列出 | [MOTION.md](features/MOTION.md)；§6 偏差日志 D 类 |
-| §4E Storybook | 有状态组件一态一 story，考官逐个点 | [STORYBOOK.md](features/STORYBOOK.md) |
+| §4E Storybook | 有状态组件一态一 story，甲方逐个点 | [STORYBOOK.md](features/STORYBOOK.md) |
 | §5 README | 用了哪些 AI、写了哪些部分、指向日志；Deviation log | §10 README 清单 |
 | §6 Submission | 不 squash；AI 日志完整未编辑放 `ai-logs/`；不可复现的 AI 使用不合格 | §7 commit 规范；§8 日志规范 |
 
@@ -94,7 +94,7 @@
 
 ### 3.1 项目决策口供（2026-09-17 由「由你决定项的决议」升级；写进 README 的 Design decisions 节）
 
-> **口供** = 项目对所有「甲方说由你决定」问题的唯一统一说法。代码、README、Storybook 说明、deviations、答辩回答都必须与这张表一致；要改说法先改这里，再改别处。每条一句话理由，考官问「为什么」就答这句。
+> **口供** = 项目对所有「甲方说由你决定」问题的唯一统一说法。代码、README、Storybook 说明、deviations、答辩回答都必须与这张表一致；要改说法先改这里，再改别处。每条一句话理由，甲方问「为什么」就答这句。
 
 | 自决项 | 决议 | 一句话理由 |
 |---|---|---|
@@ -103,7 +103,7 @@
 | 图片 | `next/image` 渲染本地静态导出；为兼容 JSON 契约显式提供尺寸，每张图是 `{ src, alt, width, height }` 数据 | alt 是内容不是代码；宽高防 CLS |
 | 状态管理 | 无全局 store；`useState` / `useReducer`；BMI 计算抽纯函数 | 首页只有局部状态，引 store 是过度设计 |
 | 路由 | 单路由 `/`；导航三个产品项（Weight Loss / Birth Control / Sleep）锚点滚动到对应区块；D-02 无业务目的地控件为 demo，不做占位页或模拟业务 | 产品页不在范围内；占位页是多余的空壳（2026-09-17 拍板，见 §11） |
-| API 契约 | zod schema 即契约；`HomePage` 为根类型 | 考官先读类型 |
+| API 契约 | zod schema 即契约；`HomePage` 为根类型 | 甲方先读类型 |
 | 数据层 | Route Handler `app/api/home` 当假后端；`lib/api/home.ts` 唯一取数入口；`NEXT_PUBLIC_API_URL` 切真后端 | 有 HTTP 边界又不多起进程 |
 | 响应式策略与证据 | 策略：`clamp()` 流式 + 三个形态断点（`sm` / `lg` / `xl`）+ 容器 1440 封顶。证据：`check:responsive` 每次运行重生成并提交的 `docs/responsive-report.md`（11 宽度 × 3 断言结果表）；画面：最终提交前拍一次的 11 宽度横向拼图 `docs/responsive-report.png`，README 引用。原始整页截图目录 gitignored | 表可复现、图直观、历史里不堆几十兆截图（2026-09-17 拍板，§11 #5） |
 | **组件库形态**（甲方原文 "React component library + page"） | 组件实现成**组件库**：`components/index.ts` 统一导出，消费者只 `import { X } from "@/components"`；组件通用、只吃 props、不依赖页面上下文，别人 import 就能用；页面本身也只是这个库的一个消费者。细则见 [COMPONENTS.md](features/COMPONENTS.md) §二 | 交付物是「组件库 + 页面」，页面私有组件不算库 |
@@ -117,7 +117,7 @@
 | 文档 | 管理 scope | 迁出自 |
 |---|---|---|
 | [STRUCTURE.md](features/STRUCTURE.md) | 技术栈与精确版本、升降版决定、脚手架实录、目录结构与命名、`scripts` 清单 | 原 §3.1、§4 |
-| [SELFCHECK.md](features/SELFCHECK.md) | 考官环境可复现性隐患与对策、响应式 11 宽度扫描、按 Assignment 推导的验收测试（M5）、CI 决定 | 原 §3.2 |
+| [SELFCHECK.md](features/SELFCHECK.md) | 甲方环境可复现性隐患与对策、响应式 11 宽度扫描、按 Assignment 推导的验收测试（M5）、CI 决定 | 原 §3.2 |
 | [COMPONENTS.md](features/COMPONENTS.md) | 组件库形态与统一导出、ui/ 与 sections/ 组件规范、client 白名单、组件清单登记 | 原 §5.1 |
 | [DATACONTRACT.md](features/DATACONTRACT.md) | zod 契约与类型推导、mock 约束、`getHomePage()` 取数链路、真后端切换 | 原 §5.2 |
 | [MOTION.md](features/MOTION.md) | 交互态规则（hover / focus / pressed / disabled）、动效 token、reduced-motion、D 类状态来源；已安装 Emil 四技能、P3–P5 动效审查与视觉复核流程 | 原 §5.5 |
@@ -150,7 +150,7 @@
 
 **语言分界**：
 
-| 英文（读者是考官） | 中文（读者只有 Cheng） |
+| 英文（读者是甲方） | 中文（读者只有 Cheng） |
 |---|---|
 | 代码、标识符、字符串常量 | `ai/PROJECT.md` |
 | 代码注释 | `ai/TODO.md` |
@@ -158,14 +158,14 @@
 | `README.md`、`docs/deviations.md`、`docs/responsive-report.md`、`ai-logs/README.md` | |
 | Storybook story 名与说明 | |
 
-判据：**会进 GitHub 被考官打开的东西一律英文；只有 `ai/` 目录下的规划文档是中文。**
+判据：**会进 GitHub 被甲方打开的东西一律英文；只有 `ai/` 目录下的规划文档是中文。**
 
 目录级规则，不留例外：
 
 | 目录 | 读者 | 语言 |
 |---|---|---|
-| `docs/` | 甲方 / 考官 | 英文 |
-| `README.md`、`ai-logs/README.md` | 甲方 / 考官 | 英文 |
+| `docs/` | 甲方 / 甲方 | 英文 |
+| `README.md`、`ai-logs/README.md` | 甲方 / 甲方 | 英文 |
 | `ai/` | Cheng | 中文 |
 
 **注释规范**：
@@ -386,7 +386,7 @@ git -C "$ROOT" status --short ai-logs | head
 2. **每个 session 结束后再跑一次**并单独提交 `logs(ai-logs): ...`，因为 session 最后几轮的内容在上一次 commit 之后才落盘。
 3. **提交前最后一步**：最终 session 结束 → 跑脚本 → `logs(ai-logs): final sync` → push。这条 commit 之后不再有任何对话式改动。
 4. `ai-logs/README.md` 索引表在每次 `logs` commit 时更新一行。
-5. 可读副本 (`readable/`) 每个 session 至少导出一次，方便考官抽样；缺了不算违规，原始文件才是硬要求。
+5. 可读副本 (`readable/`) 每个 session 至少导出一次，方便甲方抽样；缺了不算违规，原始文件才是硬要求。
 
 ### 8.6 Claude Desktop / Codex 能不能"自己导出"
 
@@ -440,7 +440,7 @@ git -C "$ROOT" status --short ai-logs | head
 |---|---|---|---|
 | 1 | 证言卡上的 X / Instagram / LinkedIn 图标 | **保留设计，不可点击**：渲染为装饰性图标（`aria-hidden`，不是链接、不是按钮），无 hover / focus 态。不算设计缺陷，不进 deviations | 2026-09-17 |
 | 2 | 导航三个产品项的目标 | **锚点**滚动到对应区块，不做 `/coming-soon` 占位页。已回写 §3.1 口供「路由」行 | 2026-09-17 |
-| 3 | `ai/` 内部文档语言 | **中文入库**。README 与一切考官可见文本是英文，内部规划文档中文不减分（PROJECT §5.0） | 2026-09-17 |
+| 3 | `ai/` 内部文档语言 | **中文入库**。README 与一切甲方可见文本是英文，内部规划文档中文不减分（PROJECT §5.0） | 2026-09-17 |
 | 4 | 是否把方案阶段那次讨论的可读摘要写成 `docs/plan.md` | **不写**。方案的结论已全部落在本文与 feature 文档里，README「Design decisions」节即对外说法；旧 session 混有其他项目内容，按 §8.1 第 3 条不交 | 2026-09-17 |
 | 5 | 响应式 Bonus 的证据形式 | **表 + 一张拼图**：`check:responsive` 每次跑都重生成 `docs/responsive-report.md` 的结果表并提交；用户本轮要求完成 P6，故首次交付拼图提前至 P6 收口；后续布局若改变再刷新，11 个宽度缩成一张横向拼图 `docs/responsive-report.png` 放 `docs/`，README 引用；原始整页截图目录 `docs/responsive-shots/` 进 `.gitignore`。README「Responsive」节写三句：策略是 clamp 流式 + 三个形态断点 + 容器封顶，证据是这张表，画面是这张图。已回写 §3.1 口供 | 2026-09-17 |
 | 6 | `prettier-plugin-tailwindcss` 是否进 `.prettierrc` | **进**。`plugins: ["prettier-plugin-tailwindcss"]`，class 顺序由插件定，人不手排 | 2026-09-17 |

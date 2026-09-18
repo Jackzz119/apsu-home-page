@@ -24,7 +24,7 @@ describe('README delivery checklist', () => {
         }
     });
 
-    it('lists the four reviewer commands', () => {
+    it('lists the four client commands', () => {
         for (const command of ['npm install', 'npm run build', 'npm run dev', 'npm run storybook']) {
             expect(section('Getting started')).toContain(command);
         }

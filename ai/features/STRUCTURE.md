@@ -9,13 +9,13 @@
 
 ## 一、目标
 
-让任何人（考官、下一个 session）读完本文就能说出：装了什么版本、为什么是这个版本、代码放哪、叫什么名字。`package.json` 与本文说的必须是同一句话。
+让任何人（甲方、下一个 session）读完本文就能说出：装了什么版本、为什么是这个版本、代码放哪、叫什么名字。`package.json` 与本文说的必须是同一句话。
 
 ## 二、技术栈与版本锁定
 
 | 项 | 包 | 版本 | 备注 |
 |---|---|---|---|
-| 运行时 | Node | **22 LTS**（本机 22.23.1） | `.nvmrc` = `22`；`engines.node = ">=20.9"`，取 Next 16 的真实下限，**不开** `engine-strict`，避免把考官挡在门外 |
+| 运行时 | Node | **22 LTS**（本机 22.23.1） | `.nvmrc` = `22`；`engines.node = ">=20.9"`，取 Next 16 的真实下限，**不开** `engine-strict`，避免把甲方挡在门外 |
 | 包管理 | npm | 10.x（随 Node 22） | 提交 `package-lock.json`（lockfileVersion 3，npm 7+ 都能读）；不写 `packageManager` 字段，不锁 npm 版本，锁文件本身就是版本保证 |
 | 框架 | `next` | **16.3.5** | App Router；latest 稳定线 |
 | UI | `react` / `react-dom` | **19.3.0** | Next 16 peer 允许 ^19 |

@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-/** Assignment §4E: every stateful component has a colocated story per state that reviewers can open. */
+/** Assignment §4E: every stateful component has a colocated story per state that the client can open. */
 const ui = 'components/ui';
 const sections = 'components/sections';
 const helpers = new Set(['storyFixtures.tsx', 'SectionPrimitives.tsx']);

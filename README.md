@@ -8,7 +8,7 @@ The Apsu home page (desktop 1440 / mobile 375) built as a Next.js 16 App Router 
 
 ## Getting started
 
-Four commands cover everything a reviewer needs; nothing else has to be installed or configured. Node 22 LTS is the tested version (minimum 20.9), and the lockfile pins every dependency exactly so `npm install` reproduces the same tree.
+Four commands cover everything the client needs; nothing else has to be installed or configured. Node 22 LTS is the tested version (minimum 20.9), and the lockfile pins every dependency exactly so `npm install` reproduces the same tree.
 
 ```bash
 npm install
@@ -26,7 +26,7 @@ No environment variables are required. Everything above also runs in [CI](#conti
 
 ## Directory structure
 
-The tree is organised by responsibility rather than by file type: routes are thin, components are a library, content is data, and everything about the AI process is committed next to the code. A reviewer can read the contract, the library and the page in that order and understand the whole product.
+The tree is organised by responsibility rather than by file type: routes are thin, components are a library, content is data, and everything about the AI process is committed next to the code. The client can read the contract, the library and the page in that order and understand the whole product.
 
 ```text
 app/                  Routes: root layout, the one-page home, GET /api/home (mock backend)
@@ -92,13 +92,13 @@ Two boards were given (375 and 1440); the page has to be complete at every width
 - `clamp()` for type, spacing and component sizes — the boards are the two ends of each range, so intermediate widths interpolate instead of jumping.
 - Breakpoints `sm` 640 / `lg` 1024 / `xl` 1280 and a 1440 px container cap — the only places where layout actually changes (stacking, columns, the desktop header), so behaviour between them is predictable.
 - [scripts/check-responsive.ts](scripts/check-responsive.ts) loads the page at eleven widths and asserts no horizontal overflow, single-line navigation and text staying inside its section — the [report](docs/responsive-report.md) is regenerated on each run and committed.
-- One composite image of all eleven widths, left to right — the evidence a reviewer can look at in a second.
+- One composite image of all eleven widths, left to right — the evidence the client can take in at a glance.
 
 ![Eleven-width homepage composite](docs/responsive-report.png)
 
 - The BMI calculator's error and result states are additionally checked at all eleven widths, so validation never moves the form or the page.
 
-The approach keeps the two boards pixel-faithful where they exist and degrades smoothly where they do not. Because the scan runs in CI, a future layout change that breaks a width fails the build instead of reaching a reviewer.
+The approach keeps the two boards pixel-faithful where they exist and degrades smoothly where they do not. Because the scan runs in CI, a future layout change that breaks a width fails the build instead of reaching the client.
 
 ## Interaction states & motion
 
@@ -115,7 +115,7 @@ Consistency here is cheaper than variety: one set of tokens and one set of rules
 
 ## Storybook
 
-Storybook is the reviewer's view of the component library: 111 stories, one per state, with hover, focus and pressed captured through the pseudo-states addon rather than by moving a mouse. The a11y addon treats any violation as an error.
+Storybook is the client's view of the component library: 111 stories, one per state, with hover, focus and pressed captured through the pseudo-states addon rather than by moving a mouse. The a11y addon treats any violation as an error.
 
 | Primitive        | States covered                                                          | Stories |
 | ---------------- | ----------------------------------------------------------------------- | ------- |
@@ -145,11 +145,11 @@ The design has real mistakes, and the assignment asks for them to be fixed and r
 - D entries (4) define behaviour the static design cannot show — hover/focus/press rules, persistent pause for moving strips, demo controls that never navigate, and an owner-approved count-up for the BMI result.
 - Nothing was changed before it was logged and approved; the commit that ships a fix references its id.
 
-All sixteen entries are approved and implemented. The log doubles as the review agenda: a reviewer can read it in five minutes and know every place the page differs from the picture, and why.
+All sixteen entries are approved and implemented. The log doubles as the review agenda: the client can read it in five minutes and know every place the page differs from the picture, and why.
 
 ## Continuous integration
 
-Every push runs the same commands a reviewer would run, on Linux, in two GitHub Actions jobs. Green on `main` is the proof that the repository works on a machine other than the author's, including case-sensitive imports and a clean install.
+Every push runs the same commands the client would run, on Linux, in two GitHub Actions jobs. Green on `main` is the proof that the repository works on a machine other than the author's, including case-sensitive imports and a clean install.
 
 - `quality` — `npm ci` → format → types → lint → token guard → production build → Storybook build → Node tests.
 - `browser` — installs Chromium, builds the app, runs the 48 Playwright cases against Storybook and the production server, then serves the build and runs the eleven-width scan; traces, the report and the screenshots are uploaded as artifacts.
@@ -159,19 +159,19 @@ The workflow is deliberately plain: no caching tricks beyond npm's, no flaky ret
 
 ## AI usage
 
-This project was built with two coding agents, Claude Code and Codex, working from a written protocol rather than from chat. The protocol tells an agent what to read first, which document owns which decision, when to stop and ask, and how to hand work to the next session — so speed came from context control, not from longer prompts.
+The AI workflow here is Cheng Zheng's own. Apart from the four vendored Emil Kowalski motion skills, every skill belongs to the developer's ADK (agent development kit), built to fit one person's way of working: skills define what an agent can do and split the roles cleanly; the `ai/` folder governs project context; `ai/features/` cuts that context into modules an agent loads only when needed; `ai/design_system/` keeps the design consistent; and the Claude protocol (`CLAUDE.md`) is the foundation — registering skills and feature specs there is what boots every session. `shelf`, the developer's public npm package, keeps the ADK in the cloud so the same kit travels between projects. Two agents, Claude Code and Codex, worked from that protocol rather than from chat.
 
 - One protocol per agent ([CLAUDE.md](CLAUDE.md), [AGENTS.md](AGENTS.md)) — read at the start of every session; it points to the project spec and task list and forbids the agent from changing the rules itself.
 - [ai/PROJECT.md](ai/PROJECT.md) holds the requirement registry (every rule traces to a sentence in the assignment), the decision record and the commit rules; [ai/TODO.md](ai/TODO.md) holds the phased plan P0–P8 with a definition of done per phase.
 - Nine domain specs under [ai/features/](ai/features/) (structure, data contract, tokens, responsive, motion, Storybook, accessibility, components, self-check) — each owns one topic, so an agent loads the one it needs instead of the whole history.
 - A committed design system snapshot ([ai/design_system/](ai/design_system/)) — Figma node metadata, variables and board screenshots read once through the Figma MCP within a 20-call monthly budget, so later sessions never re-spend the quota.
-- Thirteen skills under [ai/jaSkills/](ai/jaSkills/): a task manager, feature workflow, version control, UI/UX and art roles, skill maintenance, plus Emil Kowalski's four motion skills pinned to a commit — roles are invoked by trigger words, and each carries its own checklist.
+- Thirteen skills under [ai/jaSkills/](ai/jaSkills/): nine from the ADK (task manager, feature workflow, version control, UI/UX and art roles, skill maintenance, shelf operations) plus Emil Kowalski's four motion skills pinned to a commit — roles are invoked by trigger words, and each carries its own checklist.
 - Deviations first, code second; a twelve-point checklist before every commit; commits are split and timed by the owner, never by the agent.
 - Two agents in parallel worktrees — Claude Code planned, reviewed and closed phases; Codex implemented most of P0–P6 — with session archives for hand-offs and a raw log of every conversation.
 
 The logs are the evidence. The [session index](ai-logs/README.md) says what each transcript did and which commits it produced; [MANIFEST.sha256](ai-logs/MANIFEST.sha256) fixes the checksum of every raw file, and a test verifies both. Raw transcripts: Claude Code [`b88f38d4…`](ai-logs/claude-code/b88f38d4-6900-41d6-855b-a41a6443cbce.jsonl), [`c1519747…`](ai-logs/claude-code/c1519747-7fbd-43f0-ac55-e03a5ce8c1da.jsonl), [`0ec4e91e…`](ai-logs/claude-code/0ec4e91e-c959-4dc8-9035-54a00263f62b.jsonl); Codex [`01a0b03c…`](ai-logs/codex/rollout-2026-09-17T09-38-57-01a0b03c-4d2e-7732-9d3d-a7e5e637ea96.jsonl) and its two continuations. Readable Markdown views of each transcript are in [ai-logs/readable/](ai-logs/readable/).
 
-What this bought: 96 linear commits in two days with no squashes, every "why" written before the code, and any session able to resume from the documents alone. The same protocol and skills transfer to the next project unchanged; the project-specific part is nine short spec files.
+What this bought: 96 linear commits in two days with no squashes, every "why" written before the code, and any session able to resume from the documents alone. The same protocol and skills come off the shelf unchanged for the next project; the project-specific part is nine short spec files.
 
 ## Known limitations
 

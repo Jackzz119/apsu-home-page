@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Derive readable Markdown views of the raw AI transcripts in ai-logs/ for reviewers who want to sample a
+ * Derive readable Markdown views of the raw AI transcripts in ai-logs/ for a client who wants to sample a
  * session without parsing JSONL. Each view keeps user prompts, assistant replies and one-line tool-call
  * summaries; tool outputs, reasoning/thinking blocks and injected system context are omitted.
  * The raw `.jsonl` files stay authoritative and unedited. Run after `npm run sync:ai-logs`.

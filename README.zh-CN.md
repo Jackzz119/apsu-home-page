@@ -8,7 +8,7 @@ English version: [README.md](README.md).
 
 ## 快速开始
 
-考官只需要四条命令，不用装别的、不用配置。测试环境是 Node 22 LTS（最低 20.9），lockfile 精确锁定每个依赖版本，`npm install` 在任何机器上装出同一棵树。
+甲方只需要四条命令，不用装别的、不用配置。测试环境是 Node 22 LTS（最低 20.9），lockfile 精确锁定每个依赖版本，`npm install` 在任何机器上装出同一棵树。
 
 ```bash
 npm install
@@ -26,7 +26,7 @@ npm run storybook    # http://localhost:6006
 
 ## 项目结构
 
-目录按职责分，不按文件类型分：路由薄、组件是库、内容是数据，AI 过程全部与代码一起入库。考官按「契约 → 组件库 → 页面」的顺序读，就能理解整个产品。
+目录按职责分，不按文件类型分：路由薄、组件是库、内容是数据，AI 过程全部与代码一起入库。甲方按「契约 → 组件库 → 页面」的顺序读，就能理解整个产品。
 
 ```text
 app/                  路由：根布局、单页首页、GET /api/home（模拟后端）
@@ -92,13 +92,13 @@ NEXT_PUBLIC_API_URL=https://api.example.com npm run dev    # 把页面指向真�
 - 字号、间距、组件尺寸用 `clamp()`——两块板是每个区间的两端，中间宽度按比例插值而不是跳变。
 - 断点 `sm` 640 / `lg` 1024 / `xl` 1280 和 1440px 容器封顶——只有这些地方布局真的变（堆叠、分栏、桌面头部），断点之间行为可预测。
 - [scripts/check-responsive.ts](scripts/check-responsive.ts) 在 11 个宽度加载页面，断言无横向溢出、导航一行、文字不出区块——[报告](docs/responsive-report.md)每次运行重生成并入库。
-- 11 个宽度从左到右拼成一张图——考官一秒钟就能看到证据。
+- 11 个宽度从左到右拼成一张图——甲方一秒钟就能看到证据。
 
 ![11 宽度首页拼图](docs/responsive-report.png)
 
 - BMI 计算器的错误态、结果态另在 11 个宽度全部检查，校验永远不会把表单或页面推动。
 
-这套做法在两块板存在的地方像素保真，在没有板的地方平滑退化。扫描进了 CI，以后哪次布局改动弄坏了某个宽度会直接构建失败，不会等到考官发现。
+这套做法在两块板存在的地方像素保真，在没有板的地方平滑退化。扫描进了 CI，以后哪次布局改动弄坏了某个宽度会直接构建失败，不会等到甲方发现。
 
 ## 交互状态与动效
 
@@ -115,7 +115,7 @@ NEXT_PUBLIC_API_URL=https://api.example.com npm run dev    # 把页面指向真�
 
 ## Storybook
 
-Storybook 是考官看组件库的窗口：111 个 story，一态一个，hover / focus / 按压用 pseudo-states 插件固化而不是靠鼠标。a11y 插件把任何违规当错误。
+Storybook 是甲方看组件库的窗口：111 个 story，一态一个，hover / focus / 按压用 pseudo-states 插件固化而不是靠鼠标。a11y 插件把任何违规当错误。
 
 | 原语             | 覆盖的状态                                                              | Stories |
 | ---------------- | ----------------------------------------------------------------------- | ------- |
@@ -145,11 +145,11 @@ Storybook 是考官看组件库的窗口：111 个 story，一态一个，hover 
 - D 类（4 条）定义静态稿画不出来的行为——hover / focus / 按压规则、运动条的常驻暂停、永不导航的 demo 控件、甲方批准的 BMI 数字递增。
 - 先登记、获批、再改；上线修正的那条 commit 引用条目 id。
 
-16 条全部批准并实施。这份日志同时是评审议程：考官五分钟读完，就知道页面在每一处和图不一样的地方以及原因。
+16 条全部批准并实施。这份日志同时是评审议程：甲方五分钟读完，就知道页面在每一处和图不一样的地方以及原因。
 
 ## 持续集成
 
-每次 push 在 Linux 上跑一遍考官会跑的命令，分两个 GitHub Actions job。`main` 是绿的，就证明仓库在作者之外的机器上能跑，包括大小写敏感的 import 和干净安装。
+每次 push 在 Linux 上跑一遍甲方会跑的命令，分两个 GitHub Actions job。`main` 是绿的，就证明仓库在作者之外的机器上能跑，包括大小写敏感的 import 和干净安装。
 
 - `quality`：`npm ci` → 格式 → 类型 → lint → token 守卫 → 生产构建 → Storybook 构建 → Node 测试。
 - `browser`：装 Chromium、构建应用、对 Storybook 与生产服务跑 48 条 Playwright 用例，再起生产服务跑 11 宽扫描；trace、报告与截图作为 artifact 上传。
@@ -159,19 +159,19 @@ Storybook 是考官看组件库的窗口：111 个 story，一态一个，hover 
 
 ## AI 工作流
 
-这个项目由两个编码 agent（Claude Code 与 Codex）按一份写好的协议协作完成，而不是靠聊天推进。协议规定 agent 开工先读什么、哪份文档拥有哪个决定、何时该停下来问、怎样把工作交给下一个会话——所以速度来自上下文管控，不是更长的提示词。
+本项目的 AI 工作流属 Cheng Zheng 私有。除引用的 Emil Kowalski 四个动效技能外，其余技能都属于开发者自己的 ADK（agent 开发套件），目的是完全契合个人开发流：skill 定义 agent 的能力、分工明确；`ai/` 文件夹管控项目上下文；`ai/features/` 把 agent 需要的上下文模块化细分、按需选择性导入会话；`ai/design_system/` 管理设计系统、保持项目设计风格统一；Claude 协议（`CLAUDE.md`）是一切的基础——在其中登记技能与 features，就是每次会话的启动协议。`shelf` 是开发者用来云存储 ADK 的 npm 公开包，同一套装备可以原样带去下一个项目。Claude Code 与 Codex 两个 agent 都按这份协议工作，而不是靠聊天推进。
 
 - 每个 agent 一份协议（[CLAUDE.md](CLAUDE.md)、[AGENTS.md](AGENTS.md)）——每次会话开场必读；它指向项目规范与任务清单，并禁止 agent 自己改规则。
 - [ai/PROJECT.md](ai/PROJECT.md) 装需求登记（每条规则追溯到甲方原文的某一句）、决策记录与 commit 规则；[ai/TODO.md](ai/TODO.md) 装 P0–P8 的阶段计划，每阶段有完成判据。
 - [ai/features/](ai/features/) 下九份领域规范（结构、数据契约、token、响应式、动效、Storybook、无障碍、组件、自检）——各管一个主题，agent 只加载需要的那份，不背整段历史。
 - 入库的设计系统快照（[ai/design_system/](ai/design_system/)）——Figma 节点几何、变量与整板截图通过 Figma MCP 在每月 20 次的配额内读一次，之后的会话不再花配额。
-- [ai/jaSkills/](ai/jaSkills/) 下十三个技能：任务主管、功能开发流程、版本控制、UI/UX 与主美角色、技能维护，加上固定到某个 commit 的 Emil Kowalski 四个动效技能——角色靠触发词调用，各自带检查清单。
+- [ai/jaSkills/](ai/jaSkills/) 下十三个技能：ADK 的九个（任务主管、功能开发流程、版本控制、UI/UX 与主美角色、技能维护、货架操作），加上固定到某个 commit 的 Emil Kowalski 四个动效技能——角色靠触发词调用，各自带检查清单。
 - 先记偏差再写代码；每次 commit 前十二条自查；commit 的切分与时机由人决定，agent 从不自主提交。
 - 两个 agent 在并行 worktree 里工作——Claude Code 负责规划、评审与阶段收口，Codex 完成了 P0–P6 的大部分实现——用会话存档交接，每次对话都有原始日志。
 
 日志就是证据。[会话索引](ai-logs/README.md)说明每份记录做了什么、产出了哪些 commit；[MANIFEST.sha256](ai-logs/MANIFEST.sha256) 固定每个原始文件的校验和，并有测试同时校验两者。原始记录：Claude Code [`b88f38d4…`](ai-logs/claude-code/b88f38d4-6900-41d6-855b-a41a6443cbce.jsonl)、[`c1519747…`](ai-logs/claude-code/c1519747-7fbd-43f0-ac55-e03a5ce8c1da.jsonl)、[`0ec4e91e…`](ai-logs/claude-code/0ec4e91e-c959-4dc8-9035-54a00263f62b.jsonl)；Codex [`01a0b03c…`](ai-logs/codex/rollout-2026-09-17T09-38-57-01a0b03c-4d2e-7732-9d3d-a7e5e637ea96.jsonl) 及其两份延续。每份记录的可读 Markdown 版在 [ai-logs/readable/](ai-logs/readable/)。
 
-换来的是：两天 96 条线性 commit、没有 squash，每个「为什么」都写在代码之前，任何会话都能只凭文档续接。同一套协议与技能原样带去下一个项目，项目专属的只有九份短规范。
+换来的是：两天 96 条线性 commit、没有 squash，每个「为什么」都写在代码之前，任何会话都能只凭文档续接。同一套协议与技能从 shelf 原样取用到下一个项目，项目专属的只有九份短规范。
 
 ## 已知限制
 

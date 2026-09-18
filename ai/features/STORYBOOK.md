@@ -9,7 +9,7 @@
 
 ## 一、目标
 
-甲方 §4E：每个有状态组件每个状态一个 story，考官逐个点。`npm run storybook` 是四条考官命令之一，必须在干净 clone 上直接起。
+甲方 §4E：每个有状态组件每个状态一个 story，甲方逐个点。`npm run storybook` 是四条甲方命令之一，必须在干净 clone 上直接起。
 
 ## 二、Storybook 规范
 
@@ -31,7 +31,7 @@
 
 - 现有 111 stories：Foundations 1 + 原语 81 + 区块 29；15 个 section story 文件同时覆盖静态区块和六个交互岛。
 - Hover / Focus / Pressed 使用 pseudo-states 固化；真实键盘 / 点击 / 反向测试由 `tests/primitives.spec.ts` 负责。
-- 是否需要 `addon-docs` 生成组件文档页：暂不加，考官走的是状态不是文档
+- 是否需要 `addon-docs` 生成组件文档页：暂不加，甲方走的是状态不是文档
 
 ## 实现计划
 

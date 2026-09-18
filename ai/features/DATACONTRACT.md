@@ -9,7 +9,7 @@
 
 ## 一、目标
 
-甲方原文：「You design the data shapes for all dynamic content — they are the future API contract — and provide mock data conforming to them. **We read the types first.**」本文保证考官打开 `content/schema.ts` 就能读懂整个首页的数据形状，且 mock、页面、假后端三者说的是同一份契约。
+甲方原文：「You design the data shapes for all dynamic content — they are the future API contract — and provide mock data conforming to them. **We read the types first.**」本文保证甲方打开 `content/schema.ts` 就能读懂整个首页的数据形状，且 mock、页面、假后端三者说的是同一份契约。
 
 ## 二、数据契约规范
 

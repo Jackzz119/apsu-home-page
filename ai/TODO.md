@@ -32,7 +32,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## P0 · 工程收口
 
-目标：干净 clone 上考官四条命令 + `typecheck` `lint` `format:check` `test` `build-storybook` 全绿，目录骨架就位，脚手架痕迹清零。
+目标：干净 clone 上甲方四条命令 + `typecheck` `lint` `format:check` `test` `build-storybook` 全绿，目录骨架就位，脚手架痕迹清零。
 
 2026-09-17 已完成 P0.1–P0.6：目录 / 工具 / 环境示例 / README 骨架就位，完整工程命令链已通过。P0.7 依用户决定暂缓，见「待澄清想法」。验证记录见 STRUCTURE；P0/P1 已提交并推送 `cb818c2` / `344814a`；P1.8 已推送 `bd7e435` / `0f7384d`；P2.1 与扫描修复已推送 `9a7b5ac` / `51174cf` / `3e41a7c`，P2/P3 后续实现已推送至 `0ca4e3c`。
 
@@ -52,7 +52,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## P2 · 数据契约
 
-目标：考官打开 `content/schema.ts` 就能读懂整页数据；mock、页面、假后端说同一份契约。
+目标：甲方打开 `content/schema.ts` 就能读懂整页数据；mock、页面、假后端说同一份契约。
 
 - [x] P2.1 `content/schema.ts`（DATACONTRACT ST-1）：`HomePage` 根 + 每区块子 schema，字段顺序 = 区块顺序，JSDoc 英文一句话；金额 / 图片 / 多形态按 DATACONTRACT §二 3–5 条
 - [x] P2.2 `content/mocks/home.ts` + vitest（DATACONTRACT ST-2）：文案逐字从 Figma 抄（含已知错字，修正走 deviations）；图片先用占位尺寸，P5 换真图
@@ -169,7 +169,7 @@ C-06 的完成表示已决定保留源稿；其他已批准条目均已完成 P5
 ## 待澄清想法
 
 - P0.7 暂缓（2026-09-17 用户决定）：本地 AGENTS 的 Next.js 自动规则块与是否同步 shelf 以后再说，不阻塞 P0/P1；协议自动规则与上架仍暂缓；P1.8 的 Emil 本地安装和登记为另行授权。
-  - 2026-09-18 补充事实：干净 clone 里由 Claude 会话跑 `npm run dev`，Next 16 的 `ensureAgentRulesForDev` 检测到 AI agent 环境就把 `<!-- BEGIN:nextjs-agent-rules -->` 块追加进 `AGENTS.md`（人类终端不触发，考官不受影响）。退出开关是 `next.config.ts` 的 `agentRules: false`，或把块提交进 AGENTS.md。两条都动到协议文件 / 配置，等用户拍板，本轮未动。
+  - 2026-09-18 补充事实：干净 clone 里由 Claude 会话跑 `npm run dev`，Next 16 的 `ensureAgentRulesForDev` 检测到 AI agent 环境就把 `<!-- BEGIN:nextjs-agent-rules -->` 块追加进 `AGENTS.md`（人类终端不触发，甲方不受影响）。退出开关是 `next.config.ts` 的 `agentRules: false`，或把块提交进 AGENTS.md。两条都动到协议文件 / 配置，等用户拍板，本轮未动。
 
 ## 当前状态
 
