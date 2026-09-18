@@ -99,3 +99,9 @@ C-12：用户批准仅为展示将现有 Tirzepatide 套餐图用于 Semaglutide
 feet / inches / weight 均空白起步；英寸留空为可选，不把 0 预填到 UI。feet/inches 共用一次错误文案，错误通过 aria-describedby 关联，预留槽按文案自然换行，实际提示绝对定位，不影响输入行。结果数字槽和 rounding note 始终占相同空间，异常计算也在结果槽提示；空态、错误、结果与编辑清空都不改变面板几何。
 
 用户已明确批准 D-04，取代 P5 拒绝 count-up 的决定：指针计算时 250ms ease-out 递增到终值；键盘 / reduced-motion 直接终值，读屏始终只得到真实最终分数。Motion 只用于该文本节点，不参与页面布局或输入值编辑；编辑 / 卸载会取消，重复同值提交不重播。交互与两板视觉验证见 COMPONENTS 最新记录，109 stories 中可直接看 BMI WeightError / KeyboardResult 和 NumberField ExternalError。
+
+## P7 交互态验收补齐（2026-09-18）
+
+- 机检口径：链接 / 按钮 / FAQ summary 四项（hover、pressed、focus-visible、过渡）全要；文本输入、单选、轮播轨道只要 focus-visible；已 `aria-hidden` 的跑马灯复制、`inert` 幻灯片、关闭的菜单与 skip link 不计。
+- 补齐项：Header logo 链接 hover 变为 85% 不透明并有 0.97 按压；NumberField 上下步进按钮 hover 显示 `surface-selected` 底色并有 0.97 按压；FAQ chevron 圆底的 hover 变色带 160ms 过渡。其余控件维持 P4 / P5 已审状态。
+- 证据：`tests/acceptance/states.spec.ts` 两视口通过（65 / 69 个控件），附件 `interaction-state-audit` 列出每个控件的四项判定。

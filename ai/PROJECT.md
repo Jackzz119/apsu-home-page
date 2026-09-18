@@ -50,19 +50,19 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P6 完成，P0.7 继续暂缓。14 区块、11 原语与 109 stories 就位；本轮 92 Node / 42 浏览器测试、14 个受影响 story 的两板 28 次检查通过。BMI 提示与结果不再改变布局，所有初始测量值为空；D-04 获批采用 250ms 数字递增，现 16 项偏差全部敲定完成。独立导出的已提交代码在 Node 22 下安装、生产构建与 11 宽扫描通过，拼图已接入 README，未包含其他会话尚未提交的样式。P7 CI / 最终验收与 P8 其余交付仍待办；P8.4 拼图提前随 P6 完成。历史 P5 源稿与审查证据见 [P5 review](../docs/p5-review.md)，最新验证见 [SELFCHECK](features/SELFCHECK.md)；提交和推送状态以 Git 历史与远端为准。
+**当前实现（2026-09-18）**：P0.1–P0.6 与 P1–P8 完成，P0.7 继续暂缓（新事实见 TODO「待澄清想法」）。14 区块、11 原语、111 stories；Node 110 / 浏览器 44 测试，其中 `tests/acceptance/` 按 Assignment 逐条机检（lockfile、stories、README、ai-logs、schema 单一类型源、全页交互态扫描）。GitHub Actions `quality` + `browser` 两 job 贴 README 徽章（首两跑的红与修法见 SELFCHECK §五）；干净 clone 四条考官命令全过，lockfile 缩进已归一化使 `npm install` 后工作区保持干净。16 项偏差全部完成（D-03 于 P7 补齐 logo 链接与步进按钮反馈）。首页与 Storybook 部署在 Vercel（`apsu-home.vercel.app` / `apsu-home-storybook.vercel.app`，push `main` 自动重发）。原始日志与 `readable/` 派生版随 `logs(ai-logs): final sync` 入库；用户 audit 后需再同步一次。历史证据见 [P5 review](../docs/p5-review.md)，验证记录见 [SELFCHECK](features/SELFCHECK.md)。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
 **交付物清单**（缺一项即不合格）：
 
-- [ ] GitHub 公开仓库，`main` 单分支，线性历史，**未 squash**
-- [ ] `npm install && npm run build` 零错误
-- [ ] `npm run dev` 首页在 320–1920 任一宽度完整
-- [ ] `npm run storybook` 每个有状态组件一态一 story
-- [ ] `README.md` 含：目录结构解释、AI 工具使用说明（指向日志文件）、Deviation log
-- [ ] `ai-logs/` 含完整、**未编辑**的会话记录
-- [ ] `package-lock.json` 已提交
+- [x] GitHub 公开仓库，`main` 单分支，线性历史，**未 squash**（`Jackzz119/apsu-home-page`；全程 `git commit` + `push`，无 squash / amend 已推送提交）
+- [x] `npm install && npm run build` 零错误（2026-09-18 干净 clone 实测 + CI `quality` job）
+- [x] `npm run dev` 首页在 320–1920 任一宽度完整（`check:responsive` 11 宽三断言，本地与 CI `browser` job）
+- [x] `npm run storybook` 每个有状态组件一态一 story（111 stories；`tests/acceptance/stories.test.ts` 机检状态名与数量）
+- [x] `README.md` 含：目录结构解释、AI 工具使用说明（指向日志文件）、Deviation log（`tests/acceptance/readme.test.ts` 机检十节与链接）
+- [x] `ai-logs/` 含完整、**未编辑**的会话记录（`MANIFEST.sha256` 与 `tests/acceptance/ai-logs.test.ts` 校验；`readable/` 为派生版）
+- [x] `package-lock.json` 已提交（`tests/acceptance/lockfile.test.ts`：git 追踪、精确锁版本、与 package.json 一致）
 
 ---
 
@@ -399,6 +399,8 @@ git -C "$ROOT" status --short ai-logs | head
 | P4 收口（2026-09-17 已通过） | 11 原语 + 79 原语 stories（含 Overview），158 次 axe / 横溢出检查零违规；48 Node + 18 浏览器测试；同 agent Emil / UI Tailor / Monet 复核；完整首页仍归 P5 |
 | P5 收口（2026-09-17 已通过） | 14 区块与 page 组装；91 Node / 32 浏览器用例 / 208 story 检查 / 11 宽响应式通过；375/1440 同 agent 源稿和 Emil 复核；原批准偏差全完成，新 C-12 素材缺口 Pending；详见 docs/p5-review.md |
 | P6 收口（2026-09-17 已通过） | BMI 提示 / 结果几何稳定、250ms 数字反馈、92 Node / 42 浏览器 / 28 定向 story 检查通过；隔离生产构建 11 宽扫描和拼图完成，RESPONSIVE ST-1–4 全部完成；不替代 P7/P8 验收 |
+| P7 收口（2026-09-18 已通过） | SELFCHECK §四 七条验收测试落地：Node 110（含 `tests/acceptance/` 四份 + schema 单一类型源）、浏览器 44（含 `states.spec.ts` 对 65 / 69 个可见控件强制 hover / focus-visible / active）；`.github/workflows/ci.yml` quality + browser 两 job Linux 绿，徽章贴 README |
+| P8 收口（2026-09-18 已通过） | deviations 16/16 完成；README §10 十项机检通过并补 CI / Acceptance / 三个 Claude 会话 / 干净 clone 结论；干净 clone 四条命令全过（lockfile 缩进归一化）；`readable:ai-logs` 派生可读日志；`logs(ai-logs): final sync` 收尾，audit 后再同步一次 |
 | 每个区块完成 | 375 / 1440 与 Figma 逐项对照 · 对应 story 存在 · 键盘可走通 · MOTION §四：Emil 动效审查通过（无动效记 N/A）与实景视觉复核、减动效 / 打断验证 |
 | 每日收工 | `npm run build` 绿 · `npm run check:responsive` 绿 · push |
 | 最终提交 | 上述全部 + `npm run storybook` 全绿 · a11y 零违规 · README 清单 §10 全勾 · `logs(ai-logs): final sync` 为最后一条 commit |
@@ -411,16 +413,18 @@ git -C "$ROOT" status --short ai-logs | head
 
 ## 10. README 必答清单（英文）
 
-- [ ] 一段话：这是什么、怎么跑（四条命令）
-- [ ] Directory structure：树 + 每层职责（§4）
-- [ ] Data layer & API contract：schema 在哪、mock 怎么校验、切真后端只改哪一行
-- [ ] Design decisions：§3.1 口供那张表的英文版
-- [ ] Responsive strategy：流式 + 三断点 + `responsive-report.md` 结果表
-- [ ] Interaction states & motion：token 表 + D 类清单链接
-- [ ] Deviation log：链接 `docs/deviations.md`
-- [ ] Storybook：怎么跑、组件与状态一览
-- [ ] **AI usage**：用了哪些工具（Claude Code / Codex）、各写了哪些部分、每部分对应 `ai-logs/` 里的哪个 session id
-- [ ] Known limitations
+- [x] 一段话：这是什么、怎么跑（四条命令）
+- [x] Directory structure：树 + 每层职责（§4）
+- [x] Data layer & API contract：schema 在哪、mock 怎么校验、切真后端只改哪一行
+- [x] Design decisions：§3.1 口供那张表的英文版
+- [x] Responsive strategy：流式 + 三断点 + `responsive-report.md` 结果表
+- [x] Interaction states & motion：token 表 + D 类清单链接
+- [x] Deviation log：链接 `docs/deviations.md`
+- [x] Storybook：怎么跑、组件与状态一览
+- [x] **AI usage**：用了哪些工具（Claude Code / Codex）、各写了哪些部分、每部分对应 `ai-logs/` 里的哪个 session id
+- [x] Known limitations
+
+2026-09-18 十项全勾；`tests/acceptance/readme.test.ts` 持续机检十节标题、四条命令与链接可达。
 
 ---
 
@@ -438,6 +442,8 @@ git -C "$ROOT" status --short ai-logs | head
 | 6 | `prettier-plugin-tailwindcss` 是否进 `.prettierrc` | **进**。`plugins: ["prettier-plugin-tailwindcss"]`，class 顺序由插件定，人不手排 | 2026-09-17 |
 | 7 | P0.7 本地 agent 自动规则与 shelf 同步 | **暂缓，不阻塞 P0/P1**；用户表示本地 AGENTS 大概率不考虑写回 shelf，到时再定。不改 AGENTS.md / CLAUDE.md 的自动规则块，不做 shelf 上架；本地技能安装另按 #8 | 2026-09-17 |
 | 8 | P1 增加动效准备 | 安装 emil-design-eng / animate / review-animations / find-animation-opportunities，固定来源见 JASKILL；以 Emil 为主要标准，把动效查验与实际 UI 视觉检测接入 P3–P5。motion 已在依赖中，保留并按交互需求选择使用；具体 deviations 仍先确认 | 2026-09-17 |
+| 9 | CI 是否进、怎么进 | **进 GitHub Actions**：`ubuntu-latest` + `.nvmrc` 的 Node 22；`quality` job 跑 npm ci → format:check → typecheck → lint → check:tokens → build → build-storybook → test，`browser` job 装 Chromium → build → `test:ui`（CI 下 Playwright 起 `next start` 生产服务）→ 起生产服务跑 `check:responsive` 并上传证据。徽章贴 README，细节回写 SELFCHECK §五 | 2026-09-18 |
+| 10 | §4D「每个交互元素」的机检口径 | 链接 / 按钮 / `summary` 必须 hover + pressed + focus-visible 且指针反馈带过渡；文本输入、单选与可聚焦区域只要求 focus-visible（键盘控件）；`aria-hidden` 复制轨、`inert` 幻灯片、关闭的 dialog 与 skip link 不计。用 DevTools 协议强制伪类逐个量（`tests/acceptance/states.spec.ts`），据此补齐 logo 链接与步进按钮（D-03） | 2026-09-18 |
 
 - 2026-09-17 用户决策补充：本轮完成 P2/P3，按 Figma 逐字实现，以甲方 design 为优先；所有待办缺陷 / 拟议改变先记 deviations，整体 review 之后才修改。该决定覆盖旧的逐阶段 / 逐候选确认时机。
 

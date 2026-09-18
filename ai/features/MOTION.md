@@ -93,6 +93,8 @@ P3 在 `styles/tokens.css` 与 `lib/motion.ts` 落地同一套值；JS 时间单
 - 2026-09-17 P5：沿用固定 Emil 版本 85e8e2363b713506e1d5b6e07a0eb2da66be1bc3。review-animations 结论 Approve：CSS dialog transform/opacity 250ms 入/200ms 出，键盘即时，reduce 无 transform；快速反向与 4 倍慢放 + 4 倍 CPU 检查终态正确。语言两行共享持久暂停，hover 限 fine pointer，focus 暂停；减少动态时全量静态换行。触屏模拟确认菜单可开关且无 fine-hover。没有 Motion runtime、拖拽关闭、首屏入场或 BMI 数字动画。
 - ST-4 只读审计：0 项新增建议；真实拒绝项为 Hero stagger（推迟内容）、静态服务卡 hover 位移（暗示整卡可点）、BMI 数值 count-up（影响直接读数）、BMI 长表单高度动画（扰动输入与滚动）、聊天模拟 typing（把静态示意伪装成会话）。逐项目的/频率/工具判定及 Before/After/Why 证据见 [P5 review](../../docs/p5-review.md)。同 agent 视觉与交互自审，不称独立审查或真机帧率认证。
 
+- 2026-09-18 P7：`tests/acceptance/states.spec.ts` 以 DevTools 协议强制伪类，逐个量全页可见控件（1440：65；375 含菜单：69）。口径：链接 / 按钮 / summary 必须 hover + pressed + focus-visible 且指针反馈有过渡；输入 / 单选 / 可聚焦区域只要 focus-visible（PROJECT §11 #10）。扫描前补齐 D-03 两处缺口（logo 链接、步进按钮）并给 FAQ chevron 底色加过渡；`.feedback` / `.textAction` 等既有规则未改。焦点态仍 `transition: none`，键盘即时不变。
+
 ## D-04：用户批准 BMI 数字递增（P6）
 
 用户明确要求 supersede P5 的 count-up 拒绝项。目的为偶发提交反馈，正常指针输入以已安装 Motion 的 animate 数值补间从 0 到最终分数，沿用 motionDuration.slow = 0.25s、motionEase.out = [0.23, 1, 0.32, 1]；不引入弹簧回弹或数字翻牌。文本更新是主线程操作，不冒充 GPU 动画；只更新一个 aria-hidden 数字节点，不逐帧 rerender 表单，也不动画布局属性。读屏区域直接获得最终分数，分类也只按最终值计算。键盘提交 / reduced-motion 即时；编辑卸载会 stop；动画中启用 reduce 会停止并显示终值，关闭 reduce 不重播；同值重复提交不重播。空态、错误、结果保留相同几何。

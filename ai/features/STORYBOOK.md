@@ -2,7 +2,7 @@
 
 > **feature 文档 · 规范类 + 功能开发**。
 > **管理 scope**：Storybook 配置（`.storybook/`）、story 编写规则（一态一 story、命名、数据来源）、viewport 预设、pseudo-states 与 a11y addon 策略、`npm run storybook` / `build-storybook` 的可复现性。加 story 规则或改 Storybook 配置先改这里。
-> 归属：intj（索引）+ feature（细节） · 最后更新：2026-09-17
+> 归属：intj（索引）+ feature（细节） · 最后更新：2026-09-18
 > 来源：2026-09-17 从 [PROJECT.md](../PROJECT.md) §5.6「Storybook 规范」 迁出。PROJECT.md 只保留 §3.4 索引与 §3.3 口供；本文与口供冲突时先改口供。
 
 ---
@@ -29,17 +29,17 @@
 
 ## 四、待实现 / 已知问题
 
-- 现有 109 stories：Foundations 1 + 原语 81 + 区块 27；15 个 section story 文件同时覆盖静态区块和六个交互岛。
+- 现有 111 stories：Foundations 1 + 原语 83 + 区块 27；15 个 section story 文件同时覆盖静态区块和六个交互岛。P7 新增 NumberField StepperHover / StepperPressed（pseudo-states 以 `button[aria-label]` 选择器只作用于步进按钮）。
 - Hover / Focus / Pressed 使用 pseudo-states 固化；真实键盘 / 点击 / 反向测试由 `tests/primitives.spec.ts` 负责。
 - 是否需要 `addon-docs` 生成组件文档页：暂不加，考官走的是状态不是文档
 
 ## 实现计划
 
-进度：2 / 3 subtasks 完成（67%）；ST-3 本地 a11y 已通过，CI 接入留 P7
+进度：3 / 3 subtasks 完成（100%）
 
 - [x] ST-1: 第一个原语 Button 的 `Button.stories.tsx` 走通：Default / Hover / Focus / Pressed / Disabled 五态 + 两块板 viewport
 - [x] ST-2: 其余 ui/ 原语与 6 个 client 区块的 stories（随 COMPONENTS 的 ST-2 / ST-3 同步）
-- [ ] ST-3: a11y 零违规复核 + `build-storybook` 进 SELFCHECK 的 CI 链
+- [x] ST-3: a11y 零违规复核 + `build-storybook` 进 SELFCHECK 的 CI 链（2026-09-18：`quality` job 跑 `build-storybook`，`browser` job 跑 `test:ui` 的全原语 axe / 溢出扫描；`tests/acceptance/stories.test.ts` 机检一态一 story）
 
 ## 测试记录
 
@@ -54,3 +54,5 @@
 - 语言展示交互复核：新增 LanguageMarquee Toggled / Keyboard，相关语言/信任条/Marquee/Chip 共 20 stories × 两板 = 40 次 axe / 溢出检查通过。P5 原始 104-story 全量记录保留为历史，不把定向复测说成再次全量扫描。
 
 - P6 BMI 修复新增 WeightError / KeyboardResult 与 NumberField ExternalError，共 109 stories（1 foundation + 81 原语 + 27 区块）。受影响的 14 个 stories × 375/1440 共 28 次 axe / 溢出检查通过；不把这次定向检查称作全部 109 个重扫。
+
+- 2026-09-18 P7：NumberField 增 StepperHover / StepperPressed，共 111 stories（1 foundation + 83 原语 + 27 区块）。`tests/acceptance/stories.test.ts` 断言：每个原语 / client 区块有同目录 stories、每份组件 stories 有 Default、六个可按压原语有 Hover / Focus / Pressed、六个带禁用语义的有 Disabled、交互岛文档状态存在、原语 stories 数 ≥ README 组件表；CI `quality` job 每次 push 跑 `build-storybook`，`browser` job 跑既有的全原语 axe / 溢出扫描。本轮未重扫全部 111 态的 axe，仍按定向记录。

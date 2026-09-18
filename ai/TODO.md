@@ -1,7 +1,7 @@
 # TODO
 
 > 未完成任务的唯一清单；规则与口供见 [PROJECT.md](PROJECT.md)，分领域规范见 PROJECT §3.2 索引的 feature 文档。
-> 最后更新：2026-09-17。`[ ]` 待办 · `[~]` 进行中 · `[!]` 依赖外部 · `[x]` 阶段内已完成（阶段收口后清掉，不累积历史）。
+> 最后更新：2026-09-18。`[ ]` 待办 · `[~]` 进行中 · `[!]` 依赖外部 · `[x]` 阶段内已完成（阶段收口后清掉，不累积历史）。
 > 结构：阶段 P0 → P8 顺序推进，每阶段有「完成判据」。步骤后括号里的 `XXX ST-n` 指对应 feature 文档的 subtask，实现细节在那边，这里只写做什么、做完算什么。
 
 ## 总览
@@ -25,8 +25,8 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [x] P4 · 组件库原语（`components/ui/`）
 - [x] P5 · 首页区块（`components/sections/`）+ 页面组装
 - [x] P6 · 响应式门禁
-- [ ] P7 · 验收测试与 CI
-- [ ] P8 · 交付收尾
+- [x] P7 · 验收测试与 CI（2026-09-18：七条验收测试落地，GitHub Actions 两 job 绿）
+- [x] P8 · 交付收尾（2026-09-18；用户 audit 之后还要再做一次 `logs(ai-logs): final sync`）
 
 ---
 
@@ -108,18 +108,18 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## P7 · 验收测试与 CI
 
-- [ ] P7.1 SELFCHECK §四 七条验收测试逐条落地（SELFCHECK ST-3）
-- [ ] P7.2 CI 决定与 workflow（SELFCHECK ST-4）：`ubuntu-latest` 跑 `npm ci → format:check → typecheck → lint → build → build-storybook → test`，`check:responsive` 单独 job
+- [x] P7.1 SELFCHECK §四 七条验收测试逐条落地（SELFCHECK ST-3）：`tests/acceptance/` 四份 Node 测试 + `states.spec.ts` 浏览器扫描 + schema 单一类型源断言；Node 110 / 浏览器 44 全绿
+- [x] P7.2 CI 决定与 workflow（SELFCHECK ST-4）：`.github/workflows/ci.yml` 两 job（quality / browser），徽章贴 README；前两跑 browser job 因节流手风琴用例在慢 runner 上采样过晚而红，改为页内逐帧采样（SELFCHECK §五 首跑记录）；最终结果以 README 徽章 / 最新 run 为准
 
 完成判据：`npm test` 全绿；CI 徽章绿并贴 README。
 
 ## P8 · 交付收尾
 
-- [ ] P8.1 `docs/deviations.md` 定稿：C 类 + D 类全，README「Deviation log」链接
-- [ ] P8.2 README §10 十项逐条勾：Directory · Data layer · Design decisions（§3.1 口供英文版）· Responsive · Motion · Deviations · Storybook · AI usage（session id 对应）· Known limitations
-- [ ] P8.3 ai-logs：最终 `sync:ai-logs` + `readable/` 导出 + `ai-logs/README.md` 索引补齐；`logs(ai-logs): final sync` 为最后一条 commit
+- [x] P8.1 `docs/deviations.md` 定稿：16 项全部 Approved — Completed，D-03 补记 logo / 步进按钮反馈；README「Deviation log」链接在
+- [x] P8.2 README §10 十项逐条勾（`tests/acceptance/readme.test.ts` 机检十节 + 四条命令 + 链接可达）；新增 CI 与 Acceptance tests 小节、三个 Claude 会话行、干净 clone 结论
+- [x] P8.3 ai-logs：`sync:ai-logs` + `readable:ai-logs`（新脚本 `scripts/export-readable-logs.mjs`）+ 索引补齐；本轮以 `logs(ai-logs): final sync` 收尾。**audit 结束后要再跑一次同步并再提交一条 final sync**
 - [x] P8.4 `check:responsive --composite` 拍一次 11 宽度拼图 `docs/responsive-report.png`（RESPONSIVE ST-4；随 P6 提前完成）
-- [ ] P8.5 干净 clone 走考官四条命令；CI 在 Linux 上绿即视为大小写复核通过
+- [x] P8.5 干净 clone（Node 22.23.1 / npm 10.9.8）四条命令全过：install 5s、build 成功、dev 首页与 `/api/home` 200、Storybook 111 stories；CI Linux 绿。顺带发现并修掉 lockfile 缩进被 `npm install` 重写的问题（`ed4edea`）
 
 完成判据：PROJECT §1 交付物清单七项全勾。
 
@@ -162,8 +162,11 @@ C-06 的完成表示已决定保留源稿；其他已批准条目均已完成 P5
 ## 待澄清想法
 
 - P0.7 暂缓（2026-09-17 用户决定）：本地 AGENTS 的 Next.js 自动规则块与是否同步 shelf 以后再说，不阻塞 P0/P1；协议自动规则与上架仍暂缓；P1.8 的 Emil 本地安装和登记为另行授权。
+  - 2026-09-18 补充事实：干净 clone 里由 Claude 会话跑 `npm run dev`，Next 16 的 `ensureAgentRulesForDev` 检测到 AI agent 环境就把 `<!-- BEGIN:nextjs-agent-rules -->` 块追加进 `AGENTS.md`（人类终端不触发，考官不受影响）。退出开关是 `next.config.ts` 的 `agentRules: false`，或把块提交进 AGENTS.md。两条都动到协议文件 / 配置，等用户拍板，本轮未动。
 
 ## 当前状态
+
+- 2026-09-18：P7 / P8 收口。`tests/acceptance/` 五份验收测试 + schema 单一类型源断言，Node 110、浏览器 44（states 扫描 1440 量 65 个控件 / 375 含菜单 69 个）；D-03 补齐 logo 链接与 NumberField 步进按钮的 hover / pressed / 过渡，stories 111。`.github/workflows/ci.yml` quality + browser 两 job 并贴徽章（前两跑的红与修法见 SELFCHECK §五）。干净 clone 四条命令全过；lockfile 缩进归一化；`readable:ai-logs` 派生可读日志。README 十节机检通过，deviations 16/16 完成。首页与 Storybook 已部署 Vercel（push `main` 自动重发）。下一步：用户 audit；audit 后再跑一次 `sync:ai-logs` + `readable:ai-logs` 并提交最后一条 `logs(ai-logs): final sync`。
 
 - 2026-09-17：P6.1–P6.2 完成，RESPONSIVE 4/4；P8.4 拼图提前交付并接入 README。92 Node / 42 浏览器 / 28 定向 story 检查通过，隔离生产构建 11 宽三断言全部通过；BMI 错误 / 结果均不改变布局，D-04 已完成，偏差总数 16。后续进入 P7，P8 其余任务保留。
 
