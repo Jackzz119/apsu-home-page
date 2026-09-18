@@ -80,6 +80,8 @@ apsu-home/
 ├── public/images/              Figma 导出 1x/2x
 ├── scripts/
 │   ├── sync-ai-logs.sh         §8：拷会话日志进 ai-logs/
+│   ├── export-readable-logs.mjs §8.3：由原始 jsonl 派生 ai-logs/readable/*.md（用户提问 / 回复 / 工具调用一行摘要）
+│   ├── check-tokens.mjs        TOKENS ST-3：魔法值机检
 │   └── check-responsive.ts     SELFCHECK.md §三：Playwright 11 宽度扫描
 ├── docs/
 │   ├── deviations.md           §6：偏差日志（C 类 + D 类）
@@ -89,7 +91,8 @@ apsu-home/
 ├── ai/
 │   ├── PROJECT.md              本文
 │   └── TODO.md                 任务唯一来源
-├── ai-logs/                    §8：原始会话记录，未编辑
+├── ai-logs/                    §8：原始会话记录，未编辑；readable/ 为派生可读版
+├── .github/workflows/ci.yml    SELFCHECK §五：quality + browser 两个 job
 ├── tests/                      schema 与纯函数等自动化测试
 ├── vitest.config.mts           Node 测试配置；只发现 tests/ 与 content/ 中的 *.test.ts(x)
 ├── .codex/config.toml          Codex 项目级 MCP 服务地址，OAuth 凭据不入库

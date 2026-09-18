@@ -53,9 +53,9 @@ styles/tokens.css     Source typography, palette, spacing, shape and motion toke
 public/images/        Exported design assets
 docs/                 Deviation logs and responsive evidence
 tests/                Node, Storybook primitive and integrated-page browser tests
-scripts/              Project utilities, including AI log synchronization
+scripts/              Project utilities: token guard, responsive scan, AI log sync and readable export
 .storybook/           Storybook configuration and primitive canvas decorator
-ai-logs/              Raw AI session records, session index, and checksum manifest
+ai-logs/              Raw AI session records, session index, checksum manifest and derived readable views
 ```
 
 Empty directories contain `.gitkeep` files so they survive a fresh clone. Planning documents (in Chinese) live under `ai/`; `ai/PROJECT.md` is the project spec and `ai/TODO.md` the task list. AI agent protocol files (`CLAUDE.md`, `AGENTS.md`, `.claude/`, `.agents/`) are committed on purpose so the AI-assisted process is fully visible.
@@ -165,7 +165,7 @@ Playwright starts or reuses Storybook at port 6006 and Next.js at port 3000. All
 
 ## AI usage
 
-Claude Code and Codex are used for project setup, implementation, documentation, and verification. The [session index](ai-logs/README.md) identifies each raw transcript and its scope; the [checksum manifest](ai-logs/MANIFEST.sha256) records the copied files. Raw logs are synchronized with `npm run sync:ai-logs` and are not manually edited.
+Claude Code and Codex are used for project setup, implementation, documentation, and verification. The [session index](ai-logs/README.md) identifies each raw transcript and its scope; the [checksum manifest](ai-logs/MANIFEST.sha256) records the copied files. Raw logs are synchronized with `npm run sync:ai-logs` and are not manually edited. `npm run readable:ai-logs` derives Markdown views in [`ai-logs/readable/`](ai-logs/readable/) for sampling a session without parsing JSONL: user prompts, assistant replies and one-line tool-call summaries, each file naming the raw transcript and checksum it came from.
 
 | Tool        | Work represented                                                                                                                                                                                                                                                                                                                                                               | Session record                                                                                                                 |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
