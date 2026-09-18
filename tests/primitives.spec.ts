@@ -213,15 +213,36 @@ test('accordion retargets under four-times slow motion and CPU throttling withou
     await summary.dispatchEvent('click', { detail: 1 });
     await expect.poll(height).toBeGreaterThan(1);
     const opening = await height();
-    await summary.dispatchEvent('click', { detail: 1 });
-    // Wait for the retarget itself: on a throttled two-core runner the handler's frame can land after a
-    // fixed delay, which would sample the still-opening panel and misreport a jump.
-    await expect(page.locator('details')).toHaveAttribute('data-target-open', 'false');
-    const reversal = await height();
+    // Reverse and sample inside one page task: a stalled two-core runner turned a "50ms later" sample into a
+    // 1.2s-later one, taken after the panel had already finished closing. Frame-by-frame heights until the
+    // component finishes (or 300ms) prove the reversal never grows back toward the open height.
+    const reversed = await page.evaluate(
+        () =>
+            new Promise<{ retargeted: string | undefined; heights: number[] }>((resolve) => {
+                const root = document.querySelector('details')!;
+                const panel = root.querySelector(':scope > div') as HTMLElement;
+                root.querySelector('summary')!.dispatchEvent(
+                    new MouseEvent('click', { bubbles: true, cancelable: true, detail: 1 })
+                );
+                const retargeted = root.dataset.targetOpen;
+                const heights: number[] = [];
+                const started = performance.now();
+                const sample = () => {
+                    if (heights.length && (!root.open || !panel.style.height)) return resolve({ retargeted, heights });
+                    heights.push(panel.getBoundingClientRect().height);
+                    if (performance.now() - started > 300) resolve({ retargeted, heights });
+                    else requestAnimationFrame(sample);
+                };
+                sample();
+            })
+    );
+    expect(reversed.retargeted).toBe('false');
+    const reversal = reversed.heights[0];
     expect(reversal).toBeGreaterThan(0);
-    // Sample the shortened reverse transition; dispatch avoids Playwright waiting for a stable summary.
-    await page.waitForTimeout(50);
-    const closing = await height();
+    for (let i = 1; i < reversed.heights.length; i++) {
+        expect(reversed.heights[i], `frame ${i}`).toBeLessThanOrEqual(reversed.heights[i - 1] + 1);
+    }
+    const closing = reversed.heights.at(-1)!;
     expect(closing).toBeLessThanOrEqual(reversal + 1);
     await summary.dispatchEvent('click', { detail: 1 });
     await expect(panel).not.toHaveAttribute('style', /height/);
