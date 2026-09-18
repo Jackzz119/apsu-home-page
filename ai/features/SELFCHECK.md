@@ -33,7 +33,7 @@
 - 脚本：`scripts/check-responsive.ts`（Node + Playwright，不用 bash，见 §二 #7）
 - 宽度：320 / 360 / 375 / 414 / 640 / 768 / 1024 / 1280 / 1440 / 1600 / 1920
 - 每个宽度断言三条：`document.documentElement.scrollWidth <= window.innerWidth`；导航项 `getBoundingClientRect().top` 全部相等（同一行）；区块之间无重叠、无被裁切（元素 `right`/`bottom` 不超出其容器）
-- 产出：结果表重生成写入 `docs/responsive-report.md`（入库）；每宽度整页截图写入 `docs/responsive-shots/`（gitignored，每次覆盖）；`--composite` 模式把 11 张缩成一张横向拼图 `docs/responsive-report.png`（入库，最终提交前跑一次）。形式见 RESPONSIVE.md §五、PROJECT §11 #5
+- 产出：结果表重生成写入 `docs/responsive-report.md`（入库）；每宽度整页截图写入 `docs/responsive-shots/`（gitignored，每次覆盖）；`--composite` 模式把 11 张缩成一张横向拼图 `docs/responsive-report.png`（入库，本轮 P6 首次交付；后续布局变化再刷新）。形式见 RESPONSIVE.md §五、PROJECT §11 #5
 - 浏览器安装 `npx playwright install chromium` 不进考官命令链，README 单独说明
 
 ## 四、验收测试（TODO M5：按 Assignment 逐条推导）
@@ -78,3 +78,14 @@
 - 2026-09-17 P5：为满足区块 DoD 提前完成 P6.1 扫描器。三断言为页面横溢出、导航行/相邻项不重叠、区块顺序及文字边界（含裁切祖先）。有意图片裁切/跑马灯/轮播滚动视口/关闭菜单不按正文裁切误报，另用交互测试验证。11 宽生产扫描通过；可选 --composite 已实现但最终拼图留 P8。新增 17 条 BMI + 25 条资源尺寸测试，总计 91；新增 14 条页面浏览器用例，总计 32。P7 七条交付验收与 CI 不因本地测试通过而自动完成。
 
 - 收口时新出现 .claude/worktrees/ 嵌套并行工作区，根 ESLint 原先会扫入另一检出的技能 CLI 并误报 no-console。根配置仅排除 .claude/worktrees/**，原应用规则不变，未修改/切换/清理另一工作区。
+
+## P6 / BMI 验证结果
+
+补充 BMI 空值、提示 / 结果前后几何稳定性、数字递增中间帧与终值、快速重算 / 编辑打断、键盘与 reduced-motion 回归；在 320–1920 的 11 宽度覆盖默认、错误、有效结果三态。沿用现有 Playwright 与响应式扫描器，不将 P7 验收 / CI 冒报完成。
+
+
+- 92 Node、42 浏览器测试通过；BMI 在 11 宽下的默认、全错、仅体重错、有效结果和编辑清除状态，文档坐标变化均小于 1px，无横溢出。数字动画包含中间帧与终值检查，编辑中断、键盘提交、实时切换 reduced-motion 均通过。
+- 14 个受影响 stories × 375/1440 = 28 次 axe / 横溢出检查零违规；当前共 109 stories。本轮未重新全扫全部 109 态，不用定向检查冒充完整审计。
+- format/typecheck/lint/token guard、生产与 Storybook 构建通过。375 触控与 4 倍 CPU 节流检查终值和可访问终值；320 极端大数不改变布局或产生横溢出。
+- 为避开并行会话未提交的 How it works 样式，从 `9a26050` 导出独立临时目录，在 Node 22.23.1 执行 npm ci / build，生产服务 3002 上 11 宽扫描及拼图通过；同一隔离生产页的 8 项 BMI 浏览器回归再次通过。临时目录默认 Node 21 不支持 strip-types，显式切至项目约定 Node 22 后通过，未改项目依赖或脚本。该验证不是 P8 四条考官命令的完整干净克隆验收。
+- Emil 审查结论 Approve：250ms ease-out 数字反馈只用于指针主动提交；最终值立即进入 live region，中间帧 aria-hidden；取消清理与减动效即时完成。数字 textContent 更新走主线程，不宣称 GPU 合成。同 agent UI Tailor / Monet 已看空态、错误态、结果态，表单与圆盘保持稳定；未做独立评审或物理设备测试。

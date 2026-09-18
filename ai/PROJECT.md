@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P5 完成，P0.7 继续暂缓。14 区块、15 份 section story 文件、真实资源、菜单/BMI/跑马灯/轮播/FAQ 完整接通；91 Node、32 浏览器用例、104 stories 两板检查、11 宽生产扫描通过。原批准 14 项偏差全部完成，新增 Semaglutide 素材缺口 C-12 Pending。实现与验收详见 [COMPONENTS](features/COMPONENTS.md) / [P5 review](../docs/p5-review.md)；P6.1 为 P5 DoD 提前完成，最终拼图、CI 和交付整理仍依 TODO，P5 按用户授权拆为 23 条提交（含最后日志同步），批次从 8032602 开始；具体提交与推送状态以 Git 历史和远端为准。
+**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P6 完成，P0.7 继续暂缓。14 区块、11 原语与 109 stories 就位；本轮 92 Node / 42 浏览器测试、14 个受影响 story 的两板 28 次检查通过。BMI 提示与结果不再改变布局，所有初始测量值为空；D-04 获批采用 250ms 数字递增，现 16 项偏差全部敲定完成。独立导出的已提交代码在 Node 22 下安装、生产构建与 11 宽扫描通过，拼图已接入 README，未包含其他会话尚未提交的样式。P7 CI / 最终验收与 P8 其余交付仍待办；P8.4 拼图提前随 P6 完成。历史 P5 源稿与审查证据见 [P5 review](../docs/p5-review.md)，最新验证见 [SELFCHECK](features/SELFCHECK.md)；提交和推送状态以 Git 历史与远端为准。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
@@ -398,6 +398,7 @@ git -C "$ROOT" status --short ai-logs | head
 | P2 / P3 收口（2026-09-17 已通过） | 完整 mock parse、默认无首页 HTTP、实际 API 与 mock 一致；字体 / token / 三断点落地，48 测试与 check:tokens 通过，375/1440 字号锚点及 1920 容器实测通过；组件验收仍归 P4/P5 |
 | P4 收口（2026-09-17 已通过） | 11 原语 + 79 原语 stories（含 Overview），158 次 axe / 横溢出检查零违规；48 Node + 18 浏览器测试；同 agent Emil / UI Tailor / Monet 复核；完整首页仍归 P5 |
 | P5 收口（2026-09-17 已通过） | 14 区块与 page 组装；91 Node / 32 浏览器用例 / 208 story 检查 / 11 宽响应式通过；375/1440 同 agent 源稿和 Emil 复核；原批准偏差全完成，新 C-12 素材缺口 Pending；详见 docs/p5-review.md |
+| P6 收口（2026-09-17 已通过） | BMI 提示 / 结果几何稳定、250ms 数字反馈、92 Node / 42 浏览器 / 28 定向 story 检查通过；隔离生产构建 11 宽扫描和拼图完成，RESPONSIVE ST-1–4 全部完成；不替代 P7/P8 验收 |
 | 每个区块完成 | 375 / 1440 与 Figma 逐项对照 · 对应 story 存在 · 键盘可走通 · MOTION §四：Emil 动效审查通过（无动效记 N/A）与实景视觉复核、减动效 / 打断验证 |
 | 每日收工 | `npm run build` 绿 · `npm run check:responsive` 绿 · push |
 | 最终提交 | 上述全部 + `npm run storybook` 全绿 · a11y 零违规 · README 清单 §10 全勾 · `logs(ai-logs): final sync` 为最后一条 commit |
@@ -433,7 +434,7 @@ git -C "$ROOT" status --short ai-logs | head
 | 2 | 导航三个产品项的目标 | **锚点**滚动到对应区块，不做 `/coming-soon` 占位页。已回写 §3.1 口供「路由」行 | 2026-09-17 |
 | 3 | `ai/` 内部文档语言 | **中文入库**。README 与一切考官可见文本是英文，内部规划文档中文不减分（PROJECT §5.0） | 2026-09-17 |
 | 4 | 是否把方案阶段那次讨论的可读摘要写成 `docs/plan.md` | **不写**。方案的结论已全部落在本文与 feature 文档里，README「Design decisions」节即对外说法；旧 session 混有其他项目内容，按 §8.1 第 3 条不交 | 2026-09-17 |
-| 5 | 响应式 Bonus 的证据形式 | **表 + 一张拼图**：`check:responsive` 每次跑都重生成 `docs/responsive-report.md` 的结果表并提交；截图只在最终提交前拍一次，11 个宽度缩成一张横向拼图 `docs/responsive-report.png` 放 `docs/`，README 引用；原始整页截图目录 `docs/responsive-shots/` 进 `.gitignore`。README「Responsive」节写三句：策略是 clamp 流式 + 三个形态断点 + 容器封顶，证据是这张表，画面是这张图。已回写 §3.1 口供 | 2026-09-17 |
+| 5 | 响应式 Bonus 的证据形式 | **表 + 一张拼图**：`check:responsive` 每次跑都重生成 `docs/responsive-report.md` 的结果表并提交；用户本轮要求完成 P6，故首次交付拼图提前至 P6 收口；后续布局若改变再刷新，11 个宽度缩成一张横向拼图 `docs/responsive-report.png` 放 `docs/`，README 引用；原始整页截图目录 `docs/responsive-shots/` 进 `.gitignore`。README「Responsive」节写三句：策略是 clamp 流式 + 三个形态断点 + 容器封顶，证据是这张表，画面是这张图。已回写 §3.1 口供 | 2026-09-17 |
 | 6 | `prettier-plugin-tailwindcss` 是否进 `.prettierrc` | **进**。`plugins: ["prettier-plugin-tailwindcss"]`，class 顺序由插件定，人不手排 | 2026-09-17 |
 | 7 | P0.7 本地 agent 自动规则与 shelf 同步 | **暂缓，不阻塞 P0/P1**；用户表示本地 AGENTS 大概率不考虑写回 shelf，到时再定。不改 AGENTS.md / CLAUDE.md 的自动规则块，不做 shelf 上架；本地技能安装另按 #8 | 2026-09-17 |
 | 8 | P1 增加动效准备 | 安装 emil-design-eng / animate / review-animations / find-animation-opportunities，固定来源见 JASKILL；以 Emil 为主要标准，把动效查验与实际 UI 视觉检测接入 P3–P5。motion 已在依赖中，保留并按交互需求选择使用；具体 deviations 仍先确认 | 2026-09-17 |

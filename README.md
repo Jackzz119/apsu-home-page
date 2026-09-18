@@ -2,7 +2,7 @@
 
 Front-end take-home: the Apsu home page (desktop 1440 / mobile 375) implemented as a Next.js App Router page plus a React component library, with Storybook.
 
-**Status:** P5 is implemented: fourteen homepage sections, eleven reusable primitives, real source assets, a working BMI calculator and accessible menu/carousel/FAQ/marquees. Storybook contains 106 stories. Local page acceptance passes; CI and final delivery remain P7/P8 work. See [P5 evidence](docs/p5-review.md).
+**Status:** P6 is complete: fourteen homepage sections, eleven reusable primitives, real source assets, a working BMI calculator and accessible menu/carousel/FAQ/marquees. Storybook contains 109 stories. Local interaction checks and eleven-width production geometry checks pass; CI and final delivery remain P7/P8 work. See [P5 evidence](docs/p5-review.md).
 
 **Live:** [Home page](https://apsu-home.vercel.app) · [Storybook](https://apsu-home-storybook.vercel.app). Both are Vercel projects on this repository and redeploy automatically on every push to `main`.
 
@@ -62,7 +62,7 @@ Tailwind scans only `app/`, `components/`, and `.storybook/` through explicit so
 
 Actions distinguish real section anchors, external URLs, and owner-approved `demo` controls. Login, Contact, consultation and other destination-free controls demonstrate visual states only; they do not navigate, make requests or simulate business success. The strict demo variant cannot contain an href or target. Live calculator input and results are not part of the page-content response. `sourcePreview` preserves the artwork’s inconsistent zero inputs / score of 56 as strings, explicitly separate from calculation state.
 
-[content/mocks/home.ts](content/mocks/home.ts) supplies all fourteen sections with `satisfies HomePage`; tests validate the complete response. Approved copy corrections are applied; the original Weight Loss title, first FAQ answer and board-specific differences are preserved. Original FAQ wording and implementation status remain in the [deviation record](docs/deviations.md). Local image references use source exports with real intrinsic dimensions; [asset provenance](docs/assets.md) records every file. A missing Semaglutide image is explicit `null` (C-12), rather than a wrongly labelled vial. `content/presentation.ts` supplies control/a11y labels and shared decorative artwork through props.
+[content/mocks/home.ts](content/mocks/home.ts) supplies all fourteen sections with `satisfies HomePage`; tests validate the complete response. Approved copy corrections are applied; the original Weight Loss title, first FAQ answer and board-specific differences are preserved. Original FAQ wording and implementation status remain in the [deviation record](docs/deviations.md). Local image references use source exports with real intrinsic dimensions; [asset provenance](docs/assets.md) records every file. Semaglutide reuses the available Tirzepatide vial artwork by owner approval (C-12); the packaging label mismatch is documented as a visual-demo limitation. `content/presentation.ts` supplies control/a11y labels and shared decorative artwork through props.
 
 [lib/api/home.ts](lib/api/home.ts) exposes the single `getHomePage()` entry point. With no API URL it imports and parses the mock without homepage HTTP, including during static generation. With `NEXT_PUBLIC_API_URL` configured, it fetches `${NEXT_PUBLIC_API_URL}/api/home` with no-store and a 10-second timeout, checks HTTP status, and parses the response. Transport, JSON, and schema failures are surfaced, never silently replaced by mock data. Base URLs may include a path but not credentials, query, or fragment.
 
@@ -90,7 +90,9 @@ The following decisions are implemented in the P5 page. Business destinations re
 
 ## Responsive strategy
 
-Fluid sizing uses `clamp()`, three layout breakpoints (`sm` 640, `lg` 1024, `xl` 1280), and a 1440px container cap. The real Header remains on one line at 1024px. The production page passed the three geometry assertions below; [the generated report](docs/responsive-report.md) explains exclusions and limits. Review the actual [375px](docs/p5-review-375.webp) and [1440px](docs/p5-review-1440.webp) pages; the final eleven-width composite is scheduled for P8.
+Fluid sizing uses `clamp()`, three layout breakpoints (`sm` 640, `lg` 1024, `xl` 1280), and a 1440px container cap; the real Header remains on one line at 1024px. The [production report](docs/responsive-report.md) records all eleven widths and explains the geometry checks and exclusions. The composite below shows those widths in ascending order, from 320px on the left to 1920px on the right.
+
+![Eleven-width homepage composite](docs/responsive-report.png)
 
 | Widths (px)                                                | No page overflow | Single-line navigation | Section/text bounds |
 | ---------------------------------------------------------- | ---------------- | ---------------------- | ------------------- |
@@ -108,11 +110,11 @@ RESPONSIVE_URL=http://127.0.0.1:3001 npm run check:responsive
 
 **Implemented tokens (P3):** CSS budgets in `styles/tokens.css` and seconds-based values in `lib/motion.ts` are parity-tested. Fast/release/base/slow/stagger are 160/100/200/250/50 ms; ease-out is `cubic-bezier(0.23, 1, 0.32, 1)`, ease-in-out is `(0.77, 0, 0.175, 1)`, and drawer is `(0.32, 0.72, 0, 1)`. `fine-hover:` requires a fine pointer with hover capability. Reduced motion sets spatial duration and stagger to zero, press scale to 1, and shift to zero while retaining short color/opacity budgets. Consumers must select spatial tokens for spatial effects; the shared durations alone do not disable animation.
 
-The adopted workflow follows Emil Kowalski’s motion guidance: use the cheapest suitable tool, starting with CSS; retain the installed `motion` package for interactions that justify it. Reduced motion removes spatial movement while allowing useful opacity and color feedback. P4 primitives received motion review and actual 375/1440 visual verification, performed by the same agent under the Emil, UI Tailor, and Monet roles. The static Foundations story, informational Card/Chip/Rating, numeric editing, and native radio selection need no decorative animation. P5 integrates and verifies D-01–D-03. The native dialog uses reversible CSS transitions; both language rows share one pause control. The full-page motion audit recommends no additional effects: no hero stagger, card translation, BMI count-up, form height tween or simulated chat typing. No Motion runtime is imported. [Review and interruption evidence](docs/p5-review.md) records the decisions.
+The adopted workflow follows Emil Kowalski’s motion guidance: use the cheapest suitable tool, starting with CSS; retain the installed `motion` package for interactions that justify it. Reduced motion removes spatial movement while allowing useful opacity and color feedback. P4 primitives received motion review and actual 375/1440 visual verification, performed by the same agent under the Emil, UI Tailor, and Monet roles. The static Foundations story, informational Card/Chip/Rating, numeric editing, and native radio selection need no decorative animation. P5 integrates and verifies D-01–D-03. The native dialog uses reversible CSS transitions; both language rows share one pause control. The P5 audit rejected hero stagger, card translation, form height tween and simulated chat typing. Its original decision to omit BMI count-up was superseded by owner-approved D-04: the existing Motion package now supplies only a 250ms numeric tween with the shared ease-out curve. The final score is announced immediately; keyboard/reduced-motion submissions are instant. Validation and result content reserve space so state changes do not move the form or page. [Review and interruption evidence](docs/p5-review.md) records the decisions.
 
 ## Deviation log
 
-[Design deviations and approved decisions](docs/deviations.md) explains the source problem, approved solution and rationale for each entry, followed by a separate three-state execution tracker. All fourteen approved entries are implemented and verified. One new item is Pending: C-12, a missing accurately labelled Semaglutide image. No unapproved substitute is introduced.
+[Design deviations and approved decisions](docs/deviations.md) explains the source problem, approved solution and rationale for each entry, followed by a separate three-state execution tracker. All sixteen decisions are approved. C-12 authorizes the available Tirzepatide artwork in missing medication illustration slots for this demonstration; the execution tracker records verification status.
 
 ## Storybook
 
@@ -120,7 +122,7 @@ Run `npm run storybook` for the development server at `http://localhost:6006`, o
 
 Stories are colocated with components and discovered under `components/` and `app/` as `*.stories.ts` or `*.stories.tsx`. The current configuration includes accessibility and pseudo-state addons, with 375 × 812 and 1440 × 900 viewport presets.
 
-**Available:** `Foundations/Design tokens → Source Baseline`, using the same next/font Work Sans 400/500 and Syne 400/500 configuration as the app. Font loading, five type anchors, source surfaces, gutters, and the container cap have been verified in Chromium at 375/1440/1920. This is a token specimen, not the homepage design. The primitive/state inventory is below. Sections add 25 stories, including open menu, expanded/invalid/calculated BMI, paused strips and expanded FAQ; all 104 stories passed axe and overflow checks at 375/1440.
+**Available:** `Foundations/Design tokens → Source Baseline`, using the same next/font Work Sans 400/500 and Syne 400/500 configuration as the app. Font loading, five type anchors, source surfaces, gutters, and the container cap have been verified in Chromium at 375/1440/1920. This is a token specimen, not the homepage design. The primitive/state inventory is below. The current inventory is one foundation, 81 primitive and 27 section stories, including weight-only error and keyboard BMI result states. The P5 baseline of 104 stories passed axe and overflow checks at 375/1440; this follow-up checked 14 affected stories at both widths (28 checks), with no violations.
 
 `npm run check:tokens` scans application styling sources for literal colors, arbitrary length utilities, nonstandard breakpoint variants, and common nonsemantic palette classes. `styles/tokens.css` is the source-value exception. The guard ignores comments and JSX URL attributes; it complements code and visual review rather than proving all CSS semantics.
 
@@ -136,7 +138,7 @@ Import components and props from `@/components`. The library uses the project's 
 | Accordion        | native details; expanded / collapsed / Hover / Focus / Pressed / reduced; sm / md                         | 8       |
 | Carousel         | manual single / peek; first / last / keyboard / reduced / empty                                           | 7       |
 | Marquee          | static default / opt-in running / paused / reduced; sm / md                                               | 5       |
-| NumberField      | native number input; Focus / Invalid / Disabled / hint; sm / md                                           | 6       |
+| NumberField      | native number input; Focus / Invalid / ExternalError / Disabled / hint; sm / md                           | 7       |
 | RadioGroup       | native fieldset / radios; checked / focused / disabled group or option; sm / md                           | 6       |
 | SegmentedControl | native radio semantics; Hover / Focus / Pressed / Selected / Disabled; sm / md                            | 7       |
 | Rating           | read-only full / partial / empty rating; sm / md                                                          | 4       |
@@ -153,7 +155,7 @@ npx playwright install chromium
 npm run test:ui
 ```
 
-Playwright starts or reuses Storybook at port 6006 and Next.js at port 3000. The 32 cases comprise 18 primitive cases and 14 page cases at 375/1440. They cover native keyboard and disabled semantics, interruptions, reduced motion, emulated coarse touch, carousel bounds, menu focus/resize, BMI calculations/units and demo-action boundaries. The primitive audit includes 160 axe/overflow checks; the additional full Storybook audit includes all 104 stories (208 checks). Accordion also passes four-times slow motion with four-times CPU throttling. The test runner isolates its axe instance from the a11y addon's concurrent scan; neither scan nor any rule is disabled. Reports, traces on failure, and generated overview screenshots go to ignored `test-results/`. The separate responsive command covers eleven complete-page widths.
+Playwright starts or reuses Storybook at port 6006 and Next.js at port 3000. All 42 current browser cases pass across the two viewport projects; BMI geometry additionally covers eleven widths from 320 to 1920. They cover native keyboard and disabled semantics, interruptions, reduced motion, emulated coarse touch, carousel bounds, menu focus/resize, BMI calculations/units and demo-action boundaries. The original P5 primitive audit recorded 160 axe/overflow checks, and its full Storybook audit covered 104 stories (208 checks); those are historical counts, not a claim of a fresh full-inventory audit. Accordion also passes four-times slow motion with four-times CPU throttling. The test runner isolates its axe instance from the a11y addon's concurrent scan; neither scan nor any rule is disabled. Reports, traces on failure, and generated overview screenshots go to ignored `test-results/`. The separate responsive command covers eleven complete-page widths.
 
 ## AI usage
 
@@ -172,11 +174,13 @@ The continuation transcript `01a0b177-a7b3-7770-bb84-af67c9b1bfcc` records the p
 
 ## Known limitations
 
-- C-12: Semaglutide needs a correctly labelled source image or an approved text-only treatment. Its name, price and CTA are present; a Tirzepatide bottle is not reused.
+- C-12: Semaglutide intentionally uses the available Tirzepatide vial artwork for this visual demonstration. The packaging label is not product-accurate; product names, prices and source files remain unchanged.
 - Login, Contact, consultation and destination-free footer actions demonstrate visual states only; no business backend is connected.
 - BMI is a screening measure, not diagnosis or medication eligibility. Sex is preserved as a source form option and does not alter the calculation. Category boundaries use the unrounded result, with a rounding explanation beside the displayed number.
 - next/font/google needs network access during a fresh build; Storybook's adapter also loads Google fonts.
 - Physical phones, Safari/Firefox and screen-reader listening were not tested. CPU throttling is not a frame-rate guarantee; source comparison is same-agent visual review, not a certified pixel diff.
-- P7 CI/final acceptance and P8 clean-clone checks, readable-log export and final eleven-width composite remain pending.
+- P7 CI/final acceptance and P8 clean-clone checks, readable-log export remain pending; the eleven-width composite was delivered with P6.
 
 The owner-approved language chips demonstrate local selection with `aria-pressed`; they do not translate the page. Missing business destinations do not prevent appropriate local interaction feedback. Resume now continues on pointer exit without blurring the control, including a keyboard-to-pointer switch. This follow-up passed ten targeted browser cases and forty affected-story viewport checks; the original P5 full-audit numbers above remain historical.
+
+Page anchors use native smooth scrolling for pointer input; keyboard navigation and reduced motion stay instant. Mobile menu links close the dialog and focus their destination without a second scroll. The browser owns scroll duration and interruption; no scrolling library is added.

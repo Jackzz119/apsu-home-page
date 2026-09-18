@@ -24,7 +24,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [x] P3 · 设计 token
 - [x] P4 · 组件库原语（`components/ui/`）
 - [x] P5 · 首页区块（`components/sections/`）+ 页面组装
-- [ ] P6 · 响应式门禁
+- [x] P6 · 响应式门禁
 - [ ] P7 · 验收测试与 CI
 - [ ] P8 · 交付收尾
 
@@ -102,7 +102,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 ## P6 · 响应式门禁
 
 - [x] P6.1 `scripts/check-responsive.ts`（SELFCHECK ST-1）：11 宽度三断言 + `docs/responsive-report.md`
-- [ ] P6.2 全页 320–1920 扫描修复；README「Responsive strategy」三句：策略 / 表 / 图（RESPONSIVE ST-3）
+- [x] P6.2 全页 320–1920 扫描修复；README「Responsive strategy」三句：策略 / 表 / 图（RESPONSIVE ST-3）
 
 完成判据：11 宽度全绿；报告表进 README。
 
@@ -118,7 +118,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [ ] P8.1 `docs/deviations.md` 定稿：C 类 + D 类全，README「Deviation log」链接
 - [ ] P8.2 README §10 十项逐条勾：Directory · Data layer · Design decisions（§3.1 口供英文版）· Responsive · Motion · Deviations · Storybook · AI usage（session id 对应）· Known limitations
 - [ ] P8.3 ai-logs：最终 `sync:ai-logs` + `readable/` 导出 + `ai-logs/README.md` 索引补齐；`logs(ai-logs): final sync` 为最后一条 commit
-- [ ] P8.4 `check:responsive --composite` 拍一次 11 宽度拼图 `docs/responsive-report.png`（RESPONSIVE ST-4）
+- [x] P8.4 `check:responsive --composite` 拍一次 11 宽度拼图 `docs/responsive-report.png`（RESPONSIVE ST-4；随 P6 提前完成）
 - [ ] P8.5 干净 clone 走考官四条命令；CI 在 Linux 上绿即视为大小写复核通过
 
 完成判据：PROJECT §1 交付物清单七项全勾。
@@ -127,7 +127,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## 已敲定偏差执行索引
 
-2026-09-17 用户完成全部现有条目的 review。状态唯一真源为 [docs/deviations.md](../docs/deviations.md) 后半执行表：Pending / Approved — Not implemented / Approved — Completed；当前 1 / 0 / 14（P5 收口；新增 C-12 素材缺口 Pending）。前半面向甲方说明发现的问题、具体改动及理由。
+2026-09-17 用户完成全部现有条目的 review。状态唯一真源为 [docs/deviations.md](../docs/deviations.md) 后半执行表：Pending / Approved — Not implemented / Approved — Completed；当前 0 / 0 / 16（含 C-12 展示图复用与 D-04 BMI 数字反馈）。前半面向甲方说明发现的问题、具体改动及理由。
 
 - [x] C-01：P5.5 移动紧凑双套餐 + BMI 默认折叠、保留输入；不采用整块隐藏或互斥 tabs
 - [x] C-02 / C-03：Trust / Footer 拼写已修正
@@ -143,11 +143,17 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [x] D-02：demo 数据契约已落地；P5 验证无业务作用、真实产品锚点可用
 - [x] D-03：原语态已验收；P5 按 Emil 接入并审查全页交互
 
-C-06 的完成表示已决定保留源稿；其他已批准条目均已完成 P5 集成验收；新增 C-12 等待准确 Semaglutide 资源或纯文字卡的明确决定。新增偏差继续先记 Pending。
+- [x] D-04：BMI 指针计算 250ms 数字递增，键盘 / 减动效即时；布局稳定与中断行为已验证
 
-- [ ] C-12（Pending）：Semaglutide 缺匹配药瓶源图；待补图或批准纯文字卡，禁止冒用 Tirzepatide。
+C-06 的完成表示已决定保留源稿；其他已批准条目均已完成 P5 集成验收；C-12 已批准：缺匹配图时复用 Tirzepatide 展示图并登记标签不符原因。新增偏差继续先记 Pending。
+
+- [x] C-12（敲定已经做完）：Semaglutide 复用 Tirzepatide 展示图，两板图片验收通过；标签不符与素材限制已登记。
 
 ## Bugs
+
+- [x] [BUG] #17 BMI 提示撑高输入框、英寸初始为 0、结果出现抖动：分组预留提示空间、所有测量初始为空、固定结果空间，11 宽三态几何与数字动画回归通过（2026-09-17）。
+
+- [x] [BUG] #16 导航硬跳：指针导航改为原生平滑滚动；键盘 / 减动效即时，移动菜单焦点与连续改目标通过（2026-09-17）。
 
 - [x] [BUG] #15 跑马灯 Resume 后鼠标离开仍暂停：改为实际输入方式 + focus-visible 判定，保留键盘保护，不 blur 控件；375/1440 及混合输入回归通过（2026-09-17）。
 
@@ -158,6 +164,10 @@ C-06 的完成表示已决定保留源稿；其他已批准条目均已完成 P5
 - P0.7 暂缓（2026-09-17 用户决定）：本地 AGENTS 的 Next.js 自动规则块与是否同步 shelf 以后再说，不阻塞 P0/P1；协议自动规则与上架仍暂缓；P1.8 的 Emil 本地安装和登记为另行授权。
 
 ## 当前状态
+
+- 2026-09-17：P6.1–P6.2 完成，RESPONSIVE 4/4；P8.4 拼图提前交付并接入 README。92 Node / 42 浏览器 / 28 定向 story 检查通过，隔离生产构建 11 宽三断言全部通过；BMI 错误 / 结果均不改变布局，D-04 已完成，偏差总数 16。后续进入 P7，P8 其余任务保留。
+
+- 2026-09-17 后续人工验收：导航平滑滚动、C-12 展示药瓶复用与 C-09 药瓶尺寸调整完成；91 Node、8 项定向浏览器、8 次 story 双板检查、11 宽生产扫描通过。当前偏差共 15 项全部敲定完成；P7/P8 仍按下列历史阶段记录与待办推进。
 
 - 2026-09-17：P5.1–P5.12 完成。14 区块、真实本地资源、15 份 section stories（23 态）、6 个既定交互岛全部接通；首页唯一 h1/main 和服务锚点通过。91 Node、32 浏览器用例、104 stories ×2 检查、11 宽生产扫描通过；生产/Storybook build 与 type/lint/token/format 门禁通过。P6.1 提前完成以满足 P5 DoD；P6.2 扫描与 README 表完成，最终拼图仍留 P8。原批准偏差 14 完成，新增 C-12 Pending。P7 CI、七条最终验收与 P8 交付未冒报完成。用户已授权拆分推送；P5 批次按 23 条提交组织，起点 8032602，含 14 条区块提交和末尾日志同步。下一步依未完成的 P6/P7/P8 清单推进。
 

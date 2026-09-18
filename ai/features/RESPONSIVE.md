@@ -38,26 +38,28 @@
 |---|---|---|
 | `docs/responsive-report.md` | `npm run check:responsive` 每次运行重生成 | 是，随区块 commit 提交 |
 | `docs/responsive-shots/<width>.png` | 每次运行重生成的原始整页截图 | 否，`.gitignore` |
-| `docs/responsive-report.png` | 最终提交前跑一次 `--composite`，11 宽度缩成一张横向拼图 | 是，只提交一次 |
+| `docs/responsive-report.png` | P6 收口跑 `--composite`；后续布局变化再刷新，11 宽度缩成一张横向拼图 | 是，随 P6 提交 |
 
 README「Responsive strategy」节三句话：策略是 `clamp()` 流式 + 三个形态断点 + 容器封顶；证据是这张表；画面是这张图。
 
 ## 四、待实现 / 已知问题
 
 - Header 在 1024px 已实测导航单行且无相邻操作重叠，保留 sm/lg/xl = 640/1024/1280。
-- ~~板间适配的「证据」形式待定~~ → 2026-09-17 拍板（PROJECT §11 #5）：表每次跑都重生成并提交，拼图最终提交前拍一次，见 §五
+- ~~板间适配的「证据」形式待定~~ → 2026-09-17 拍板（PROJECT §11 #5）：表每次跑都重生成并提交，拼图首次交付随本轮 P6 收口，后续布局变化再刷新，见 §五
 
 ## 实现计划
 
-进度：2 / 4 subtasks 完成（50%）；ST-3 的扫描和 README 证据链接完成，最终拼图随 P8 交付
+进度：4 / 4 subtasks 完成（100%）；用户要求本轮完成 P6，拼图由 P8.4 提前交付
 
 - [x] ST-1: 容器与断点在 `tokens.css` / Tailwind 配置落地（随 TOKENS ST-2）
 - [x] ST-2: Header 实做时确定 `lg` 阈值并回写
-- [ ] ST-3: 全页 320–1920 扫描通过后，README「Responsive strategy」写三句：策略（clamp 流式 + 三形态断点 + 容器封顶）、证据（`docs/responsive-report.md` 表）、画面（`docs/responsive-report.png` 拼图）
-- [ ] ST-4: 最终提交前拍一次 11 宽度整页截图，拼成一张横向 PNG 放 `docs/responsive-report.png`（脚本产出，SELFCHECK ST-1 的 `--composite` 模式）
+- [x] ST-3: 全页 320–1920 扫描通过后，README「Responsive strategy」写三句：策略（clamp 流式 + 三形态断点 + 容器封顶）、证据（`docs/responsive-report.md` 表）、画面（`docs/responsive-report.png` 拼图）
+- [x] ST-4: P6 收口拍摄 11 宽度整页截图，拼成一张横向 PNG 放 `docs/responsive-report.png`（脚本产出，SELFCHECK ST-1 的 `--composite` 模式）
 
 ## 测试记录
 
 - 2026-09-17：ST-1 完成，sm/lg/xl = 640/1024/1280，移除 Tailwind 其他默认断点；container-page 封顶 1440。Chromium 的 Foundations story 在 375/1440/1920 均无横向溢出，边距 20/60/60px，容器 375/1440/1440px。Header 阈值、11 宽全页扫描与最终拼图仍归 ST-2–4，不用基础页测试替代。
 
 - 2026-09-17 P5：生产页 320/360/375/414/640/768/1024/1280/1440/1600/1920 三项断言全部通过，见 [结果表](../../docs/responsive-report.md)。BMI 展开额外覆盖 320/640/768/1024/1280，无横溢出。375/1440 全页实景在 [P5 review](../../docs/p5-review.md)；最终 11 宽拼图留 P8，未提前宣称已生成。
+
+- 2026-09-17 P6：从已提交代码 `9a26050` 独立导出，在 Node 22.23.1 下 npm ci / build 后启动生产服务，11 宽三断言全过，拼图与表已接入 README。BMI 默认 / 错误 / 结果 / 编辑清除几何另有 11 宽回归；375/1440 实景由同 agent UI Tailor / Monet 复核。后续布局变化需刷新证据，不将 P7/P8 整体标记完成。
