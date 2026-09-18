@@ -5,7 +5,7 @@ const placeholder = { src: '/images/placeholder.svg', alt: '', width: 1, height:
 
 /**
  * Source baseline: saved Figma contexts 2002:3099, 3307, 3439, 3667 and 3679.
- * Keep source mistakes intact until the owner reviews docs/deviations.md.
+ * Approved corrections and retained source decisions are recorded in docs/deviations.md.
  * IDs are authored constants. Menu/carousel accessible names are implementation copy.
  */
 export const homeMock = {
@@ -105,7 +105,7 @@ export const homeMock = {
         items: [
             { id: 'trust-states', text: '50 States' },
             { id: 'trust-shipping', text: 'Discreet Shipping' },
-            { id: 'trust-payment', text: 'Cash-pay, No Issuance Needed' },
+            { id: 'trust-payment', text: 'Cash-pay, No Insurance Needed' },
             { id: 'trust-assistant', text: '24/7 AI Care Assistant' },
             { id: 'trust-physicians', text: 'US Board Certified MDs' }
         ]
