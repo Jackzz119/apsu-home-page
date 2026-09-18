@@ -23,7 +23,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 - [x] P2 · 数据契约
 - [x] P3 · 设计 token
 - [x] P4 · 组件库原语（`components/ui/`）
-- [ ] P5 · 首页区块（`components/sections/`）+ 页面组装
+- [x] P5 · 首页区块（`components/sections/`）+ 页面组装
 - [ ] P6 · 响应式门禁
 - [ ] P7 · 验收测试与 CI
 - [ ] P8 · 交付收尾
@@ -83,25 +83,25 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 按 Figma 桌面顶层帧预排，最终拆分以 P1.5 清单为准。client 组件只限白名单（COMPONENTS §三 第 1 条）。
 
-- [ ] P5.1 Header + 移动抽屉 Menu（client）→ 顺手实测 `lg` 阈值回写 RESPONSIVE（RESPONSIVE ST-2）
-- [ ] P5.2 Hero + LanguageMarquee（client）+ ServiceCards（三类服务入口，Server）
-- [ ] P5.3 信任条 TrustMarquee（client）
-- [ ] P5.4 How it works
-- [ ] P5.5 WeightLoss（介绍 + 套餐）与 BmiCalculator（`lib/bmi.ts` 纯函数）：按已敲定 C-01/C-04 实现：移动可见介绍 + 紧凑双套餐 + 可折叠 BMI；有效输入后才计算，分类与 C-05 标签一致
-- [ ] P5.6 BirthControl / Sleep（含静态 Profile 卡）
-- [ ] P5.7 OnlineCare（Completely online，含 Carousel client 原语与静态聊天示意）
-- [ ] P5.8 SuccessStories（Server，桌面三列 / 移动堆叠）；社交图标按 PROJECT §11 #1 纯装饰
-- [ ] P5.9 FAQ Accordion（client Faq，原生 `<details>`）
-- [ ] P5.10 Footer / Final CTA
-- [ ] P5.11 `app/page.tsx` 组装：`getHomePage()` 分发 + 导航锚点（PROJECT §11 #2）+ 一页一个 `h1`
+- [x] P5.1 Header + 移动抽屉 Menu（client）→ 顺手实测 `lg` 阈值回写 RESPONSIVE（RESPONSIVE ST-2）
+- [x] P5.2 Hero + LanguageMarquee（client）+ ServiceCards（三类服务入口，Server）
+- [x] P5.3 信任条 TrustMarquee（client）
+- [x] P5.4 How it works
+- [x] P5.5 WeightLoss（介绍 + 套餐）与 BmiCalculator（`lib/bmi.ts` 纯函数）：按已敲定 C-01/C-04 实现：移动可见介绍 + 紧凑双套餐 + 可折叠 BMI；有效输入后才计算，分类与 C-05 标签一致
+- [x] P5.6 BirthControl / Sleep（含静态 Profile 卡）
+- [x] P5.7 OnlineCare（Completely online，含 Carousel client 原语与静态聊天示意）
+- [x] P5.8 SuccessStories（Server，桌面三列 / 移动堆叠）；社交图标按 PROJECT §11 #1 纯装饰
+- [x] P5.9 FAQ Accordion（client Faq，原生 `<details>`）
+- [x] P5.10 Footer / Final CTA
+- [x] P5.11 `app/page.tsx` 组装：`getHomePage()` 分发 + 导航锚点（PROJECT §11 #2）+ 一页一个 `h1`
 
-- [ ] P5.12 全页 `find-animation-opportunities` 只读审计（MOTION ST-4）：建议与真实拒绝理由进决策记录；建议不自动实施，完成全页正常 / 减动效 / 键盘 / 触控复核
+- [x] P5.12 全页 `find-animation-opportunities` 只读审计（MOTION ST-4）：建议与真实拒绝理由进决策记录；建议不自动实施，完成全页正常 / 减动效 / 键盘 / 触控复核
 
 每区块 DoD（PROJECT §9）：Emil 动效审查与实际画面视觉复核（MOTION §四，Block 修完重审）· 375 / 1440 逐项对照 Figma · story 存在 · 键盘走通 · `check:responsive` 绿 · deviations 登记 · 真图换入 `public/images/`。
 
 ## P6 · 响应式门禁
 
-- [ ] P6.1 `scripts/check-responsive.ts`（SELFCHECK ST-1）：11 宽度三断言 + `docs/responsive-report.md`
+- [x] P6.1 `scripts/check-responsive.ts`（SELFCHECK ST-1）：11 宽度三断言 + `docs/responsive-report.md`
 - [ ] P6.2 全页 320–1920 扫描修复；README「Responsive strategy」三句：策略 / 表 / 图（RESPONSIVE ST-3）
 
 完成判据：11 宽度全绿；报告表进 README。
@@ -127,23 +127,25 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## 已敲定偏差执行索引
 
-2026-09-17 用户完成全部现有条目的 review。状态唯一真源为 [docs/deviations.md](../docs/deviations.md) 后半执行表：Pending / Approved — Not implemented / Approved — Completed；当前 0 / 7 / 7。前半面向甲方说明发现的问题、具体改动及理由。
+2026-09-17 用户完成全部现有条目的 review。状态唯一真源为 [docs/deviations.md](../docs/deviations.md) 后半执行表：Pending / Approved — Not implemented / Approved — Completed；当前 1 / 0 / 14（P5 收口；新增 C-12 素材缺口 Pending）。前半面向甲方说明发现的问题、具体改动及理由。
 
-- [ ] C-01：P5.5 移动紧凑双套餐 + BMI 默认折叠、保留输入；不采用整块隐藏或互斥 tabs
+- [x] C-01：P5.5 移动紧凑双套餐 + BMI 默认折叠、保留输入；不采用整块隐藏或互斥 tabs
 - [x] C-02 / C-03：Trust / Footer 拼写已修正
-- [ ] C-04：P5.5 BMI 真正计算、单位转换、输入校验与未计算态；sourcePreview 仅留档
+- [x] C-04：P5.5 BMI 真正计算、单位转换、输入校验与未计算态；sourcePreview 仅留档
 - [x] C-05：BMI 范围文字已修正；运行时边界验收归 C-04
 - [x] C-06：按用户决定保留 `Loss Weight In Your Way.`，不改标题
 - [x] C-07：俄语 / 阿拉伯语分拆，稳定 ID 与局部 LTR / RTL
 - [x] C-08：OnlineCare 标题改为 `Easy Treatment Management`
-- [ ] C-09：P5.2/P5.5 匹配真图、真实尺寸和文字安全区
-- [ ] C-10：文字色 token 已备好，P5.2 Hero 使用并验证对比度后完成
+- [x] C-09：P5.2/P5.5 匹配真图、真实尺寸和文字安全区
+- [x] C-10：文字色 token 已备好，P5.2 Hero 使用并验证对比度后完成
 - [x] C-11：保留第一条原答，为另外三题写简短答案，原版重复答案留档
-- [ ] D-01：原语能力具备；P5.2/P5.3 接入展示语言条、持久暂停和减动效
-- [ ] D-02：demo 数据契约已落地；P5 验证无业务作用、真实产品锚点可用
-- [ ] D-03：原语态已验收；P5 按 Emil 接入并审查全页交互
+- [x] D-01：原语能力具备；P5.2/P5.3 接入展示语言条、持久暂停和减动效
+- [x] D-02：demo 数据契约已落地；P5 验证无业务作用、真实产品锚点可用
+- [x] D-03：原语态已验收；P5 按 Emil 接入并审查全页交互
 
-C-06 的完成表示已决定保留源稿；其他完成条目只覆盖其共享文案/数据范围，不表示 P5 区块已实现。新增偏差继续先记 Pending。
+C-06 的完成表示已决定保留源稿；其他已批准条目均已完成 P5 集成验收；新增 C-12 等待准确 Semaglutide 资源或纯文字卡的明确决定。新增偏差继续先记 Pending。
+
+- [ ] C-12（Pending）：Semaglutide 缺匹配药瓶源图；待补图或批准纯文字卡，禁止冒用 Tirzepatide。
 
 ## Bugs
 
@@ -155,6 +157,6 @@ C-06 的完成表示已决定保留源稿；其他完成条目只覆盖其共享
 
 ## 当前状态
 
-- 2026-09-17：P0.1–P0.6 与 P1–P4 完成，P0.7 按用户决定暂缓。已审计前轮原始记录：可见 turn_context 均为 gpt-6-astra，没有 Luna；最后一次 interrupted 发生在开场白后、工具工作前，没有 credit 耗尽导致缺码的证据。P2/P3 四条提交 4adae67 / 97a905b / 4863536 / 0ca4e3c 已推送 main。P4 11 原语、统一导出、80 原语 stories（总计 81，含本轮 FAQ AllAnswers）、页面消费标本与 a11y / motion / 375/1440 同 agent 视觉复核完成；49 Node + 18 浏览器测试、format/typecheck/lint/token guard、生产和 Storybook build 通过。COMPONENTS 2/3、STORYBOOK 1/3（原语部分完成）、A11Y 1/2；P4 经用户复核修正 Button / NumberField（见 COMPONENTS），按用户决定完成原先 14 条提交并另加第 15 条源稿修正，已推送至 ca3ef62；下一步 P5。本轮整体 review 已敲定：7 项完成、7 项待 P5、0 Pending，见偏差执行索引；原稿控件 SVG 已下载，其余产品图片仍为 P5 待替换的透明占位。
+- 2026-09-17：P5.1–P5.12 完成。14 区块、真实本地资源、15 份 section stories（23 态）、6 个既定交互岛全部接通；首页唯一 h1/main 和服务锚点通过。91 Node、32 浏览器用例、104 stories ×2 检查、11 宽生产扫描通过；生产/Storybook build 与 type/lint/token/format 门禁通过。P6.1 提前完成以满足 P5 DoD；P6.2 扫描与 README 表完成，最终拼图仍留 P8。原批准偏差 14 完成，新增 C-12 Pending。P7 CI、七条最终验收与 P8 交付未冒报完成。用户已授权拆分推送；P5 批次按 23 条提交组织，起点 8032602，含 14 条区块提交和末尾日志同步。下一步依未完成的 P6/P7/P8 清单推进。
 
 ## 封存

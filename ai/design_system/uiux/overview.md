@@ -1,7 +1,7 @@
 # 首页 UI / UX 总览
 
 > 2026-09-17 · P1 读稿基线。UI Tailor 编排、同一 agent 以 Monet 职责复核。
-> [设计系统](../design-system.md) 是全局视觉真源；[交互草案](interactions.md) 区分 P4 已实现的库级候选态与待实现产品流程。11 个原语完成，14 个首页区块仍未实装。
+> [设计系统](../design-system.md) 是全局视觉真源；[交互草案](interactions.md) 区分 P4 已实现的库级候选态与待实现产品流程。11 个原语和 14 个首页区块均完成实装与 P5 本地验收。
 
 ## 用户任务与视觉路径
 
@@ -49,7 +49,7 @@ LanguageMarquee 精确来源：桌面 `2002:3138` / 移动 `2002:3707`。这 14 
 
 ## 响应式与图片边界
 
-- 375 / 1440 按原图及已批准 C 类修正比对；其他宽度执行 [RESPONSIVE](../../features/RESPONSIVE.md) 的 `sm / lg / xl` 规则。Header 展开阈值需 P5 实测，不能靠这轮截图宣称 1024 已通过。
+- 375 / 1440 按原图及已批准 C 类修正比对；其他宽度执行 [RESPONSIVE](../../features/RESPONSIVE.md) 的 `sm / lg / xl` 规则。P5 实测 Header 1024px 单行且无相邻项重叠，保留原断点。
 - 移动内容宽 335、外壳宽 351；桌面主内容 1320、外壳 1384。页面容器最大 1440，卡片 / 文本允许内容撑高。
 - 所有页面文字、图片、金额、链接来自 props / schema；图片按 `{ src, alt, width, height }`。像素化 logo、人物、药瓶、聊天示意与社交图形的来源需 P5 导出登记；不能把生成 context 的临时 URL 留在代码里。
 - OnlineCare 的横向裁切是轮播视窗内的设计意图，外层页面不得横向溢出。SuccessStories 的三张卡必须在移动全部可见。
@@ -71,11 +71,15 @@ LanguageMarquee 精确来源：桌面 `2002:3138` / 移动 `2002:3707`。这 14 
 | Faq | 默认第一题开；其余三题隐藏 body 复用错误 #13 |
 | FinalCta / Footer | 纵横重排明确；“Comapny” #4；其余链接 / 动作缺目标 #12 |
 
-上表保留 P1 源问题定位；2026-09-17 整体 review 已完成，共享文案修正落地。唯一待办见 [TODO](../../TODO.md)，精确完成范围见 deviations 执行表；P5 真实页面尚未验收。
+上表保留 P1 源问题定位；2026-09-17 整体 review 已完成，共享文案修正落地。唯一待办见 [TODO](../../TODO.md)，精确完成范围见 deviations 执行表；P5 真实页面已验收；新素材缺口 C-12 仍待 owner 决策。
 
 
 ## P4 原语实景与操作入口
 
 [375 实景](../../../docs/primitive-review-375.png) / [1440 实景](../../../docs/primitive-review-1440.png)；运行 `npm run storybook` 打开 `Primitives/Overview → Default`，逐态证据在各组件 stories。源稿色、Work Sans 400/500、按钮 / chip / input 尺寸、FAQ 的白色正文与虚线、分段控件外圈均已对照保存的 Figma context。Overview 是库标本，布局不是首页设计替代品。
 
-11 原语的有限变体、键盘 / 禁用 / 空态与动效边界见 [COMPONENTS 验收表](../../features/COMPONENTS.md)。Button 从统一出口在 `/` 开发标本中消费；默认 Marquee 静态，Running story 才主动滚动。用户已批准持久暂停、demo CTA 和记录内的 C 类修正，产品集成仍归 P5。本次由同一 agent 完成 UI Tailor / Monet 复核；实体手机与完整页面仍待后续。
+11 原语的有限变体、键盘 / 禁用 / 空态与动效边界见 [COMPONENTS 验收表](../../features/COMPONENTS.md)。P4 当时用 `/` 开发标本证明 Button 统一出口消费，P5 已将其替换为首页。原语默认 Marquee 静态，页面明确启用带持久暂停的运动。持久暂停、demo CTA 与已批准 C 类修正已集成；同一 agent 完成 UI Tailor / Monet 复核，实体手机仍未测。
+
+## P5 真实页面（2026-09-17）
+
+首页已替换 P4 开发标本；14 区块与 6 个既定交互岛完整接通。真图来源见 [assets](../../../docs/assets.md)，375/1440 实景、区块对照与动效审核见 [P5 review](../../../docs/p5-review.md)。移动 Weight Loss + 折叠 BMI 1407.7px，双套餐可比较，Semaglutide 缺匹配药瓶不冒用。源稿其他布局保持，C-01/C-04/C-09/C-10/D-01–03 执行完成；104 stories 与 11 宽生产扫描通过。实体设备和读屏实听未做。

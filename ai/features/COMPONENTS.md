@@ -49,39 +49,39 @@
 
 ### sections/（首页区块）
 
-P1 已按两板确认 14 个页面组合单元；精确桌面 / 移动节点、截图、布局和锚点以 [UI 总览](../design_system/uiux/overview.md) 为真源，状态以 [交互草案](../design_system/uiux/interactions.md) 为准。下表只登记组件边界，均未实现。
+P1 已按两板确认 14 个页面组合单元；精确桌面 / 移动节点、截图、布局和锚点以 [UI 总览](../design_system/uiux/overview.md) 为真源，状态以 [交互草案](../design_system/uiux/interactions.md) 为准。下表登记组件边界，14 区块均已完成 P5 实施和本地验收。
 
 | 顺序 | 组件 | 边界 / 组合 | 状态 |
 |---|---|---|---|
-| 1 | Header | Client，含移动菜单 | 待做 |
-| 2 | Hero | Server，内含 Client LanguageMarquee | 待做 |
-| 3 | ServiceCards | Server，三类服务入口 | 待做 |
-| 4 | TrustMarquee | Client，两板均存在 | 待做 |
-| 5 | HowItWorks | Server，两张职责卡 | 待做 |
-| 6 | WeightLoss | Server，介绍与套餐；C-01 已批移动紧凑双卡，待 P5 | 待做 |
-| 7 | BmiCalculator | Client，紧随 WeightLoss；不是 Sleep 的 Profile | 待做 |
-| 8 | BirthControl | Server | 待做 |
-| 9 | Sleep | Server，含静态 Profile 卡 | 待做 |
-| 10 | OnlineCare | Server 外壳 + Client Carousel | 待做 |
-| 11 | SuccessStories | Server，桌面三列 / 移动堆叠 | 待做 |
-| 12 | Faq | Client，Accordion；首项默认开 | 待做 |
-| 13 | FinalCta | Server，从桌面 Footer 复合实例抽出 | 待做 |
-| 14 | Footer | Server，原生 footer 地标 | 待做 |
+| 1 | Header | Client，含移动菜单 | 完成（P5） |
+| 2 | Hero | Server，内含 Client LanguageMarquee | 完成（P5） |
+| 3 | ServiceCards | Server，三类服务入口 | 完成（P5） |
+| 4 | TrustMarquee | Client，两板均存在 | 完成（P5） |
+| 5 | HowItWorks | Server，两张职责卡 | 完成（P5） |
+| 6 | WeightLoss | Server，介绍与套餐；C-01 移动紧凑双卡已实现 | 完成（P5） |
+| 7 | BmiCalculator | Client，紧随 WeightLoss；不是 Sleep 的 Profile | 完成（P5） |
+| 8 | BirthControl | Server | 完成（P5） |
+| 9 | Sleep | Server，含静态 Profile 卡 | 完成（P5） |
+| 10 | OnlineCare | Server 外壳 + Client Carousel | 完成（P5） |
+| 11 | SuccessStories | Server，桌面三列 / 移动堆叠 | 完成（P5） |
+| 12 | Faq | Client，Accordion；首项默认开 | 完成（P5） |
+| 13 | FinalCta | Server，从桌面 Footer 复合实例抽出 | 完成（P5） |
+| 14 | Footer | Server，原生 footer 地标 | 完成（P5） |
 
 LanguageMarquee 为 Hero 子组件，Carousel 为 ui 原语，不重复计为根区块。P1 没有新增 client 岛；白名单仍为 Header、LanguageMarquee、TrustMarquee、BmiCalculator、Carousel、Faq。
 
 ## 五、待实现 / 已知问题
 
 - P4 已完成 11 原语、props / item 类型统一导出、79 个原语 stories（含 Overview）与页面 Button 消费示例。所有原语只吃 props；Storybook 的 mock 仅由 stories / storyFixtures 引入。
-- P1.7 已完成 §四 的 14 区块与 11 原语登记；P4 已完成原语 subtasks，区块 ST-3 仍待 P5。缺失移动 BMI、CTA 目标和内容错误见 TODO 候选。
+- P1.7 已完成 §四 的 14 区块与 11 原语登记；P5 完成区块 ST-3；原批准偏差全部验收，Semaglutide 素材缺口另见 C-12 Pending。
 
 ## 实现计划
 
-进度：2 / 3 subtasks 完成（67%）
+进度：3 / 3 subtasks 完成（100%）
 
 - [x] ST-1: 建 `components/ui/`、`components/sections/`、`components/index.ts`，先放 Button 一个原语走通「组件 + story + 从 `@/components` import」链路
 - [x] ST-2: 其余 ui/ 原语逐个落地，原语实现与 stories 完成；用户本轮决定保留原先建议的 14 条提交，本次源稿修正另加第 15 条
-- [ ] ST-3: sections/ 按设计文档逐区块落地，只吃 props
+- [x] ST-3: sections/ 按设计文档逐区块落地，只吃 props
 
 ## 测试记录
 
@@ -120,3 +120,11 @@ Emil 四技能版本 `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`；同一 agent �
 - 用户授权按原建议拆分 P4 基线 14 条 commit，再追加这两处修正 1 条 commit，一共 15 条并推送；当时产品 C / D 类等待整体 review；本轮用户已敲定，后续状态见 deviations。
 
 - 2026-09-17 deviations 整体 review 收口：49 Node 测试通过；新增 AllAnswers，当前 80 原语 stories + 1 Foundations。18 浏览器用例通过，375/1440 共 160 次 axe/横溢出零违规；两项首跑因导航 ERR_ABORTED 中断，构建结束后定向重跑通过，未放宽断言。FAQ 全展开与语言标签截图由同一 agent 以 UI Tailor/Monet 职责复核，俄语 LTR、阿拉伯语 RTL，文案无裁切；未新增动效，沿用 P4 已审实现。生产/Storybook 构建与 format/typecheck/lint/token guard 通过。P5 全页验收仍未做。
+
+## P5 区块验收（2026-09-17）
+
+14 个根区块 + LanguageMarquee 子组件全部只吃 content / ui props；page 在 Server 端只调一次 getHomePage，统一从 @/components 导入。六个既定交互岛不扩张。15 个 colocated story 文件提供 23 个区块状态；加原语 / Foundations 共 104 stories。
+
+源稿真图与尺寸见 [assets](../../docs/assets.md)；Semaglutide 缺匹配瓶图，以 null 明示并记录 C-12，不冒用 Tirzepatide。Mobile C-01 总高 1407.7px（375 宽，含区块间距）；无固定高度压字，折叠保留表单。BMI 纯函数覆盖边界、非法值及公英制往返；用户输入后提交才计算。
+
+91 Node、18 原语 + 14 区块浏览器用例通过；104 stories × 两板 = 208 次 axe / 溢出检查通过。生产与 Storybook 构建通过。11 宽完整性检查、源稿逐段同 agent UI Tailor / Monet 视觉复核及 Emil 审查见 [P5 evidence](../../docs/p5-review.md)。新增动效限 CSS 菜单与共享暂停编排；按钮/FAQ/轮播沿用已审原语，静态区块 N/A。正常 / reduce / 键盘 / 模拟触控 / 慢放反向通过；未做真机、跨浏览器与读屏实听。

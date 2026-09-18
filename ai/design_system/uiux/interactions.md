@@ -1,6 +1,6 @@
 # 控件与交互草案
 
-> 2026-09-17 · 产品方案已整体敲定；P4 原语库已验收，P5 集成未做。返回 [UI 总览](overview.md) / [设计系统](../design-system.md)。
+> 2026-09-17 · 产品方案已整体敲定；P4 原语库与 P5 产品集成已验收。返回 [UI 总览](overview.md) / [设计系统](../design-system.md)。
 > 以下将现有 [MOTION](../../features/MOTION.md)、[A11Y](../../features/A11Y.md)、[STORYBOOK](../../features/STORYBOOK.md) 规则落到具体使用场景。本轮已批改动按 deviations 执行；新的偏差仍先登记 Pending 并待用户确认。
 
 ## 统一状态与动效
@@ -36,7 +36,7 @@
 
 原生 scroll-snap + scrollTo 优先，指针可 smooth；键盘 / reduced-motion 切换即时滚动。键盘 Tab 到方向按钮、Enter / Space 切换；滑动不抢页面纵向手势。读屏可获当前范围（如 “1–3 of 4”），不可见卡中的控件不应凭空进入 Tab；本项目卡内聊天 UI 本来是静态示意。状态与按钮行为参考 [W3C APG Carousel](https://www.w3.org/WAI/ARIA/apg/patterns/carousel/)。
 
-## BMI 表单与结果（C-04 已敲定，待 P5）
+## BMI 表单与结果（C-04 已实施）
 
 源稿英制选中、Female 选中、输入均为 0，却给出 56 的结果；这不是可用的真实初始状态。C-04 已批以未计算态开始，提交有效输入后显示结果。
 
@@ -67,13 +67,13 @@ Profile 两张分数卡、OnlineCare 聊天示意、证言星级和证言社交�
 
 ## C-01 移动端长页方案（2026-09-17，已敲定未做）
 
-- 用户已接受以下推荐；C-01 为 Approved — Not implemented，P5.5 按此实现并验收。
-- 源 XML：板外组 `2002:4113` 高 2305px，介绍 `2002:4114` 高 678px，两款套餐 `2002:4136` 高 920px，BMI 空壳 `2002:4155` 高 587px。直接加入 9583px 移动主板约增加 24%；这是稿面几何估算，真实 BMI 表单高度与最终页面尚未实测。
+- 用户已接受以下推荐；C-01 为 Approved — Completed，P5.5 已按此实现并验收。
+- 源 XML：板外组 `2002:4113` 高 2305px，介绍 `2002:4114` 高 678px，两款套餐 `2002:4136` 高 920px，BMI 空壳 `2002:4155` 高 587px。直接加入 9583px 移动主板约增加 24%；这是稿面几何估算；P5 实测 375px 默认介绍 + 套餐 + 折叠 BMI 含间距共 1407.7px，完整验收见下述 P5 记录。
 - 研究依据：[NN/g 移动手风琴](https://www.nngroup.com/articles/mobile-accordions/) 支持以可见标题组织可选内容，但提醒展开过长与滚动跳转会造成迷失；[GOV.UK Tabs](https://design-system.service.gov.uk/components/tabs/) 不建议将需比较或顺序阅读的内容分藏不同 tab；[Baymard 产品页研究](https://baymard.com/research-articles/avoid-horizontal-tabs) 建议移动长页考虑纵向折叠，而非隐藏主内容的横向 tabs。这些通用研究不是 Apsu 的用户测试结果。
 - 已采用：介绍保持可见；两款套餐改成上下紧凑卡，名称、价格、CTA 同时可发现，产品图缩成缩略图；BMI 标题与说明可见，整套计算器默认折叠、原地展开，收起保留输入，不把表单拆成多个折叠步骤。移动默认态约 1100–1400px 仅作草图预算，需原型验证。桌面布局保留。
 - 考虑但未采用：保留完整套餐卡，用手动横向 scroll-snap 展示并露出下一张，配明确控制；BMI 同样按需展开。代价是第二款套餐发现率与来回比较负担，需要验证。全量纵向堆叠加锚点最接近板外稿，但只改善跳转，不能缩短页面。
-- 不推荐将「介绍 / 套餐 / BMI」全部放入互斥 tab，或将整个减重区默认隐藏；核心产品信息应可见。BMI 初始结果和文案已分别按 C-04 / C-05 敲定；默认不显示结果，区间文案已修正，计算逻辑待 P5。
+- 不推荐将「介绍 / 套餐 / BMI」全部放入互斥 tab，或将整个减重区默认隐藏；核心产品信息应可见。BMI 初始结果和文案已分别按 C-04 / C-05 敲定；默认不显示结果，区间文案已修正，计算逻辑及分类边界测试已通过。
 
 Carousel 手动且非循环，轨道首尾位置扣除 focus 留白并同步 scroll-padding；完全屏外卡 inert，正在获得焦点的内容离屏时回到轨道。Marquee 默认静态；显式 autoPlay 的隔离候选才出现 Pause / Resume，用户暂停、hover / focus、后台 visibility 分别控制暂停；reduce 展开所有原始条目，重复轨道 aria-hidden + inert。按钮名称随动作变化，因此不使用 aria-pressed；与固定名称的 Chip toggle 区分。
 
-这些 P4 库行为已获 D-01/D-03 采用批准，仍须在真实页面验证。P5 菜单、BMI 计算和完整导航链尚未实施；无目标业务控件按 D-02 展示，不模拟业务效果。
+这些 P4 库行为已按 D-01/D-03 在真实页面验收；P5 原生 dialog 菜单、BMI 计算、导航锚点与焦点链已实施。无目标业务控件按 D-02 展示，不模拟业务效果。正常 / reduce / 键盘 / 触控模拟与快速反向结果见 docs/p5-review.md。

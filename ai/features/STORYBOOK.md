@@ -29,16 +29,16 @@
 
 ## 四、待实现 / 已知问题
 
-- 现有 81 stories：Foundations 1 + 原语 80（含 Overview 与本轮 AllAnswers）；逐组件数量见 COMPONENTS.md 测试记录。六个 client 区块仍待 P5。
+- 现有 104 stories：Foundations 1 + 原语 80 + 区块 23；15 个 section story 文件同时覆盖静态区块和六个交互岛。
 - Hover / Focus / Pressed 使用 pseudo-states 固化；真实键盘 / 点击 / 反向测试由 `tests/primitives.spec.ts` 负责。
 - 是否需要 `addon-docs` 生成组件文档页：暂不加，考官走的是状态不是文档
 
 ## 实现计划
 
-进度：1 / 3 subtasks 完成（33%）；ST-2 的原语部分与 ST-3 的 P4 a11y 部分完成，区块 / CI 未完成
+进度：2 / 3 subtasks 完成（67%）；ST-3 本地 a11y 已通过，CI 接入留 P7
 
 - [x] ST-1: 第一个原语 Button 的 `Button.stories.tsx` 走通：Default / Hover / Focus / Pressed / Disabled 五态 + 两块板 viewport
-- [ ] ST-2: 其余 ui/ 原语与 6 个 client 区块的 stories（随 COMPONENTS 的 ST-2 / ST-3 同步）
+- [x] ST-2: 其余 ui/ 原语与 6 个 client 区块的 stories（随 COMPONENTS 的 ST-2 / ST-3 同步）
 - [ ] ST-3: a11y 零违规复核 + `build-storybook` 进 SELFCHECK 的 CI 链
 
 ## 测试记录
@@ -48,3 +48,5 @@
 - 2026-09-17：80 stories 的开发 / 静态构建均可运行；79 原语 stories × 375 / 1440 使用 axe-core 4.13.0 全规则扫描，零违规、无横溢出。addon 继续 `test: "error"`，没有禁用规则。独立扫描临时隔离自己的 axe 实例并恢复 addon 全局实例，避免两次并发扫描的 “Axe is already running”；不跳过任何状态。`npm run test:ui` 为 18 项浏览器测试。
 
 - 2026-09-17 deviations 整体 review 收口：49 Node 测试通过；新增 AllAnswers，当前 80 原语 stories + 1 Foundations。18 浏览器用例通过，375/1440 共 160 次 axe/横溢出零违规；两项首跑因导航 ERR_ABORTED 中断，构建结束后定向重跑通过，未放宽断言。FAQ 全展开与语言标签截图由同一 agent 以 UI Tailor/Monet 职责复核，俄语 LTR、阿拉伯语 RTL，文案无裁切；未新增动效，沿用 P4 已审实现。生产/Storybook 构建与 format/typecheck/lint/token guard 通过。P5 全页验收仍未做。
+
+- 2026-09-17 P5：104 stories ×375/1440 共 208 次 axe / 溢出检查为零违规。覆盖 MenuOpen、BMI Expanded/Invalid/MetricResult/ImperialResult、两种跑马灯 Paused、FAQ AllExpanded。play 使用真实输入/点击；build-storybook 通过。最后的区块标签修正另复扫区块状态；规则保持启用。

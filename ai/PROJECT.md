@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P4 完成，P0.7 按用户决定暂缓。已审计前轮原始记录：可见 turn_context 均为 gpt-6-astra，没有 Luna；最后一次 interrupted 发生在开场白后、工具工作前，没有 credit 耗尽导致缺码的证据。P2/P3 四条提交 4adae67 / 97a905b / 4863536 / 0ca4e3c 已推送 main。P4 11 原语、统一导出、80 原语 stories（总计 81，含本轮 FAQ AllAnswers）、页面消费标本与 a11y / motion / 375/1440 同 agent 视觉复核完成；49 Node + 18 浏览器测试、format/typecheck/lint/token guard、生产和 Storybook build 通过。COMPONENTS 2/3、STORYBOOK 1/3（原语部分完成）、A11Y 1/2；P4 经用户复核修正 Button / NumberField（见 COMPONENTS），按用户决定完成 14 条基线提交 + 1 条源稿修正，已推送至 ca3ef62。现有 deviations 已全部敲定：7 项完成，7 项待 P5、0 Pending；本轮共享文案/demo 契约和语义色准备完成。下一步 P5；原稿控件 SVG 已下载，其余产品图片仍为 P5 待替换的透明占位。
+**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P5 完成，P0.7 继续暂缓。14 区块、15 份 section story 文件、真实资源、菜单/BMI/跑马灯/轮播/FAQ 完整接通；91 Node、32 浏览器用例、104 stories 两板检查、11 宽生产扫描通过。原批准 14 项偏差全部完成，新增 Semaglutide 素材缺口 C-12 Pending。实现与验收详见 [COMPONENTS](features/COMPONENTS.md) / [P5 review](../docs/p5-review.md)；P6.1 为 P5 DoD 提前完成，最终拼图、CI 和交付整理仍依 TODO，P5 按用户授权拆为 23 条提交（含最后日志同步），批次从 8032602 开始；具体提交与推送状态以 Git 历史和远端为准。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
@@ -96,7 +96,7 @@
 |---|---|---|
 | Design tokens | Tailwind v4 `@theme` CSS 变量，**语义命名**（`--color-brand`、`--color-surface-mint`），禁止按色值命名 | 换肤与后端主题接入不用改组件 |
 | 动效与视觉复核（自决） | 以 Emil 四技能为主要方法；CSS 优先，保留已安装 motion，具体使用由交互需求决定；P3–P5 实施 / 动效审查 / 实景视觉复核见 [MOTION.md](features/MOTION.md) | 用统一标准约束交互质量，避免为已有依赖制造动画；默认稿与 deviations 审批仍优先 |
-| 图片 | `next/image` 静态导入；每张图是 `{ src, alt, width, height }` 数据 | alt 是内容不是代码；宽高防 CLS |
+| 图片 | `next/image` 渲染本地静态导出；为兼容 JSON 契约显式提供尺寸，每张图是 `{ src, alt, width, height }` 数据 | alt 是内容不是代码；宽高防 CLS |
 | 状态管理 | 无全局 store；`useState` / `useReducer`；BMI 计算抽纯函数 | 首页只有局部状态，引 store 是过度设计 |
 | 路由 | 单路由 `/`；导航三个产品项（Weight Loss / Birth Control / Sleep）锚点滚动到对应区块；D-02 无业务目的地控件为 demo，不做占位页或模拟业务 | 产品页不在范围内；占位页是多余的空壳（2026-09-17 拍板，见 §11） |
 | API 契约 | zod schema 即契约；`HomePage` 为根类型 | 考官先读类型 |
@@ -391,6 +391,7 @@ git -C "$ROOT" status --short ai-logs | head
 | 每个 commit | §7.3 十二条清单全过（format · typecheck · lint · 无 console.log · lockfile 同步 · story 同 commit · deviations 先登记 · README 同步 · ai-logs 同步 · message 规范） |
 | P2 / P3 收口（2026-09-17 已通过） | 完整 mock parse、默认无首页 HTTP、实际 API 与 mock 一致；字体 / token / 三断点落地，48 测试与 check:tokens 通过，375/1440 字号锚点及 1920 容器实测通过；组件验收仍归 P4/P5 |
 | P4 收口（2026-09-17 已通过） | 11 原语 + 79 原语 stories（含 Overview），158 次 axe / 横溢出检查零违规；48 Node + 18 浏览器测试；同 agent Emil / UI Tailor / Monet 复核；完整首页仍归 P5 |
+| P5 收口（2026-09-17 已通过） | 14 区块与 page 组装；91 Node / 32 浏览器用例 / 208 story 检查 / 11 宽响应式通过；375/1440 同 agent 源稿和 Emil 复核；原批准偏差全完成，新 C-12 素材缺口 Pending；详见 docs/p5-review.md |
 | 每个区块完成 | 375 / 1440 与 Figma 逐项对照 · 对应 story 存在 · 键盘可走通 · MOTION §四：Emil 动效审查通过（无动效记 N/A）与实景视觉复核、减动效 / 打断验证 |
 | 每日收工 | `npm run build` 绿 · `npm run check:responsive` 绿 · push |
 | 最终提交 | 上述全部 + `npm run storybook` 全绿 · a11y 零违规 · README 清单 §10 全勾 · `logs(ai-logs): final sync` 为最后一条 commit |
