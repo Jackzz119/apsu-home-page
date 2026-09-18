@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     },
     // Override default ignores of eslint-config-next.
     globalIgnores([
+        // Nested agent worktrees have their own checks and must not enter this checkout's lint scope.
+        '.claude/worktrees/**',
         // Default ignores of eslint-config-next:
         '.next/**',
         'out/**',
