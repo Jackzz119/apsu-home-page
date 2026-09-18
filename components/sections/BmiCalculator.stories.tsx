@@ -65,3 +65,18 @@ export const KeyboardResult: Story = {
         await userEvent.keyboard('{Enter}');
     }
 };
+export const RecoveredUnits: Story = {
+    play: async ({ canvasElement }) => {
+        const canvas = await openForm(canvasElement);
+        await userEvent.click(canvas.getByRole('button', { name: homeMock.bmiCalculator.submitLabel }));
+        await userEvent.click(canvas.getByRole('radio', { name: 'cm/kgs' }));
+    }
+};
+export const LargeResult: Story = {
+    play: async ({ canvasElement }) => {
+        const canvas = await openForm(canvasElement);
+        await userEvent.type(canvas.getByRole('spinbutton', { name: 'Height' }), '1');
+        await userEvent.type(canvas.getByRole('spinbutton', { name: 'Weight' }), '222');
+        await userEvent.click(canvas.getByRole('button', { name: homeMock.bmiCalculator.submitLabel }));
+    }
+};

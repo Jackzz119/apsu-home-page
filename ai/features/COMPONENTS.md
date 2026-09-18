@@ -139,10 +139,16 @@ Header 复用实际输入方式 hook，根 CSS 为指针开启原生平滑锚点
 
 ### P6 BMI 状态修复与 D-04（2026-09-17）
 
-所有测量初值为空；英寸留空只在有效英尺存在时按 0 参与计算。错误文字绝对定位在按实际文案预留的槽内，英尺/英寸共享一条描述；NumberField 允许 aria-invalid 配合外部关联错误并保留红色边框。结果区域固定最小内容高度、说明文字保留位置、等宽数字避免宽度跳变；异常计算提示复用结果空态区域。BmiCalculator 私有 BmiScore 以现有 Motion 做 250ms ease-out 文本补间，读屏最终值立即可用，输入编辑/卸载取消，键盘/减动效即时；长数值缩小字号后换行，不推大结果槽。
+所有测量初值为空；英寸留空只在有效英尺存在时按 0 参与计算。错误文字绝对定位在按实际文案预留的槽内，英尺/英寸共享一条描述；NumberField 允许 aria-invalid 配合外部关联错误并保留红色边框。结果区域固定最小内容高度、说明文字保留位置、等宽数字避免宽度跳变；异常计算提示复用结果空态区域。BmiCalculator 私有 BmiScore 以现有 Motion 做 250ms ease-out 文本补间，读屏最终值立即可用，输入编辑/卸载取消，键盘/减动效即时；长数值的旧阈值缩小策略已由下述容器实测适配替代。
 
 Emil 固定版本沿用；同 agent review-animations Approve、UI Tailor / Monet 查看 375/1440 默认/错误/结果截图。92 Node、10 项定向浏览器（其中几何检查覆盖 11 宽）、14 个相关 stories ×2=28 次 axe/溢出检查通过。新增两份 BMI states 与一个 NumberField ExternalError，当前 109 stories。未测真实手机或跨浏览器。
 
 ### P7 验收补齐（2026-09-18）
 
 `tests/acceptance/states.spec.ts` 对全页可见控件强制 hover / active / focus-visible 后，只有两处不满足 §4D：Header `.logo` 链接（无 hover / pressed / 过渡）与 NumberField `.numberStepper button`（无 hover / pressed / 过渡）。按 D-03 既定规则补齐：logo 用 `--hover-opacity`（0.85）+ 0.97 按压 + fast / release 过渡，步进按钮用 `--color-surface-selected` hover 底色 + 0.97 按压 + 同样过渡；FAQ `.chevron` 的 hover 底色补 `--dur-fast` 过渡。减动效下按压缩放随 `--motion-press-scale: 1` 消失，opacity / 颜色反馈保留。stories 111，D-03 执行表已补记；Emil 审查按同规则沿用 P4 结论，未做真机。
+
+### BMI 点击恢复与数值适配（2026-09-18）
+
+SegmentedControl 的透明原生 radio 以 inset: 0 / z-index: 1 覆盖完整选项，装饰文字 pointer-events: none，避免按压 transform 后装饰层拦截点击。BmiScore 保持 Work Sans / 500 和正常 score 字号上限；用隐藏的最终值测量同字体宽度，按可用宽度等比设置字号，ResizeObserver 监听容器与字体度量变化。数值补间期间不逐帧重新量字号，固定数字行高度，清理观察器；读屏终值与键盘 / reduced-motion 规则保留。
+
+验收：110 Node / 48 浏览器用例通过；BMI 三态几何覆盖 11 宽，新增点击命中与数值实测测试包含容器收窄再恢复、长分数全页无横滚。320/375/1440 触控模拟与 1083.9 实景由同 agent UI Tailor / Monet 复核，正常字号 52px / 500；隐藏测量不参与布局且限制在数字槽内。生产 / Storybook 构建与 token / 格式 / 类型 / lint 通过。原有计数时长与中断策略未变，Emil review Approve；未做真机或跨浏览器认证。

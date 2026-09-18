@@ -4,7 +4,7 @@ import { homeMock } from '@/content/mocks/home';
 import { homePresentation as ui } from '@/content/presentation';
 
 test.setTimeout(30_000);
-test.use({ baseURL: 'http://127.0.0.1:3000' });
+test.use({ baseURL: process.env.PLAYWRIGHT_APP_URL ?? 'http://127.0.0.1:3000' });
 test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
@@ -411,4 +411,86 @@ test('full page and expanded calculator pass axe in normal and reduced motion', 
         );
         expect(violations).toEqual([]);
     }
+});
+
+test('BMI units switch on the first press after validation, across the full radio hit area', async ({ page }) => {
+    const bmi = await openBmi(page);
+    const metric = bmi.getByRole('radio', { name: 'cm/kgs' });
+    const imperial = bmi.getByRole('radio', { name: 'ft / lbs' });
+    for (const fraction of [0.15, 0.5, 0.85]) {
+        await imperial.check();
+        await bmi.getByRole('button', { name: 'Calculate BMI' }).click();
+        await expect(bmi.locator('[aria-invalid="true"]')).toHaveCount(3);
+        await metric.scrollIntoViewIfNeeded();
+        const box = (await metric.boundingBox())!;
+        const point = { x: box.x + box.width * fraction, y: box.y + box.height / 2 };
+        await page.mouse.move(point.x, point.y);
+        await page.mouse.down();
+        expect(
+            await metric.evaluate((node, point) => document.elementFromPoint(point.x, point.y) === node, point)
+        ).toBe(true);
+        await page.mouse.up();
+        await expect(metric).toBeChecked();
+        await expect(bmi.getByRole('spinbutton')).toHaveCount(2);
+        await expect(bmi.locator('[aria-invalid="true"]')).toHaveCount(0);
+    }
+    await metric.focus();
+    await page.keyboard.press('ArrowLeft');
+    await expect(imperial).toBeChecked();
+    await page.keyboard.press('ArrowRight');
+    await expect(metric).toBeChecked();
+});
+
+test('BMI score fits its container without changing font family, weight or panel geometry', async ({ page }) => {
+    const bmi = await openBmi(page);
+    await bmi.getByRole('radio', { name: 'cm/kgs' }).check();
+    const height = bmi.getByRole('spinbutton', { name: 'Height', exact: true });
+    const weight = bmi.getByRole('spinbutton', { name: 'Weight' });
+    const submit = bmi.getByRole('button', { name: 'Calculate BMI' });
+    const score = bmi.locator('[role="status"] strong');
+    await height.fill('100');
+    await weight.fill('25');
+    await submit.press('Enter');
+    const sample = () =>
+        score.evaluate((node) => {
+            const style = getComputedStyle(node);
+            const box = node.getBoundingClientRect();
+            const frame = node.parentElement!.getBoundingClientRect();
+            return {
+                font: style.fontFamily,
+                weight: style.fontWeight,
+                size: parseFloat(style.fontSize),
+                width: box.width,
+                available: frame.width,
+                frameHeight: frame.height
+            };
+        });
+    const normal = await sample();
+    for (const value of ['1083.9', '10839', '10839000000000000000']) {
+        await weight.fill(value);
+        await submit.press('Enter');
+        const large = await sample();
+        expect(large.font).toBe(normal.font);
+        expect(large.weight).toBe(normal.weight);
+        expect(large.frameHeight).toBe(normal.frameHeight);
+        expect(large.width).toBeLessThanOrEqual(large.available + 1);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+        expect(large.size).toBeLessThanOrEqual(normal.size);
+        if (value === '1083.9') expect(large.size).toBeGreaterThan(normal.size * 0.7);
+    }
+    await weight.fill('25');
+    await submit.press('Enter');
+    expect((await sample()).size).toBe(normal.size);
+    await weight.fill('10839');
+    await submit.press('Enter');
+    const fullWidth = await sample();
+    await score.evaluate((node) => {
+        node.parentElement!.style.width = '50%';
+    });
+    await expect.poll(async () => (await sample()).size).toBeLessThan(fullWidth.size);
+    expect((await sample()).width).toBeLessThanOrEqual((await sample()).available + 1);
+    await score.evaluate((node) => {
+        node.parentElement!.style.removeProperty('width');
+    });
+    await expect.poll(async () => (await sample()).size).toBe(fullWidth.size);
 });

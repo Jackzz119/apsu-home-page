@@ -9,7 +9,14 @@ const meta = {
     title: 'Primitives/SegmentedControl',
     component: SegmentedControl,
     decorators: primitiveDecorators,
-    parameters: { layout: 'fullscreen' },
+    parameters: {
+        layout: 'fullscreen',
+        docs: {
+            description: {
+                component: 'The native radio owns the full hit area, including while its decorative label is pressed.'
+            }
+        }
+    },
     args: {
         label: primitiveMock.unitsLabel,
         options: unitOptions,

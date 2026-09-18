@@ -1280,16 +1280,33 @@
 }
 .resultStatus {
     min-height: var(--measure-bmi-score);
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
     font-size: var(--text-fine);
 }
 .bmiScore {
     font-size: var(--text-price);
     font-variant-numeric: tabular-nums;
 }
-.bmiScore[data-compact='true'] {
-    font-size: var(--text-control-label);
-    overflow-wrap: anywhere;
+.bmiScoreFrame {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
     min-width: 0;
+    height: var(--text-price);
+}
+.bmiScore,
+.bmiScoreMeasure {
+    white-space: nowrap;
+}
+.bmiScoreMeasure {
+    position: absolute;
+    visibility: hidden;
+    font-size: var(--text-price);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
 }
 .bmiResult > a {
     border: 0;

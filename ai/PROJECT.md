@@ -50,7 +50,9 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-18）**：P0.1–P0.6 与 P1–P8 完成，P0.7 继续暂缓（新事实见 TODO「待澄清想法」）。14 区块、11 原语、111 stories；Node 110 / 浏览器 44 测试，其中 `tests/acceptance/` 按 Assignment 逐条机检（lockfile、stories、README、ai-logs、schema 单一类型源、全页交互态扫描）。GitHub Actions `quality` + `browser` 两 job 贴 README 徽章（首两跑的红与修法见 SELFCHECK §五）；干净 clone 四条考官命令全过，lockfile 缩进已归一化使 `npm install` 后工作区保持干净。16 项偏差全部完成（D-03 于 P7 补齐 logo 链接与步进按钮反馈）。首页与 Storybook 部署在 Vercel（`apsu-home.vercel.app` / `apsu-home-storybook.vercel.app`，push `main` 自动重发）。原始日志与 `readable/` 派生版随 `logs(ai-logs): final sync` 入库；用户 audit 后需再同步一次。历史证据见 [P5 review](../docs/p5-review.md)，验证记录见 [SELFCHECK](features/SELFCHECK.md)。
+**当前实现（2026-09-18）**：P0.1–P0.6 与 P1–P8 完成，P0.7 继续暂缓（新事实见 TODO「待澄清想法」）。14 区块、11 原语、113 stories；Node 110 / 浏览器 48 测试，其中 `tests/acceptance/` 按 Assignment 逐条机检（lockfile、stories、README、ai-logs、schema 单一类型源、全页交互态扫描）。GitHub Actions `quality` + `browser` 两 job 贴 README 徽章（首两跑的红与修法见 SELFCHECK §五）；干净 clone 四条考官命令全过，lockfile 缩进已归一化使 `npm install` 后工作区保持干净。16 项偏差全部完成（D-03 于 P7 补齐 logo 链接与步进按钮反馈）。首页与 Storybook 部署在 Vercel（`apsu-home.vercel.app` / `apsu-home-storybook.vercel.app`，push `main` 自动重发）。原始日志与 `readable/` 派生版随 `logs(ai-logs): final sync` 入库；用户 audit 后需再同步一次。历史证据见 [P5 review](../docs/p5-review.md)，验证记录见 [SELFCHECK](features/SELFCHECK.md)。
+
+**BMI 后续（2026-09-18）**：独立 worktree 修复单位切换按压命中层及大分数容器适配；保持源字体 / 字重与原计数反馈。新增两态后 Storybook 共 113 态，细节见 COMPONENTS 最新记录；合并目标依用户本轮决定为 main，走 PR rebase。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 

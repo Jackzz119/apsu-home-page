@@ -304,6 +304,8 @@ button.chip,
 }
 .segmentInput {
     position: absolute;
+    inset: 0;
+    z-index: 1;
     opacity: 0;
     width: 100%;
     height: 100%;
@@ -311,6 +313,7 @@ button.chip,
     cursor: inherit;
 }
 .segmentLabel {
+    pointer-events: none;
     padding: var(--spacing-segment-block) var(--spacing-content-gap);
     min-height: var(--spacing-segment-option);
     min-width: var(--spacing-segment-min);
