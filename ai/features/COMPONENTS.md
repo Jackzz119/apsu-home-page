@@ -73,7 +73,7 @@ LanguageMarquee 为 Hero 子组件，Carousel 为 ui 原语，不重复计为根
 ## 五、待实现 / 已知问题
 
 - P4 已完成 11 原语、props / item 类型统一导出、79 个原语 stories（含 Overview）与页面 Button 消费示例。所有原语只吃 props；Storybook 的 mock 仅由 stories / storyFixtures 引入。
-- P1.7 已完成 §四 的 14 区块与 11 原语登记；P5 完成区块 ST-3；原批准偏差全部验收，Semaglutide 素材缺口另见 C-12 Pending。
+- P1.7 已完成 §四 的 14 区块与 11 原语登记；P5 完成区块 ST-3；原批准偏差全部验收，Semaglutide 素材缺口按 C-12 最新决定复用 Tirzepatide 展示图。
 
 ## 实现计划
 
@@ -125,10 +125,20 @@ Emil 四技能版本 `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`；同一 agent �
 
 14 个根区块 + LanguageMarquee 子组件全部只吃 content / ui props；page 在 Server 端只调一次 getHomePage，统一从 @/components 导入。六个既定交互岛不扩张。15 个 colocated story 文件提供 23 个区块状态；加原语 / Foundations 共 104 stories。
 
-源稿真图与尺寸见 [assets](../../docs/assets.md)；Semaglutide 缺匹配瓶图，以 null 明示并记录 C-12，不冒用 Tirzepatide。Mobile C-01 总高 1407.7px（375 宽，含区块间距）；无固定高度压字，折叠保留表单。BMI 纯函数覆盖边界、非法值及公英制往返；用户输入后提交才计算。
+源稿真图与尺寸见 [assets](../../docs/assets.md)；Semaglutide 缺匹配瓶图，按用户新批准 C-12 复用 Tirzepatide 展示图，明确记录瓶身标签不匹配。Mobile C-01 总高 1407.7px（375 宽，含区块间距）；无固定高度压字，折叠保留表单。BMI 纯函数覆盖边界、非法值及公英制往返；用户输入后提交才计算。
 
 91 Node、18 原语 + 14 区块浏览器用例通过；104 stories × 两板 = 208 次 axe / 溢出检查通过。生产与 Storybook 构建通过。11 宽完整性检查、源稿逐段同 agent UI Tailor / Monet 视觉复核及 Emil 审查见 [P5 evidence](../../docs/p5-review.md)。新增动效限 CSS 菜单与共享暂停编排；按钮/FAQ/轮播沿用已审原语，静态区块 N/A。正常 / reduce / 键盘 / 模拟触控 / 慢放反向通过；未做真机、跨浏览器与读屏实听。
 
 ### 语言交互复核（2026-09-17）
 
 用户新增 PROJECT §5.0a 展示交互规则。LanguageMarquee 使用 Chip 的真实 toggle，保留源稿初始高亮；新增 Toggled/Keyboard stories。Marquee 支持显式 pointer-only duplicateContent，Chip 透传 tabIndex；键盘静态换行只暴露原始列表。useInputModality 与 :focus-visible 联合判断暂停，修复两个条带 Resume 残留焦点问题；原有测试去掉 Resume 后的人工 blur，并覆盖键盘→鼠标切换、动画时间继续、复制项选中同步和静态键盘访问。Emil review Approve：反馈沿用既定 CSS 预算，触控/减动效/快速切换及 375/1440 通过。当前总计 106 stories，新增行为细节与证据见 uiux/interactions.md。
+
+### 导航与展示图片后续验收（2026-09-17）
+
+Header 复用实际输入方式 hook，根 CSS 为指针开启原生平滑锚点滚动，键盘 / 减动效即时；Menu 焦点行为保留。Semaglutide 按 C-12 使用现有 Tirzepatide 套餐图；ServiceCards 药瓶桌面高度 65% → 68%，移动保持原布局。Emil 固定版本沿用，review-animations Approve（浏览器拥有滚动曲线与时长，无自定义滚动循环）；同 agent UI Tailor / Monet 看过两板截图，药瓶与相邻人物视觉高度接近且文字安全。91 Node、8 项定向浏览器、4 个受影响 stories × 2 = 8 次 axe / 溢出检查、11 宽生产扫描、两种 build、type/lint/token/format 均通过；生产鼠标 / 模拟触控在 4 倍 CPU 下连续改目标通过，未测真机或其他浏览器。stories 总数仍 106，本轮未重跑全量 stories / 浏览器套件。
+
+### P6 BMI 状态修复与 D-04（2026-09-17）
+
+所有测量初值为空；英寸留空只在有效英尺存在时按 0 参与计算。错误文字绝对定位在按实际文案预留的槽内，英尺/英寸共享一条描述；NumberField 允许 aria-invalid 配合外部关联错误并保留红色边框。结果区域固定最小内容高度、说明文字保留位置、等宽数字避免宽度跳变；异常计算提示复用结果空态区域。BmiCalculator 私有 BmiScore 以现有 Motion 做 250ms ease-out 文本补间，读屏最终值立即可用，输入编辑/卸载取消，键盘/减动效即时；长数值缩小字号后换行，不推大结果槽。
+
+Emil 固定版本沿用；同 agent review-animations Approve、UI Tailor / Monet 查看 375/1440 默认/错误/结果截图。92 Node、10 项定向浏览器（其中几何检查覆盖 11 宽）、14 个相关 stories ×2=28 次 axe/溢出检查通过。新增两份 BMI states 与一个 NumberField ExternalError，当前 109 stories。未测真实手机或跨浏览器。

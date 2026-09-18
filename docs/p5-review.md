@@ -68,3 +68,7 @@ No new animation is recommended. Existing interactions already explain state cha
 ## Remaining limits
 
 C-12 requires an accurate Semaglutide export or explicit approval for a text-only card. Login, Contact, consultation and destination-free footer controls remain visual demos by owner decision. Physical devices, Safari/Firefox and screen-reader listening were not tested. Google font downloads need network access during a fresh build. P7 CI/final acceptance and P8 clean-clone, readable-log export and final eleven-width composite remain pending.
+
+## Subsequent owner decision
+
+This report preserves the P5 review as performed. The owner subsequently approved BMI count-up under D-04, superseding the rejection above. Current behavior uses the existing Motion package for a 250ms numeric tween only; keyboard/reduced motion and the accessible result remain immediate. Validation and result geometry are reserved to prevent layout shifts. See the current [deviation tracker](deviations.md).

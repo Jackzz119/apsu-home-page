@@ -85,3 +85,17 @@ Carousel 手动且非循环，轨道首尾位置扣除 focus 留白并同步 scr
 两处 Resume 卡住的根因是鼠标点击后仍有 focus-within。仅改 focus-visible 仍不足：Chromium 从键盘改用鼠标时可能保留它。useInputModality 订阅捕获阶段 keydown / pointerdown，再结合 focus-visible 识别真正的键盘暂停；不主动 blur。手动 Pause 持久优先，鼠标 Resume 后离开区域继续原时间线，触屏释放后继续，键盘操作内容时暂停。
 
 验收：10 个针对性浏览器用例、20 个相关 stories ×两板共 40 次 axe/溢出检查通过；触控模拟中循环副本可切换、Resume 后 animation-play-state=running。正常/键盘 375/1440 实景由同一 agent 按 UI Tailor/Monet 复核，focus 环不被轨道裁切。沿用 CSS linear 跑马灯和 160/100ms Chip 反馈，不新增动效库；实体手机未测。
+
+## 导航与药品展示调整（2026-09-17）
+
+页面锚点保留原生 href / hash / 历史行为。Header 通过既有 useInputModality 暴露实际输入方式；正常指针输入启用根元素 scroll-behavior: smooth，键盘与 reduced-motion 保持 auto。移动菜单仍关闭并 preventScroll 聚焦目标，不额外启动一段滚动。滚动曲线、时长和打断由浏览器处理，不引入 rAF 驱动或 Motion。
+
+C-12：用户批准仅为展示将现有 Tirzepatide 套餐图用于 Semaglutide 及缺少素材的药品展示位；保留产品标题、价格、现有人物及其他专用图。C-09：Weight Management 药瓶桌面高度占卡片 68%（原 65%），保持 contain 与底部对齐。调试发现 Next 本地优化缓存仍返回旧方形留白图，已清理可重建图片缓存；源文件无需改动。
+
+验证：375/1440 连续滚动帧、键盘即时、reduce、移动菜单关闭/目标焦点、模拟触控与 4 倍 CPU 连续改目标通过。实际双板图已同 agent Monet 复核；8 项定向浏览器、8 次相关 stories 检查及 11 宽生产扫描通过。C-09/C-12 已敲定完成，不代表已获得准确的 Semaglutide 包装素材。
+
+## BMI 稳定布局与数字反馈（P6）
+
+feet / inches / weight 均空白起步；英寸留空为可选，不把 0 预填到 UI。feet/inches 共用一次错误文案，错误通过 aria-describedby 关联，预留槽按文案自然换行，实际提示绝对定位，不影响输入行。结果数字槽和 rounding note 始终占相同空间，异常计算也在结果槽提示；空态、错误、结果与编辑清空都不改变面板几何。
+
+用户已明确批准 D-04，取代 P5 拒绝 count-up 的决定：指针计算时 250ms ease-out 递增到终值；键盘 / reduced-motion 直接终值，读屏始终只得到真实最终分数。Motion 只用于该文本节点，不参与页面布局或输入值编辑；编辑 / 卸载会取消，重复同值提交不重播。交互与两板视觉验证见 COMPONENTS 最新记录，109 stories 中可直接看 BMI WeightError / KeyboardResult 和 NumberField ExternalError。

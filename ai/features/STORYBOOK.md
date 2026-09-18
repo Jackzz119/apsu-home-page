@@ -29,7 +29,7 @@
 
 ## 四、待实现 / 已知问题
 
-- 现有 106 stories：Foundations 1 + 原语 80 + 区块 25；15 个 section story 文件同时覆盖静态区块和六个交互岛。
+- 现有 109 stories：Foundations 1 + 原语 81 + 区块 27；15 个 section story 文件同时覆盖静态区块和六个交互岛。
 - Hover / Focus / Pressed 使用 pseudo-states 固化；真实键盘 / 点击 / 反向测试由 `tests/primitives.spec.ts` 负责。
 - 是否需要 `addon-docs` 生成组件文档页：暂不加，考官走的是状态不是文档
 
@@ -52,3 +52,5 @@
 - 2026-09-17 P5：104 stories ×375/1440 共 208 次 axe / 溢出检查为零违规。覆盖 MenuOpen、BMI Expanded/Invalid/MetricResult/ImperialResult、两种跑马灯 Paused、FAQ AllExpanded。play 使用真实输入/点击；build-storybook 通过。最后的区块标签修正另复扫区块状态；规则保持启用。
 
 - 语言展示交互复核：新增 LanguageMarquee Toggled / Keyboard，相关语言/信任条/Marquee/Chip 共 20 stories × 两板 = 40 次 axe / 溢出检查通过。P5 原始 104-story 全量记录保留为历史，不把定向复测说成再次全量扫描。
+
+- P6 BMI 修复新增 WeightError / KeyboardResult 与 NumberField ExternalError，共 109 stories（1 foundation + 81 原语 + 27 区块）。受影响的 14 个 stories × 375/1440 共 28 次 axe / 溢出检查通过；不把这次定向检查称作全部 109 个重扫。
