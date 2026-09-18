@@ -58,7 +58,7 @@ P1 已按两板确认 14 个页面组合单元；精确桌面 / 移动节点、�
 | 3 | ServiceCards | Server，三类服务入口 | 待做 |
 | 4 | TrustMarquee | Client，两板均存在 | 待做 |
 | 5 | HowItWorks | Server，两张职责卡 | 待做 |
-| 6 | WeightLoss | Server，介绍与套餐；移动缺块修正待批准 | 待做 |
+| 6 | WeightLoss | Server，介绍与套餐；C-01 已批移动紧凑双卡，待 P5 | 待做 |
 | 7 | BmiCalculator | Client，紧随 WeightLoss；不是 Sleep 的 Profile | 待做 |
 | 8 | BirthControl | Server | 待做 |
 | 9 | Sleep | Server，含静态 Profile 卡 | 待做 |
@@ -89,7 +89,7 @@ LanguageMarquee 为 Hero 子组件，Carousel 为 ui 原语，不重复计为根
 
 ## P4 实施边界（2026-09-17）
 
-用户已授权完成全部 11 原语与逐态 stories。先实现可独立复用的库与 Storybook 候选态，D-01 / D-03 的产品采用仍待整体 review；C 类文案与默认源稿不改。Button 的 page 消费证明使用明确标注的开发标本，禁用态只用于无目标 CTA 的隔离展示，不代表 D-02 决策。原语需要回调、测量或原生控件 ID 时可使用 client 边界，不增加新的首页业务岛；静态 Card / Rating 保持无状态。
+用户已授权完成全部 11 原语与逐态 stories。先实现可独立复用的库与 Storybook 候选态，D-01 / D-03 的产品采用已获整体 review 批准，待 P5 接入；已批 C 类共享文案已修正，其余见执行表。Button 的 page 消费证明使用明确标注的开发标本，禁用态只用于无目标 CTA 的隔离展示，不代表产品 demo 的禁用策略；D-02 已敲定产品保留视觉反馈、无业务效果。原语需要回调、测量或原生控件 ID 时可使用 client 边界，不增加新的首页业务岛；静态 Card / Rating 保持无状态。
 
 
 ### P4 验收（2026-09-17）
@@ -117,4 +117,6 @@ Emil 四技能版本 `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`；同一 agent �
 - MCP 重新读取 `2002:3135`、`2002:3197`、`2002:3375`，附带截图确认水平箭头、40 / 32px 图标框内的实际圆形留白，以及 52px 高的胶囊输入框与 24px 绿色圆润 sort 图标。前次用 ArrowUpRight / 满框白圆 / 12px 输入圆角 / 浏览器 spinner 是实现误差，本轮修正不属于修改甲方设计。
 - Button 的 `trailingIcon` 接收完整源稿圆箭头；NumberField 新增 `stepperIcon`、`incrementLabel`、`decrementLabel` props。素材路径和标签由调用者传入，组件内不写页面素材路径。原稿 sort SVG 保持完整，由两个 24×24 原生 button 覆盖上下操作区。
 - 步进调用原生 `stepUp`，尊重 min / max / step 并派发 input 通知 React 受控值；readOnly、disabled 和 step=any 禁用步进。WithHint 使用受控小数示例，不新增 story 数量。NumberField 高频编辑不加动画，Button 已验收动效保持原样。
-- 用户授权按原建议拆分 P4 基线 14 条 commit，再追加这两处修正 1 条 commit，一共 15 条并推送；产品 C / D 类仍按原流程等待整体 review。
+- 用户授权按原建议拆分 P4 基线 14 条 commit，再追加这两处修正 1 条 commit，一共 15 条并推送；当时产品 C / D 类等待整体 review；本轮用户已敲定，后续状态见 deviations。
+
+- 2026-09-17 deviations 整体 review 收口：49 Node 测试通过；新增 AllAnswers，当前 80 原语 stories + 1 Foundations。18 浏览器用例通过，375/1440 共 160 次 axe/横溢出零违规；两项首跑因导航 ERR_ABORTED 中断，构建结束后定向重跑通过，未放宽断言。FAQ 全展开与语言标签截图由同一 agent 以 UI Tailor/Monet 职责复核，俄语 LTR、阿拉伯语 RTL，文案无裁切；未新增动效，沿用 P4 已审实现。生产/Storybook 构建与 format/typecheck/lint/token guard 通过。P5 全页验收仍未做。

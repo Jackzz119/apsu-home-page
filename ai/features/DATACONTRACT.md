@@ -29,10 +29,10 @@
 
 - 根字段按 COMPONENTS 的 14 区块排序；每个区块有独立 schema / `z.infer` 类型，通用的 Action、ImageAsset、Price、Heading、FeatureItem 复用。
 - 金额为 USD 整数美分，图片为本地 `/images/` 素材路径与正整数尺寸；alt 可为空以表达纯装饰。P2 mock 先保留占位素材尺寸，P5 导出真图，不能把 Figma 临时 URL 写进契约实例。
-- Action 以 `kind` 区分 `anchor` / `external` / `unresolved`；anchor 只允许已登记的页面目标，external 只接受 HTTP(S)。`unresolved` 仅显式保留源稿尚无目的地的 CTA，禁止在组件中变成 `href="#"` 或假成功；P5 交付前必须按候选 #12 解决，不代表已批准 disabled 方案。
+- Action 以 `kind` 区分 `anchor` / `external` / `demo`；anchor 只允许登记目标，external 只接受 HTTP(S)。2026-09-17 用户已敲定 D-02：Login、Contact、咨询等无目的地控件仅展示设计。`demo` 严格拒绝 href / target；P5 渲染原生 type="button"，保留视觉反馈，不导航、不请求、不编造表单或成功状态。真实产品锚点正常工作；不默认禁用或灰化 demo。
 - SuccessStories 区分 quote / photo，OnlineCare 区分 chat / image；不能用缺失 quote / image 猜卡片形态。聊天与 Profile 是静态示意数据，不建立真实诊疗会话。
-- Heading 保存有序 plain / accent 文本片段；桌面与移动确有文案差异时分别保存 paragraphs，不在数据里放 Tailwind class。语言标签的 highlighted 只表示源稿外观，不代表功能性语言选择已批准。
-- BMI 契约保留标题、字段 / 单位 / 结果标签与范围文字，新增 `sourcePreview` 显式保留源稿零输入、Female / imperial 选中与演示分数 56；这些是稿件字符串，不是服务端计算结果。计算与区间修正归 deviations C-04 / C-05，尚未实施。
+- Heading 保存有序 plain / accent 文本片段；桌面与移动确有文案差异时分别保存 paragraphs，不在数据里放 Tailwind class。语言标签的 highlighted 只表示源稿外观，不代表功能性语言选择；D-01 已敲定仅展示。
+- BMI 契约保留标题、字段 / 单位 / 结果标签与范围文字，新增 `sourcePreview` 显式保留源稿零输入、Female / imperial 选中与演示分数 56；这些是稿件字符串，不是服务端计算结果。C-05 区间标签已改为 18.5–<25 / 25–<30；C-04 的计算与状态仍待 P5。
 - 对象采用 strictObject 拒绝拼错字段与混合卡片形态；schema 不截断、不强转文案或金额。id 是后端稳定字符串，mock 预置，不运行时生成。
 
 ```
@@ -52,7 +52,7 @@ app/api/home/route.ts    假后端：返回同一份 mock，形状 = HomePage
 ## 四、当前实现 / 已知问题
 
 - P2 三步完成：14 区块严格契约、逐字 mock、取数入口与 Route Handler。mock 使用 `satisfies HomePage` 并通过整页 parse。
-- 2026-09-17 用户要求先实现源稿，全部候选已进入 `docs/deviations.md` 等整体 review；错字、重复 FAQ、BMI 示意值与桌面 / 移动正文差异均保留。原先 P2.2 前逐项确认的要求被本次决定替代。
+- 2026-09-17 整体 review 完成：C-02/03/05/07/08/11 的共享数据修正落地；C-06 标题与 FAQ 首答按用户要求保留，原始重复答案留在源快照和 deviations。BMI sourcePreview 与两板正文差异仍保留。D-02 由未决目标改为已决 demo 契约；P5 页面尚未组装。
 - 默认分支直接 import + parse，不发首页 HTTP；设置 API base URL 后请求其 `/api/home`，校验 HTTP 状态与响应 schema，10 秒超时，失败抛出而不回退。URL 不允许凭据、query 或 fragment。Route Handler 始终返回相同本地 mock。
 - `app/page.tsx` 已通过唯一入口取数并提供 main 的源文案标签；区块组装仍归 P5。图片为本地 1×1 透明 SVG，P5 换源稿导出与真实尺寸。
 
@@ -71,3 +71,5 @@ app/api/home/route.ts    假后端：返回同一份 mock，形状 = HomePage
 - 2026-09-17：生产构建通过；期间发现并修复 Tailwind 源扫描 BUG #14（见 TOKENS），修复后生产与 Storybook 构建均通过。未新增依赖或 HTTP 请求。
 
 - 2026-09-17：P2/P3 合计 48 条测试通过；新增完整 mock、源文案保留、稳定 id / 本地素材、无 HTTP 默认分支、远端正常 / 失败 / 非法响应与 route 一致性测试。生产 build 的首页静态生成成功，实际 `curl http://127.0.0.1:3030/api/home` 与完整 mock 深相等。无首页取数 HTTP 不代表字体构建完全离线；next/font/google 下载风险已接受。
+
+- 2026-09-17 review 后 49 条 Node 测试通过：demo 严格拒绝 href/target/旧 unresolved，mock 保持真实产品锚点；保留 C-06 标题、FAQ 首答、BMI 源示意，已批副本文案与独立语言 ID 通过校验。

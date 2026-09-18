@@ -30,7 +30,7 @@ P4 补充控件语义角色：48/56px 按钮、52px 输入框、32/40px 内嵌�
 
 ## 四、待实现 / 已知问题
 
-- P1 读稿已完成：[design-system.md](../design_system/design-system.md) 维护 75 项原始定义的语义映射、主要字号两端值、间距 / 圆角 / 阴影与来源。主字体为 Work Sans 400/500，Syne 仅用于聊天示意；样式名 Bold/Semibold 不代表实际字重。Hero 小字对比度候选 #10 尚未修复。
+- P1 读稿已完成：[design-system.md](../design_system/design-system.md) 维护 75 项原始定义的语义映射、主要字号两端值、间距 / 圆角 / 阴影与来源。主字体为 Work Sans 400/500，Syne 仅用于聊天示意；样式名 Bold/Semibold 不代表实际字重。C-10 已敲定：新增 `--color-text-benefit: var(--color-accent)`，保留亮绿装饰色；P5 Hero 使用后再验收，当前不标完成。
 - 未精读的桌面实例局部值（如 FinalCta 字号）明确标注 P5 核值，不伪装已测参数；核心 token 表可供 P3 落地。
 - `npm run check:tokens` 已落地：扫描 app/components/lib/styles/.storybook，仅 tokens.css 允许字面颜色；检查色值、颜色函数、任意长度 utility、非 sm/lg/xl 断点和非语义常见色类。忽略注释和 JSX href/src，设计快照不扫描。它不是全部 CSS 语义的静态证明，布局与视觉仍需人工验收。
 

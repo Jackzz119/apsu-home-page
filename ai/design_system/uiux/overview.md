@@ -20,8 +20,8 @@
 | 3 | ServiceCards | `2002:3189` | `2002:3758` | Server；Card、Button | 三列变单列；Weight Management / Birth Control / Sleep；不是轮播 |
 | 4 | TrustMarquee | `2002:3214` | `2002:3780` | Client；Marquee | 深绿横条，两板都有，内容循环；父级镜像使 XML x 看似出板，以截图为准 |
 | 5 | HowItWorks | `2002:3262` | `2002:3828` | Server；Card | 两张职责卡桌面并排、移动堆叠；尾句强调医生负责医疗决定 |
-| 6 | WeightLoss | `2002:3308` + `2002:3333` | 板外 `2002:4114` + `2002:4136` | Server；Card、Button | 介绍 + 两款套餐；移动主板缺失，按候选 #1 待批准补入 |
-| 7 | BmiCalculator | `2002:3352`（表单 `2002:3355`、结果 `2002:3411`） | 板外空壳 `2002:4155` | Client；NumberField、RadioGroup、SegmentedControl、Button、Card | 桌面表单 / 结果双栏；移动内容缺失，布局与初始状态待候选 #1 / #5 批准 |
+| 6 | WeightLoss | `2002:3308` + `2002:3333` | 板外 `2002:4114` + `2002:4136` | Server；Card、Button | 介绍 + 两款套餐；移动主板缺失，按已批 C-01 补入可见介绍与紧凑双卡 |
+| 7 | BmiCalculator | `2002:3352`（表单 `2002:3355`、结果 `2002:3411`） | 板外空壳 `2002:4155` | Client；NumberField、RadioGroup、SegmentedControl、Button、Card | 桌面表单 / 结果双栏；移动内容缺失，C-01/C-04 已批：移动按需展开，未计算不显示结果 |
 | 8 | BirthControl | `2002:3440` | `2002:3873` | Server；Button | 桌面左文右图，移动先文后图；移动稿省略桌面介绍段，不擅自补回 |
 | 9 | Sleep | `2002:3467` | `2002:3895` | Server；Button、Card | 桌面左图右文，移动先文后图；Profile 数据卡仅是展示 |
 | 10 | OnlineCare | `2002:3521` | `2002:3943` | Server 外壳 + Client Carousel；Card、IconButton | “Completely online…”；4 张服务卡，桌面约三张多、移动一张多；箭头属于这里 |
@@ -42,8 +42,8 @@ LanguageMarquee 精确来源：桌面 `2002:3138` / 移动 `2002:3707`。这 14 
 | Sleep（同上） | `#sleep` | PROJECT 已批准；Sleep 根容器承载 |
 | WeightLoss 内 See plans；BMI 结果 See your GLP-1 Options | `#weight-loss-plans` | 页面内套餐子容器；实施时随交互登记 |
 | Footer FAQs | `#faq` | Faq 根容器 |
-| Header Contact Us / Footer Contact Us | props 的真实 `href`；未从稿中取得 | 候选 #12；不能默认把它伪装成联系表单 |
-| Get started / consultation / Login / About / Blogs / Legal / Footer 社交 | props 的真实 `href`；未从稿中取得 | 候选 #12；不建 `/coming-soon`，不编造外站或真实登录流程 |
+| Header Contact Us / Footer Contact Us | `kind: demo`，原生按钮 | D-02 已批；仅视觉反馈，无联系表单/业务请求 |
+| Get started / consultation / Login / About / Blogs / Legal / Footer 社交 | `kind: demo`，原生按钮 | D-02 已批；无假 href、跳转、登录或成功提示 |
 
 移动产品导航：关闭菜单，再滚到目标；目标标题可程序聚焦但不额外加入常规 Tab 序列。只有关闭按钮 / Escape 的普通关闭回到菜单触发按钮；导航关闭时将焦点送到目标内容，避免焦点留在已经关闭的层里。滚动减动效时立即完成。实际 header 若采用 sticky，P5 为目标设置合适 scroll-margin；P1 不自行认定稿件要求 sticky。
 
@@ -71,11 +71,11 @@ LanguageMarquee 精确来源：桌面 `2002:3138` / 移动 `2002:3707`。这 14 
 | Faq | 默认第一题开；其余三题隐藏 body 复用错误 #13 |
 | FinalCta / Footer | 纵横重排明确；“Comapny” #4；其余链接 / 动作缺目标 #12 |
 
-候选的唯一待办在 [TODO](../../TODO.md)，这里保留定位结果；没有执行任何 C/D 修正。设计审查已完成，真实页面的视觉与操作验收归 P4–P7。
+上表保留 P1 源问题定位；2026-09-17 整体 review 已完成，共享文案修正落地。唯一待办见 [TODO](../../TODO.md)，精确完成范围见 deviations 执行表；P5 真实页面尚未验收。
 
 
 ## P4 原语实景与操作入口
 
 [375 实景](../../../docs/primitive-review-375.png) / [1440 实景](../../../docs/primitive-review-1440.png)；运行 `npm run storybook` 打开 `Primitives/Overview → Default`，逐态证据在各组件 stories。源稿色、Work Sans 400/500、按钮 / chip / input 尺寸、FAQ 的白色正文与虚线、分段控件外圈均已对照保存的 Figma context。Overview 是库标本，布局不是首页设计替代品。
 
-11 原语的有限变体、键盘 / 禁用 / 空态与动效边界见 [COMPONENTS 验收表](../../features/COMPONENTS.md)。Button 从统一出口在 `/` 开发标本中消费；默认 Marquee 静态，Running story 才主动滚动。用户整体 review 尚未批准首页暂停入口、真实 CTA 目的地或 C 类改稿。本次由同一 agent 完成 UI Tailor / Monet 复核；实体手机与完整页面仍待后续。
+11 原语的有限变体、键盘 / 禁用 / 空态与动效边界见 [COMPONENTS 验收表](../../features/COMPONENTS.md)。Button 从统一出口在 `/` 开发标本中消费；默认 Marquee 静态，Running story 才主动滚动。用户已批准持久暂停、demo CTA 和记录内的 C 类修正，产品集成仍归 P5。本次由同一 agent 完成 UI Tailor / Monet 复核；实体手机与完整页面仍待后续。

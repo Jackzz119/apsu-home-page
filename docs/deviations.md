@@ -77,3 +77,7 @@ Copy corrections can finish in shared data before P5 consumes them; this does no
 - Footer social artwork is X, Facebook, Instagram, LinkedIn in source order; these are demo controls under D-02. Testimonial social icons remain decorative under the earlier owner decision.
 - Placeholder assets are genuinely 1 × 1 transparent fixtures. P5 replaces paths and dimensions.
 - The root page still has a labelled P4 development specimen. Its disabled CTA is a library example, not the approved product demo treatment. Full composition and page acceptance remain P5–P7 work.
+
+### Verification for this review batch
+
+49 Node tests pass, including strict demo boundaries, retained source decisions and corrected content. Production and Storybook builds, formatting, typecheck, lint and the token guard pass. The 18 browser cases pass across 375/1440; 80 primitive stories produce 160 axe/overflow checks with no violations. Two first-run mobile navigations were interrupted by ERR_ABORTED; both passed on a targeted rerun after builds finished, without changing assertions or disabling scans. This is primitive/data verification, not complete-page acceptance.

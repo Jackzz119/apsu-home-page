@@ -9,7 +9,7 @@
 
 - [首页结构与导航](uiux/overview.md)：14 个区块、两板节点映射、server/client 边界。
 - [控件与交互草案](uiux/interactions.md)：状态、键盘、抽屉、轮播、BMI 与减动效。
-- [组件登记](../features/COMPONENTS.md)、[token 实施规则](../features/TOKENS.md)、[待确认偏差](../TODO.md)。
+- [组件登记](../features/COMPONENTS.md)、[token 实施规则](../features/TOKENS.md)、[偏差执行索引](../TODO.md)。
 
 ## 来源与素材
 
@@ -42,7 +42,7 @@
 | `--color-brand` | `#102b1c` | Primary/Brand 800、Heading text 1；主 CTA、标题、Footer |
 | `--color-brand-soft` | `#173a26` | Brand/800；套餐标题与 Footer 图标底 |
 | `--color-accent` | `#00774d` | Highlighted text、Label text、Secondary_Mint/600 |
-| `--color-accent-bright` | `#21ac88` | Secondary_Mint/400；Hero 小字，存在对比度候选问题 |
+| `--color-accent-bright` | `#21ac88` | Secondary_Mint/400；保留装饰色，C-10 将 Hero 小字映射为 accent |
 | `--color-accent-mid` | `#009269` | Secondary_Mint/500；部分勾选与仪表 |
 | `--color-text` | `#111111` | Heading text 2、Secondary_Charcol/Brand 900 |
 | `--color-text-secondary` | `#2a2a2a` | Neutral/800；入口卡和关闭的 FAQ 标题 |
@@ -78,7 +78,7 @@ Footer / Final CTA 的渐变属于局部视觉，不能拿它们当语义状态�
 
 ### 对比度发现（不等于已修复）
 
-按 sRGB 相对亮度公式计算，白底上 `#21ac88` 为 2.87:1，`#00774d` 为 5.61:1，`#102b1c` 为 15.17:1；白字在 `#587362` 上为 5.19:1。Hero 的 14px / 移动 12px 提示字不满足普通文本 4.5:1，登记 TODO 候选 #10。建议只将承载文字的亮绿改为 accent，装饰色保留；须获用户批准后登记 C 类再改。依据：[WCAG 1.4.3](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)。这些是源色对计算，不冒充运行时全页 a11y 验收。
+按 sRGB 相对亮度公式计算，白底上 `#21ac88` 为 2.87:1，`#00774d` 为 5.61:1，`#102b1c` 为 15.17:1；白字在 `#587362` 上为 5.19:1。Hero 的 14px / 移动 12px 提示字不满足普通文本 4.5:1，C-10 已获用户批准：小字改为 accent，装饰色保留；`--color-text-benefit` 已备好，待 P5 Hero 接入。依据：[WCAG 1.4.3](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)。这些是源色对计算，不冒充运行时全页 a11y 验收。
 
 ## 字体、字号与行高
 
@@ -151,7 +151,7 @@ Figma blur 半径和 CSS `filter: drop-shadow()` 标准差并非同一个参数�
 
 - 三张整板已逐段查看；Work Sans / Syne 分工、两端标题值、主要色板 / 间距 / 阴影已建立可追溯映射。
 - 成功故事的社交图标沿用已批准的纯装饰决议；Profile 两张卡不是 BMI 输入区，不需要独立全局状态。
-- 画板外 Weight Loss 与空的移动 BMI 框、错误 FAQ 绑定、拼写 / 产品图 / 对比度问题统一进入 TODO 候选。这里只引用，不悄悄采用修正。
+- 画板外 Weight Loss 与空的移动 BMI 框、错误 FAQ 绑定、拼写 / 产品图 / 对比度问题统一进入 deviations；2026-09-17 用户已整体敲定，实施状态以执行表为准。
 - P1 交付的是读稿与实现依据；UI 尚未实现，不声明像素验收、键盘走查或动效验收通过。P2 可据区块清单设计契约，P3 可据已核 token 开工；2026-09-17 用户改为先逐字实现源稿，缺陷全部进入 deviations，整体 review 后才修正。
 
 - 2026-09-17 P3 复核：Sleep 的大标题是 “Sleep”，两句说明为正文；桌面第二句末尾无句号且分行，移动有句号，mock 分别保留。Work Sans 400/500 与 Syne 400/500 共用 next/font 配置；基础 story 已核字号锚点、容器与字体加载，产品默认稿与动画尚未实施。

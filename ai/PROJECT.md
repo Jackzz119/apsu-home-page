@@ -20,7 +20,7 @@
 2. 甲方文件**只读**：不改名、不改内容、不删。需求理解有变化时改本文档，不改原件。
 3. 验收前逐条对照 §4 A–E、§5、§6 打勾；考官只跑的四条命令（`npm install` · `npm run build` · `npm run dev` · `npm run storybook`）必须在干净 clone 上全绿。
 4. **全程不回问甲方**（2026-09-17 用户设立）。需求、设计稿的任何歧义与缺陷都由我们自行判断、自行修正并登记，不向甲方求证；「问甲方」不作为任何待拍板项的选项。
-5. **先实现甲方源稿，再整体 review 偏差**（2026-09-17 用户更新）：默认视觉与文案按 Figma 保留，发现的缺陷和拟议交互统一进入 `docs/deviations.md`，明确标注 Pending；[TODO.md](TODO.md) 仅追踪待 review 的 C/D 索引。用户整体 review 后才开始修正，不再按 P2/P3 逐项确认。
+5. **先实现甲方源稿，再整体 review 偏差**（2026-09-17 用户更新）：默认视觉与文案按 Figma 保留，发现的缺陷和拟议交互统一进入 `docs/deviations.md`，明确标注 Pending；[TODO.md](TODO.md) 追踪 C/D 执行索引。现有条目已整体 review 敲定，按 §11 最新决定执行；新的偏差仍先 Pending，不再按 P2/P3 逐项确认。
 
 ## 0.1 设计稿真源（Figma）
 
@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P4 完成，P0.7 按用户决定暂缓。已审计前轮原始记录：可见 turn_context 均为 gpt-6-astra，没有 Luna；最后一次 interrupted 发生在开场白后、工具工作前，没有 credit 耗尽导致缺码的证据。P2/P3 四条提交 4adae67 / 97a905b / 4863536 / 0ca4e3c 已推送 main。P4 11 原语、统一导出、79 原语 stories（总计 80）、页面消费标本与 a11y / motion / 375/1440 同 agent 视觉复核完成；48 Node + 18 浏览器测试、format/typecheck/lint/token guard、生产和 Storybook build 通过。COMPONENTS 2/3、STORYBOOK 1/3（原语部分完成）、A11Y 1/2；P4 经用户复核修正 Button / NumberField（见 COMPONENTS），按用户决定保留原先建议的 14 条提交，本次源稿修正另加第 15 条，下一步 P5。源稿缺陷和产品 D 类仍待整体 review；原稿控件 SVG 已下载，其余产品图片仍为 P5 待替换的透明占位。
+**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P4 完成，P0.7 按用户决定暂缓。已审计前轮原始记录：可见 turn_context 均为 gpt-6-astra，没有 Luna；最后一次 interrupted 发生在开场白后、工具工作前，没有 credit 耗尽导致缺码的证据。P2/P3 四条提交 4adae67 / 97a905b / 4863536 / 0ca4e3c 已推送 main。P4 11 原语、统一导出、80 原语 stories（总计 81，含本轮 FAQ AllAnswers）、页面消费标本与 a11y / motion / 375/1440 同 agent 视觉复核完成；49 Node + 18 浏览器测试、format/typecheck/lint/token guard、生产和 Storybook build 通过。COMPONENTS 2/3、STORYBOOK 1/3（原语部分完成）、A11Y 1/2；P4 经用户复核修正 Button / NumberField（见 COMPONENTS），按用户决定完成 14 条基线提交 + 1 条源稿修正，已推送至 ca3ef62。现有 deviations 已全部敲定：7 项完成，7 项待 P5、0 Pending；本轮共享文案/demo 契约和语义色准备完成。下一步 P5；原稿控件 SVG 已下载，其余产品图片仍为 P5 待替换的透明占位。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
@@ -98,7 +98,7 @@
 | 动效与视觉复核（自决） | 以 Emil 四技能为主要方法；CSS 优先，保留已安装 motion，具体使用由交互需求决定；P3–P5 实施 / 动效审查 / 实景视觉复核见 [MOTION.md](features/MOTION.md) | 用统一标准约束交互质量，避免为已有依赖制造动画；默认稿与 deviations 审批仍优先 |
 | 图片 | `next/image` 静态导入；每张图是 `{ src, alt, width, height }` 数据 | alt 是内容不是代码；宽高防 CLS |
 | 状态管理 | 无全局 store；`useState` / `useReducer`；BMI 计算抽纯函数 | 首页只有局部状态，引 store 是过度设计 |
-| 路由 | 单路由 `/`；导航三个产品项（Weight Loss / Birth Control / Sleep）锚点滚动到对应区块，不做 `/coming-soon` 占位页 | 产品页不在范围内；占位页是多余的空壳（2026-09-17 拍板，见 §11） |
+| 路由 | 单路由 `/`；导航三个产品项（Weight Loss / Birth Control / Sleep）锚点滚动到对应区块；D-02 无业务目的地控件为 demo，不做占位页或模拟业务 | 产品页不在范围内；占位页是多余的空壳（2026-09-17 拍板，见 §11） |
 | API 契约 | zod schema 即契约；`HomePage` 为根类型 | 考官先读类型 |
 | 数据层 | Route Handler `app/api/home` 当假后端；`lib/api/home.ts` 唯一取数入口；`NEXT_PUBLIC_API_URL` 切真后端 | 有 HTTP 边界又不多起进程 |
 | 响应式策略与证据 | 策略：`clamp()` 流式 + 三个形态断点（`sm` / `lg` / `xl`）+ 容器 1440 封顶。证据：`check:responsive` 每次运行重生成并提交的 `docs/responsive-report.md`（11 宽度 × 3 断言结果表）；画面：最终提交前拍一次的 11 宽度横向拼图 `docs/responsive-report.png`，README 引用。原始整页截图目录 gitignored | 表可复现、图直观、历史里不堆几十兆截图（2026-09-17 拍板，§11 #5） |
@@ -187,18 +187,18 @@
 
 ## 6. 偏差日志规范（`docs/deviations.md`）
 
-两类，同一张表，`type` 列区分：
+C 类源稿问题与 D 类自设计交互分编号；日志前半写甲方可读的问题、改动、理由，后半写内部状态、证据和后续验收。示例（以实际日志为准）：
 
 | id | type | location | figma says | we ship | why |
 |---|---|---|---|---|---|
-| C-01 | C 设计缺陷 | Footer column title | "Comapny" | "Company" | typo |
+| C-03 | C 设计缺陷 | Footer column title | "Comapny" | "Company" | typo |
 | D-01 | D 自设计状态 | All buttons · hover | (not specified) | bg one step darker, arrow +2px | consistent, low-amplitude affordance |
 
 规则：
 
-1. **先登记、整体 review、再改**：发现缺陷先写 Pending 行，获批后更新状态再改默认稿；commit message 引用 id（`fix(copy): correct footer column title (C-01)`）。
-2. 每条一个理由，一句话，英文。
-3. 2026-09-17 用户更新：已知候选全部先登记本表，额外增加 `status` 与 `proposed change after review` 列，当前 `we ship / baseline` 如实描述源稿保留情况；Pending 不等于已获批或已实现。TODO 只保留待 review 索引，用户整体 review 后再修正。
+1. **先登记、整体 review、再改**：发现缺陷先写 Pending 行，获批后更新状态再改默认稿；commit message 引用 id（`fix(copy): correct footer column title (C-03)`）。
+2. 对外英文，明确发现的问题、具体解决方式与理由；内部执行表不得把已获批误写成已实现。
+3. 2026-09-17 用户敲定三态：`Pending`（待讨论）、`Approved — Not implemented`（敲定未做）、`Approved — Completed`（敲定已完成）。部分准备完成仍为未做，列清剩余验收；保留源稿的决定可直接完成，但说明没有改稿。TODO 只保留执行索引。
 4. README 的 Deviation log 节直接链接本文件，不复制。
 
 ---
@@ -238,11 +238,11 @@ Co-Authored-By: ...                 ← AI 生成的提交保留此行
 **description 示例**（一条合格的）：
 
 ```
-fix(copy): correct footer column title (C-01)
+fix(copy): correct footer column title (C-03)
 
 The Figma footer labels the second column "Comapny", which is a typo.
 Renamed it to "Company" in the footer mock so the fix lives in data, not markup.
-Logged as C-01 in docs/deviations.md.
+Logged as C-03 in docs/deviations.md.
 ```
 
 **description 反例**：只写 "fix typo"（说不清为什么与影响面）；或贴整个组件的代码（代码在 diff 里，description 讲的是 diff 讲不了的东西）。
@@ -272,7 +272,7 @@ chore(deps): scaffold next app with strict ts, tailwind v4 and storybook
 feat(schema): define HomePage API contract with zod
 feat(ui): add Button with primary/secondary/outline variants and stories
 feat(sections): build Hero with language marquee
-fix(copy): correct footer column title (C-01)
+fix(copy): correct footer column title (C-03)
 style(motion): add hover/focus/pressed tokens and apply to Button (D-01, D-02)
 test(responsive): add 11-width overflow scan
 docs(readme): explain directory structure and data layer
@@ -434,3 +434,5 @@ git -C "$ROOT" status --short ai-logs | head
 - 2026-09-17 用户决策补充：本轮完成 P2/P3，按 Figma 逐字实现，以甲方 design 为优先；所有待办缺陷 / 拟议改变先记 deviations，整体 review 之后才修改。该决定覆盖旧的逐阶段 / 逐候选确认时机。
 
 - 2026-09-17 用户继续授权：先审计中断 / 模型元数据并推送上一批，再完成整个 P4。库级原语与隔离候选态可实施；产品默认态 / C 类修正 / D 类采用仍按整体 review 边界。提交时机仍由用户决定。
+
+- 2026-09-17 用户完成现有 deviations review 并授权实施/推送：C-01 采用移动可见介绍 + 紧凑双套餐 + 默认折叠 BMI（保留输入），桌面保留；C-06 不改标题；C-11 保留原版答案，后三题另写简短答案；D-02 Login/Contact 等只展示设计、不接业务，产品锚点可用。其余按已记录方案执行。当前可做的数据/文案先完成，P5 依赖标为敲定未做；采用三态与对外说明/内部追踪两部分。
