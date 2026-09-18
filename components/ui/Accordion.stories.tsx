@@ -22,3 +22,18 @@ export const Pressed: Story = { parameters: { pseudo: { active: true } } };
 export const ReducedMotion: Story = { args: { motion: 'reduced' } };
 
 export const Compact: Story = { args: { size: 'sm', defaultOpen: true } };
+
+/** Review approved FAQ copy at natural height before composing the P5 section. */
+export const AllAnswers: Story = {
+    render: () => (
+        <div className="gap-content-gap flex flex-col">
+            {homeMock.faq.items.map((item) => (
+                <Accordion key={item.id} title={item.question} defaultOpen>
+                    {item.answer.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                    ))}
+                </Accordion>
+            ))}
+        </div>
+    )
+};

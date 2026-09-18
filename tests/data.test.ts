@@ -23,7 +23,7 @@ describe('source fixture', () => {
         expect(homeMock.weightLoss.heading.title[0].text).toBe('Loss Weight In Your Way.');
         expect(homeMock.hero.languageRows[1][0].label).toBe('Русский');
         expect(homeMock.onlineCare.cards[1].title).toBe('Easy Treatment Management');
-        expect(new Set(homeMock.faq.items.map((item) => item.answer[0])).size).toBe(1);
+        expect(new Set(homeMock.faq.items.map((item) => item.answer[0])).size).toBe(4);
         expect(homeMock.bmiCalculator.sourcePreview).toMatchObject({ inputText: '0', scoreText: '56' });
         expect(homeMock.bmiCalculator.ranges[1].description).toBe('18.5–<25');
     });

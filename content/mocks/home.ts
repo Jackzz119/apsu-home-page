@@ -362,17 +362,19 @@ export const homeMock = {
             {
                 id: 'faq-languages',
                 question: 'Which languages do you support?',
-                answer: ['We are currently able to serve GLP-1 programs in all 50 states.']
+                answer: ['We support 40+ languages, with AI translation to help you talk with your physician.']
             },
             {
                 id: 'faq-insurance',
                 question: 'Do I need insurance?',
-                answer: ['We are currently able to serve GLP-1 programs in all 50 states.']
+                answer: ['No insurance is needed. You pay directly for your care.']
             },
             {
                 id: 'faq-compounded',
                 question: 'What is compounded medication?',
-                answer: ['We are currently able to serve GLP-1 programs in all 50 states.']
+                answer: [
+                    "Medication prepared for an individual patient's needs. Compounded medications are not FDA-approved."
+                ]
             }
         ]
     },
