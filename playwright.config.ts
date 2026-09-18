@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test';
 
-/** Reuse local Storybook and app previews; CI starts both when no preview is running. */
+/** Reuse local Storybook and app previews; CI starts Storybook and serves the production build it just made. */
 export default defineConfig({
     testDir: './tests',
     testMatch: '**/*.spec.ts',
@@ -26,7 +26,7 @@ export default defineConfig({
             timeout: 120_000
         },
         {
-            command: 'npm run dev -- --hostname 127.0.0.1',
+            command: process.env.CI ? 'npm run start -- --hostname 127.0.0.1' : 'npm run dev -- --hostname 127.0.0.1',
             url: 'http://127.0.0.1:3000',
             reuseExistingServer: !process.env.CI,
             timeout: 120_000

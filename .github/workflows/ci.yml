@@ -1,0 +1,62 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    quality:
+        name: Format, types, lint, tokens, build, Storybook, Node tests
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+            - run: npm ci
+            - run: npm run format:check
+            - run: npm run typecheck
+            - run: npm run lint
+            - run: npm run check:tokens
+            - run: npm run build
+            - run: npm run build-storybook
+            - run: npm test
+
+    browser:
+        name: Browser states, interactions and eleven widths
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+            - run: npm ci
+            - run: npx playwright install --with-deps chromium
+            - run: npm run build
+            - name: Storybook and page browser tests
+              run: npm run test:ui
+            - name: Serve the production build for the eleven-width scan
+              run: |
+                  npm run start -- --hostname 127.0.0.1 --port 3000 &
+                  for attempt in $(seq 1 60); do
+                    curl --silent --fail http://127.0.0.1:3000 > /dev/null && break
+                    sleep 1
+                  done
+            - run: npm run check:responsive
+            - uses: actions/upload-artifact@v7
+              if: always()
+              with:
+                  name: browser-evidence
+                  path: |
+                      test-results
+                      docs/responsive-report.md
+                      docs/responsive-shots
+                  if-no-files-found: ignore
+                  retention-days: 14

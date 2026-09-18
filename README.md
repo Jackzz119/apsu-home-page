@@ -1,8 +1,10 @@
 # Apsu Home Page
 
+[![CI](https://github.com/Jackzz119/apsu-home-page/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Jackzz119/apsu-home-page/actions/workflows/ci.yml)
+
 Front-end take-home: the Apsu home page (desktop 1440 / mobile 375) implemented as a Next.js App Router page plus a React component library, with Storybook.
 
-**Status:** P6 is complete: fourteen homepage sections, eleven reusable primitives, real source assets, a working BMI calculator and accessible menu/carousel/FAQ/marquees. Storybook contains 111 stories. Local interaction checks and eleven-width production geometry checks pass; CI and final delivery remain P7/P8 work. See [P5 evidence](docs/p5-review.md).
+**Status:** Implementation complete: fourteen homepage sections, eleven reusable primitives, real source assets, a working BMI calculator and accessible menu/carousel/FAQ/marquees. Storybook contains 111 stories. Every push runs the quality gates, the browser acceptance suite and the eleven-width scan on Linux through [GitHub Actions](#continuous-integration); [P5 evidence](docs/p5-review.md) records the design review.
 
 **Live:** [Home page](https://apsu-home.vercel.app) · [Storybook](https://apsu-home-storybook.vercel.app). Both are Vercel projects on this repository and redeploy automatically on every push to `main`.
 
@@ -27,6 +29,10 @@ No environment variables are required. Leave `NEXT_PUBLIC_API_URL` empty to impo
 
 `npm test` runs Node-based tests once using `vitest.config.mts`. It discovers `*.test.ts` and `*.test.tsx` under `tests/` and `content/`; Storybook and Playwright `*.spec.ts` files are outside this scope. The suite contains 110 tests covering content/API contracts, motion/token rules, BMI calculations, decoded asset dimensions and the delivery acceptance checks in `tests/acceptance/`: the committed lockfile with exact pins, a colocated story per state, the README sections and links, and the raw AI-log checksums and session index.
 With an app server running, `npm run check:responsive` checks eleven widths and updates the responsive report; set `RESPONSIVE_URL` to target a different origin.
+
+### Continuous integration
+
+[GitHub Actions](.github/workflows/ci.yml) runs on every push to `main` and on pull requests, on `ubuntu-latest` with the Node version from `.nvmrc`. The `quality` job runs `npm ci`, `format:check`, `typecheck`, `lint`, `check:tokens`, `build`, `build-storybook` and `test`. The `browser` job installs Chromium, builds the app, runs the Playwright suite against Storybook and the production server, then serves the build for the eleven-width `check:responsive` scan; traces, the regenerated report and the screenshots are uploaded as artifacts. A green Linux run also proves case-sensitive imports and the clean-install path that macOS development cannot.
 
 ### Stack
 
