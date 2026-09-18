@@ -102,8 +102,8 @@ feet / inches / weight 均空白起步；英寸留空为可选，不把 0 预填
 
 ## P7 交互态验收补齐（2026-09-18）
 
-- 机检口径：链接 / 按钮 / FAQ summary 四项（hover、pressed、focus-visible、过渡）全要；文本输入、单选、轮播轨道只要 focus-visible；已 `aria-hidden` 的跑马灯复制、`inert` 幻灯片、关闭的菜单与 skip link 不计。
-- 补齐项：Header logo 链接 hover 变为 85% 不透明并有 0.97 按压；NumberField 上下步进按钮 hover 显示 `surface-selected` 底色并有 0.97 按压；FAQ chevron 圆底的 hover 变色带 160ms 过渡。其余控件维持 P4 / P5 已审状态。
+- 机检口径：链接 / 按钮 / FAQ summary 四项（hover、pressed、focus-visible、过渡）全要；文本输入、单选、轮播轨道（含输入的步进按钮）只要 focus-visible；已 `aria-hidden` 的跑马灯复制、`inert` 幻灯片、关闭的菜单与 skip link 不计。
+- 补齐项：Header logo 链接 hover 变为 85% 不透明并有 0.97 按压；FAQ chevron 圆底的 hover 变色带 160ms 过渡。NumberField 步进按钮曾加 `surface-selected` hover 底色与按压，用户看过后认为盖住半个排序图标很突兀，已撤回；步进按钮只保留 focus 环，作为输入的一部分不单独要求 hover / pressed。其余控件维持 P4 / P5 已审状态。
 - 证据：`tests/acceptance/states.spec.ts` 两视口通过（65 / 69 个控件），附件 `interaction-state-audit` 列出每个控件的四项判定。
 
 ## BMI 后续修复（2026-09-18）

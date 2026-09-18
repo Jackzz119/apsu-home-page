@@ -50,7 +50,7 @@ describe('stories per component', () => {
             expect(storyNames(ui, component), component).toContain('Disabled');
         }
         expect(storyNames(ui, 'NumberField')).toEqual(
-            expect.arrayContaining(['Focus', 'Invalid', 'StepperHover', 'StepperPressed'])
+            expect.arrayContaining(['Focus', 'Invalid', 'ExternalError', 'Disabled'])
         );
     });
 

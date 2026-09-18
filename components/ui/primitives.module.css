@@ -231,17 +231,10 @@ button.chip,
     border-radius: var(--radius-compact);
     background: transparent;
     cursor: pointer;
-    transition:
-        background-color var(--dur-fast) ease,
-        transform var(--dur-release) var(--ease-out);
 }
 .numberStepper button:last-child {
     top: auto;
     bottom: 0;
-}
-.numberStepper button:active:not(:focus-visible):not(:disabled) {
-    transform: scale(var(--motion-press-scale));
-    transition-duration: var(--dur-fast);
 }
 .numberStepper button:disabled {
     cursor: not-allowed;
@@ -578,9 +571,6 @@ button.chip,
         background: var(--color-surface-selected);
     }
     .summary:hover .chevron {
-        background: var(--color-surface-selected);
-    }
-    .numberStepper button:hover:not(:disabled) {
         background: var(--color-surface-selected);
     }
     .marquee:hover .marqueeTrack {

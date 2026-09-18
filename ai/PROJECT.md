@@ -50,9 +50,9 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-18）**：P0.1–P0.6 与 P1–P8 完成，P0.7 继续暂缓（新事实见 TODO「待澄清想法」）。14 区块、11 原语、113 stories；Node 110 / 浏览器 48 测试，其中 `tests/acceptance/` 按 Assignment 逐条机检（lockfile、stories、README、ai-logs、schema 单一类型源、全页交互态扫描）。GitHub Actions `quality` + `browser` 两 job 贴 README 徽章（首两跑的红与修法见 SELFCHECK §五）；干净 clone 四条考官命令全过，lockfile 缩进已归一化使 `npm install` 后工作区保持干净。16 项偏差全部完成（D-03 于 P7 补齐 logo 链接与步进按钮反馈）。首页与 Storybook 部署在 Vercel（`apsu-home.vercel.app` / `apsu-home-storybook.vercel.app`，push `main` 自动重发）。原始日志与 `readable/` 派生版随 `logs(ai-logs): final sync` 入库；用户 audit 后需再同步一次。历史证据见 [P5 review](../docs/p5-review.md)，验证记录见 [SELFCHECK](features/SELFCHECK.md)。
+**当前实现（2026-09-18）**：P0.1–P0.6 与 P1–P8 完成，P0.7 继续暂缓（新事实见 TODO「待澄清想法」）。14 区块、11 原语、111 stories；Node 110 / 浏览器 48 测试，其中 `tests/acceptance/` 按 Assignment 逐条机检（lockfile、stories、README、ai-logs、schema 单一类型源、全页交互态扫描）。GitHub Actions `quality` + `browser` 两 job 贴 README 徽章（首两跑的红与修法见 SELFCHECK §五）；干净 clone 四条考官命令全过，lockfile 缩进已归一化使 `npm install` 后工作区保持干净。16 项偏差全部完成（D-03 于 P7 补齐 logo 链接反馈；步进按钮两态按用户意见撤回）。首页与 Storybook 部署在 Vercel（`apsu-home.vercel.app` / `apsu-home-storybook.vercel.app`，push `main` 自动重发）。原始日志与 `readable/` 派生版随 `logs(ai-logs): final sync` 入库；用户 audit 后需再同步一次。历史证据见 [P5 review](../docs/p5-review.md)，验证记录见 [SELFCHECK](features/SELFCHECK.md)。
 
-**BMI 后续（2026-09-18）**：独立 worktree 修复单位切换按压命中层及大分数容器适配；保持源字体 / 字重与原计数反馈。新增两态后 Storybook 共 113 态，细节见 COMPONENTS 最新记录；合并目标依用户本轮决定为 main，走 PR rebase。
+**BMI 后续（2026-09-18）**：独立 worktree 修复单位切换按压命中层及大分数容器适配；保持源字体 / 字重与原计数反馈。新增两态后 Storybook 共 111 态（撤回步进两态后），细节见 COMPONENTS 最新记录；合并目标依用户本轮决定为 main，走 PR rebase。
 
 **UI 布局后续（2026-09-18）**：独立 worktree 完成 BMI CTA 内距、Menu 锁滚动与开关位置、语言胶囊等高及裁切修复；现行约束见 [交互规范](design_system/uiux/interactions.md#人工验收后的布局约束2026-09-18)，48 浏览器用例与 11 宽生产扫描通过。
 
@@ -63,7 +63,7 @@
 - [x] GitHub 公开仓库，`main` 单分支，线性历史，**未 squash**（`Jackzz119/apsu-home-page`；全程 `git commit` + `push`，无 squash / amend 已推送提交）
 - [x] `npm install && npm run build` 零错误（2026-09-18 干净 clone 实测 + CI `quality` job）
 - [x] `npm run dev` 首页在 320–1920 任一宽度完整（`check:responsive` 11 宽三断言，本地与 CI `browser` job）
-- [x] `npm run storybook` 每个有状态组件一态一 story（111 stories；`tests/acceptance/stories.test.ts` 机检状态名与数量）
+- [x] `npm run storybook` 每个有状态组件一态一 story（109 stories；`tests/acceptance/stories.test.ts` 机检状态名与数量）
 - [x] `README.md` 含：目录结构解释、AI 工具使用说明（指向日志文件）、Deviation log（`tests/acceptance/readme.test.ts` 机检十节与链接）
 - [x] `ai-logs/` 含完整、**未编辑**的会话记录（`MANIFEST.sha256` 与 `tests/acceptance/ai-logs.test.ts` 校验；`readable/` 为派生版）
 - [x] `package-lock.json` 已提交（`tests/acceptance/lockfile.test.ts`：git 追踪、精确锁版本、与 package.json 一致）
@@ -447,7 +447,7 @@ git -C "$ROOT" status --short ai-logs | head
 | 7 | P0.7 本地 agent 自动规则与 shelf 同步 | **暂缓，不阻塞 P0/P1**；用户表示本地 AGENTS 大概率不考虑写回 shelf，到时再定。不改 AGENTS.md / CLAUDE.md 的自动规则块，不做 shelf 上架；本地技能安装另按 #8 | 2026-09-17 |
 | 8 | P1 增加动效准备 | 安装 emil-design-eng / animate / review-animations / find-animation-opportunities，固定来源见 JASKILL；以 Emil 为主要标准，把动效查验与实际 UI 视觉检测接入 P3–P5。motion 已在依赖中，保留并按交互需求选择使用；具体 deviations 仍先确认 | 2026-09-17 |
 | 9 | CI 是否进、怎么进 | **进 GitHub Actions**：`ubuntu-latest` + `.nvmrc` 的 Node 22；`quality` job 跑 npm ci → format:check → typecheck → lint → check:tokens → build → build-storybook → test，`browser` job 装 Chromium → build → `test:ui`（CI 下 Playwright 起 `next start` 生产服务）→ 起生产服务跑 `check:responsive` 并上传证据。徽章贴 README，细节回写 SELFCHECK §五 | 2026-09-18 |
-| 10 | §4D「每个交互元素」的机检口径 | 链接 / 按钮 / `summary` 必须 hover + pressed + focus-visible 且指针反馈带过渡；文本输入、单选与可聚焦区域只要求 focus-visible（键盘控件）；`aria-hidden` 复制轨、`inert` 幻灯片、关闭的 dialog 与 skip link 不计。用 DevTools 协议强制伪类逐个量（`tests/acceptance/states.spec.ts`），据此补齐 logo 链接与步进按钮（D-03） | 2026-09-18 |
+| 10 | §4D「每个交互元素」的机检口径 | 链接 / 按钮 / `summary` 必须 hover + pressed + focus-visible 且指针反馈带过渡；文本输入、单选与可聚焦区域只要求 focus-visible（键盘控件）；`aria-hidden` 复制轨、`inert` 幻灯片、关闭的 dialog 与 skip link 不计。用 DevTools 协议强制伪类逐个量（`tests/acceptance/states.spec.ts`），据此补齐 logo 链接（D-03）。数字输入的步进按钮（`aria-controls` 指向 input）归入该输入、按键盘控件处理：用户看过 P7 加的步进 hover / pressed 后认为突兀，要求撤回 | 2026-09-18 |
 
 - 2026-09-17 用户决策补充：本轮完成 P2/P3，按 Figma 逐字实现，以甲方 design 为优先；所有待办缺陷 / 拟议改变先记 deviations，整体 review 之后才修改。该决定覆盖旧的逐阶段 / 逐候选确认时机。
 

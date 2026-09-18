@@ -29,7 +29,7 @@
 
 ## 四、待实现 / 已知问题
 
-- 现有 113 stories：Foundations 1 + 原语 83 + 区块 29；15 个 section story 文件同时覆盖静态区块和六个交互岛。P7 新增 NumberField StepperHover / StepperPressed（pseudo-states 以 `button[aria-label]` 选择器只作用于步进按钮）。
+- 现有 111 stories：Foundations 1 + 原语 81 + 区块 29；15 个 section story 文件同时覆盖静态区块和六个交互岛。
 - Hover / Focus / Pressed 使用 pseudo-states 固化；真实键盘 / 点击 / 反向测试由 `tests/primitives.spec.ts` 负责。
 - 是否需要 `addon-docs` 生成组件文档页：暂不加，考官走的是状态不是文档
 
@@ -55,6 +55,6 @@
 
 - P6 BMI 修复新增 WeightError / KeyboardResult 与 NumberField ExternalError，共 109 stories（1 foundation + 81 原语 + 27 区块）。受影响的 14 个 stories × 375/1440 共 28 次 axe / 溢出检查通过；不把这次定向检查称作全部 109 个重扫。
 
-- 2026-09-18 P7：NumberField 增 StepperHover / StepperPressed，共 111 stories（1 foundation + 83 原语 + 27 区块）。`tests/acceptance/stories.test.ts` 断言：每个原语 / client 区块有同目录 stories、每份组件 stories 有 Default、六个可按压原语有 Hover / Focus / Pressed、六个带禁用语义的有 Disabled、交互岛文档状态存在、原语 stories 数 ≥ README 组件表；CI `quality` job 每次 push 跑 `build-storybook`，`browser` job 跑既有的全原语 axe / 溢出扫描。本轮未重扫全部 111 态的 axe，仍按定向记录。
+- 2026-09-18 P7：NumberField 曾增 StepperHover / StepperPressed，用户审阅后认为两态突兀，已撤回，共 111 stories（1 foundation + 81 原语 + 29 区块，含同日 BMI 后续新增的两态）。`tests/acceptance/stories.test.ts` 断言：每个原语 / client 区块有同目录 stories、每份组件 stories 有 Default、六个可按压原语有 Hover / Focus / Pressed、六个带禁用语义的有 Disabled、交互岛文档状态存在、原语 stories 数 ≥ README 组件表；CI `quality` job 每次 push 跑 `build-storybook`，`browser` job 跑既有的全原语 axe / 溢出扫描。本轮未重扫全部 111 态的 axe，仍按定向记录。
 
 - 2026-09-18 BMI 后续：新增 RecoveredUnits / LargeResult；SegmentedControl 文档明确完整原生 radio 命中区与装饰层分工。

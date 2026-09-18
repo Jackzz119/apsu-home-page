@@ -8,7 +8,9 @@ import { homePresentation as ui } from '@/content/presentation';
  * anchors, toggles and moving marquee chips are measured without activating them, and a control's whole
  * subtree (icons, the label beside a visually hidden radio) counts as its rendered state.
  * Links, buttons and disclosure summaries must change on hover and press; text inputs, radios and focusable
- * regions are keyboard controls and must show focus-visible.
+ * regions are keyboard controls and must show focus-visible. Spin buttons that operate a text field
+ * (`aria-controls` pointing at an input) are part of that field and, like native spinners, are keyboard
+ * controls here: the owner reviewed dedicated hover/pressed styling for them and rejected it (2026-09-18).
  */
 test.use({ baseURL: process.env.PLAYWRIGHT_APP_URL ?? 'http://127.0.0.1:3000' });
 test.setTimeout(300_000);
@@ -57,6 +59,12 @@ async function installHelpers(page: Page) {
                 const invisible = getComputedStyle(el).opacity === '0' || rect.width <= 1 || rect.height <= 1;
                 return invisible && el.parentElement ? el.parentElement : el;
             };
+            const spinButton = (el: Element) => {
+                const controls = el.getAttribute('aria-controls');
+                return (
+                    el.matches('button') && !!controls && document.getElementById(controls) instanceof HTMLInputElement
+                );
+            };
             const nodes = (index: number) => {
                 const el = document.querySelector(`[${attribute}="${index}"]`);
                 if (!el) throw new Error(`Control ${index} disappeared during the scan.`);
@@ -92,7 +100,7 @@ async function installHelpers(page: Page) {
                         return {
                             index,
                             description: `${el.tagName.toLowerCase()}${type} "${label}"`,
-                            kind: el.matches('a[href], button, summary') ? 'pointer' : 'keyboard'
+                            kind: el.matches('a[href], button, summary') && !spinButton(el) ? 'pointer' : 'keyboard'
                         } as Candidate;
                     });
                 },

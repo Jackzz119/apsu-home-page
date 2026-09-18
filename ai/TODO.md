@@ -115,7 +115,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## P8 · 交付收尾
 
-- [x] P8.1 `docs/deviations.md` 定稿：16 项全部 Approved — Completed，D-03 补记 logo / 步进按钮反馈；README「Deviation log」链接在
+- [x] P8.1 `docs/deviations.md` 定稿：16 项全部 Approved — Completed，D-03 补记 logo 反馈（步进按钮两态按用户意见撤回，只保留 focus）；README「Deviation log」链接在
 - [x] P8.2 README §10 十项逐条勾（`tests/acceptance/readme.test.ts` 机检十节 + 四条命令 + 链接可达）；新增 CI 与 Acceptance tests 小节、三个 Claude 会话行、干净 clone 结论
 - [x] P8.3 ai-logs：`sync:ai-logs` + `readable:ai-logs`（新脚本 `scripts/export-readable-logs.mjs`）+ 索引补齐；本轮以 `logs(ai-logs): final sync` 收尾。**audit 结束后要再跑一次同步并再提交一条 final sync**
 - [x] P8.4 `check:responsive --composite` 拍一次 11 宽度拼图 `docs/responsive-report.png`（RESPONSIVE ST-4；随 P6 提前完成）
@@ -173,7 +173,7 @@ C-06 的完成表示已决定保留源稿；其他已批准条目均已完成 P5
 
 ## 当前状态
 
-- 2026-09-18：P7 / P8 收口。`tests/acceptance/` 五份验收测试 + schema 单一类型源断言，Node 110、浏览器 44（states 扫描 1440 量 65 个控件 / 375 含菜单 69 个）；D-03 补齐 logo 链接与 NumberField 步进按钮的 hover / pressed / 过渡，stories 111。`.github/workflows/ci.yml` quality + browser 两 job 并贴徽章（前两跑的红与修法见 SELFCHECK §五）。干净 clone 四条命令全过；lockfile 缩进归一化；`readable:ai-logs` 派生可读日志。README 十节机检通过，deviations 16/16 完成。首页与 Storybook 已部署 Vercel（push `main` 自动重发）。下一步：用户 audit；audit 后再跑一次 `sync:ai-logs` + `readable:ai-logs` 并提交最后一条 `logs(ai-logs): final sync`。
+- 2026-09-18：P7 / P8 收口。`tests/acceptance/` 五份验收测试 + schema 单一类型源断言，Node 110、浏览器 44（states 扫描 1440 量 65 个控件 / 375 含菜单 69 个）；D-03 补齐 logo 链接的 hover / pressed / 过渡（NumberField 步进按钮两态按用户意见撤回），stories 109。`.github/workflows/ci.yml` quality + browser 两 job 并贴徽章（前两跑的红与修法见 SELFCHECK §五）。干净 clone 四条命令全过；lockfile 缩进归一化；`readable:ai-logs` 派生可读日志。README 十节机检通过，deviations 16/16 完成。首页与 Storybook 已部署 Vercel（push `main` 自动重发）。下一步：用户 audit；audit 后再跑一次 `sync:ai-logs` + `readable:ai-logs` 并提交最后一条 `logs(ai-logs): final sync`。
 
 - 2026-09-17：P6.1–P6.2 完成，RESPONSIVE 4/4；P8.4 拼图提前交付并接入 README。92 Node / 42 浏览器 / 28 定向 story 检查通过，隔离生产构建 11 宽三断言全部通过；BMI 错误 / 结果均不改变布局，D-04 已完成，偏差总数 16。后续进入 P7，P8 其余任务保留。
 

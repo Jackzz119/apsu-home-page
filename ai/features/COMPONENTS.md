@@ -41,7 +41,7 @@
 | Accordion（原生 `<details>`） | FAQ | Collapsed / Expanded / Focus / Hover / Pressed | 完成（P4 库与 stories） |
 | Carousel | OnlineCare，**不在 SuccessStories** | Default / FirstSlide / LastSlide / Keyboard / ReducedMotion | 完成（P4 库与 stories） |
 | Marquee | LanguageMarquee / TrustMarquee | Default / Paused / ReducedMotion | 完成（P4 库与 stories） |
-| NumberField | BMI 身高 / 体重 | Default / Focus / Invalid / Disabled；步进按钮 StepperHover / StepperPressed（P7） | 完成（P4 库与 stories；P7 补步进反馈） |
+| NumberField | BMI 身高 / 体重 | Default / Focus / Invalid / Disabled | 完成（P4 库与 stories） |
 | RadioGroup | BMI Sex | Default / Focus / Checked / Disabled | 完成（P4 库与 stories） |
 | SegmentedControl | BMI 单位 | Default / Hover / Focus / Selected / Disabled | 完成（P4 库与 stories） |
 | Rating | 文本证言 | Default（只读） | 完成（P4 库与 stories） |
@@ -104,7 +104,7 @@ Emil 四技能版本 `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`；同一 agent �
 | Accordion | Approve：原生 details；量高度 + opacity 200ms 是 recipe 的明确例外 | 8 stories；原稿 12px 圆角、16→24px 内距、白色正文、4px 分隔和虚线；快速反向、键盘即时、reduce、4 倍慢放 + 4 倍 CPU 节流通过 |
 | Carousel | Approve：手动 scroll-snap，指针 smooth、键盘 / reduce instant | 7 stories；首末边界、空数据、屏外 inert、Home / End / arrows、resize；没有自动播放或自定义触摸物理 |
 | Marquee | Approve：默认静态；显式 autoPlay 后 CSS linear 30s | 5 stories；用户 / hover / focus 暂停，复制轨道隐藏且 inert；等宽循环、后台 visibility 处理、实时 reduce 换行；Pause / Resume 为普通动作按钮，不混用改名与 aria-pressed |
-| NumberField | N/A：原生数字编辑与即时焦点，不加动画；步进按钮沿用共享 hover 底色 / 0.97 按压 / fast-release 过渡（P7 补） | 9 stories（2026-09-18 增 StepperHover / StepperPressed）；关联 label / unit / error、原稿绿色 SVG 双箭头 / 原生 ArrowUp、受控 / 非受控、小数步长、上下限、空值、readOnly / step=any / disabled；禁用输入变淡，单位保留对比度 |
+| NumberField | N/A：原生数字编辑与即时焦点，不加动画；步进按钮只保留 focus 环（P7 曾加 hover / 按压，用户要求撤回） | 7 stories；关联 label / unit / error、原稿绿色 SVG 双箭头 / 原生 ArrowUp、受控 / 非受控、小数步长、上下限、空值、readOnly / step=any / disabled；禁用输入变淡，单位保留对比度 |
 | RadioGroup | N/A：高频互斥选择即时 | 6 stories；fieldset / legend、原生方向键、组禁用 / 单项禁用；没有自写 roving tabindex |
 | SegmentedControl | Approve：共享 radio 语义，指针轻反馈、键盘即时 | 7 stories；源稿 0.5px 外圈、4.5px 内衬、4px 间距；无移动指示器 |
 | Rating | N/A：只读信息不动画 | 4 stories；单一可访问名称，完整 / 半星 / 空分数，星形隐藏于读屏 |
@@ -145,7 +145,7 @@ Emil 固定版本沿用；同 agent review-animations Approve、UI Tailor / Mone
 
 ### P7 验收补齐（2026-09-18）
 
-`tests/acceptance/states.spec.ts` 对全页可见控件强制 hover / active / focus-visible 后，只有两处不满足 §4D：Header `.logo` 链接（无 hover / pressed / 过渡）与 NumberField `.numberStepper button`（无 hover / pressed / 过渡）。按 D-03 既定规则补齐：logo 用 `--hover-opacity`（0.85）+ 0.97 按压 + fast / release 过渡，步进按钮用 `--color-surface-selected` hover 底色 + 0.97 按压 + 同样过渡；FAQ `.chevron` 的 hover 底色补 `--dur-fast` 过渡。减动效下按压缩放随 `--motion-press-scale: 1` 消失，opacity / 颜色反馈保留。stories 111，D-03 执行表已补记；Emil 审查按同规则沿用 P4 结论，未做真机。
+`tests/acceptance/states.spec.ts` 对全页可见控件强制 hover / active / focus-visible 后，只有两处不满足 §4D：Header `.logo` 链接（无 hover / pressed / 过渡）与 NumberField `.numberStepper button`（无 hover / pressed / 过渡）。logo 按 D-03 既定规则补齐：`--hover-opacity`（0.85）+ 0.97 按压 + fast / release 过渡；FAQ `.chevron` 的 hover 底色补 `--dur-fast` 过渡。步进按钮也曾同样补齐并加两个 story，用户审阅后认为 mint 底色盖住半个排序图标很突兀，要求撤回；现步进按钮只保留 focus 环，验收测试把 `aria-controls` 指向 input 的按钮归为该输入的一部分（键盘控件）。减动效下按压缩放随 `--motion-press-scale: 1` 消失，opacity / 颜色反馈保留。stories 109，D-03 执行表已按此记录；Emil 审查按同规则沿用 P4 结论，未做真机。
 
 ### BMI 点击恢复与数值适配（2026-09-18）
 

@@ -52,7 +52,7 @@
 
 - §1：`git ls-files` 追踪 + package.json 全部精确版本（无 `^` / `~`）+ lockfile v3 根依赖与 package.json 一致；`npm ci` 本身由 CI 跑。
 - §3：`content/schema.ts` 无 `interface`，每个 `export type X` 都是 `z.infer<typeof X>`，schema 常量与类型一一对应。
-- §4D：`states.spec.ts` 给页面上每个可见、可用的 `a[href] / button / input / select / textarea / summary / [tabindex="0"]` 打标，用 DevTools 协议 `CSS.forcePseudoState` 依次强制 `:hover`、`:active`、`:focus:focus-visible`，等 CSS transition 结束后比较子树计算样式签名（含图标、视觉隐藏单选旁的 label）。指针控件（链接 / 按钮 / summary）四项全要，键盘控件（输入 / 单选 / 可聚焦区域）只要 focus-visible；`aria-hidden` 复制轨、`inert` 幻灯片、关闭 dialog、skip link 不计；移动端另扫打开的菜单。1440 量 65 个、375 量 69 个，全部通过（PROJECT §11 #10）。
+- §4D：`states.spec.ts` 给页面上每个可见、可用的 `a[href] / button / input / select / textarea / summary / [tabindex="0"]` 打标，用 DevTools 协议 `CSS.forcePseudoState` 依次强制 `:hover`、`:active`、`:focus:focus-visible`，等 CSS transition 结束后比较子树计算样式签名（含图标、视觉隐藏单选旁的 label）。指针控件（链接 / 按钮 / summary）四项全要，键盘控件（输入 / 单选 / 可聚焦区域，含输入的步进按钮——2026-09-18 用户决定）只要 focus-visible；`aria-hidden` 复制轨、`inert` 幻灯片、关闭 dialog、skip link 不计；移动端另扫打开的菜单。1440 量 65 个、375 量 69 个，全部通过（PROJECT §11 #10）。
 - §4E：每个 `ui/` 原语与 client 区块有同目录 stories；六个可按压原语必有 Hover / Focus / Pressed，六个带禁用语义的必有 Disabled；交互岛的文档状态（MenuOpen、BMI 四态、AllExpanded、Paused、Toggled）存在；每个原语的 stories 数 ≥ README 组件表声明数。
 - §5：README 十个二级标题、四条考官命令、AI usage 链到索引 / 原始 jsonl / manifest、Deviation log 链到 `docs/deviations.md`、全部相对链接可达。
 - §6：每个工具至少一份 jsonl；manifest 文件集合 = 实际 jsonl 集合且 sha256 逐个相等；每个 session id 出现在 `ai-logs/README.md`；`readable/*.md` 与原始文件同名且声明 derived。
@@ -103,7 +103,8 @@
 ## P7 / P8 验证结果（2026-09-18）
 
 - Node：`npm test` 110 条（原 92 + `tests/acceptance/` 17 + schema 1）；`format:check` / `typecheck` / `lint` / `check:tokens` 通过。
-- 浏览器：`npm run test:ui` 44 条（42 既有 + states 扫描 × 2 视口），1440 量 65 个可见控件、375 含打开菜单 69 个，全部具备要求的状态与过渡；扫描前把 D-03 的两处缺口（`.logo` 链接、`.numberStepper button`）补上，并给 FAQ 圆形 chevron 的底色变化加了 `--dur-fast` 过渡。两套 Playwright 同时压一个 dev server 时 `sections.spec.ts` 的移动菜单用例偶发失败，单跑即过，未改断言。
+- 浏览器：`npm run test:ui` 44 条（42 既有 + states 扫描 × 2 视口），1440 量 65 个可见控件、375 含打开菜单 69 个，全部具备要求的状态与过渡；扫描前把 D-03 的 `.logo` 链接缺口补上，并给 FAQ 圆形 chevron 的底色变化加了 `--dur-fast` 过渡；`.numberStepper button` 曾同样补齐，用户审阅后认为两态突兀要求撤回，改为把步进按钮按输入的一部分（键盘控件）处理。两套 Playwright 同时压一个 dev server 时 `sections.spec.ts` 的移动菜单用例偶发失败，单跑即过，未改断言。
 - CI：run `35376147601`（`58c2c34`）quality 绿 / browser 红（见 §五 首跑记录）；run `35377058908`（`7ce69cd`）两 job 绿。
 - 干净 clone（`git clone` 本地仓库到临时目录，Node 22.23.1 / npm 10.9.8）：`npm install` 约 5 秒（本机缓存）、`npm run build` 成功、`npm run dev` 首页与 `/api/home` 200、`npm run storybook` 111 stories 200。两处副作用：① `npm install` 把 `package-lock.json` 从 2 空格重写为 package.json 的 4 空格（`git diff -w` 为空，内容不变）——主检出已用 npm 自己的写法重提交（`ed4edea`），之后 clone 保持干净；② 由 AI 会话跑 `next dev` 时 Next 16 往 `AGENTS.md` 追加 `nextjs-agent-rules` 块，人类终端不触发，处置归 P0.7（TODO）。
 - 日志：`readable:ai-logs` 由 6 份原始 jsonl 派生 6 份 Markdown（共约 450 KB），`ai-logs.test.ts` 校验派生文件与原始文件同名且声明 derived。
+- 本地门禁的坑（2026-09-18 撤回步进两态后复验时发现）：specs 写死 `127.0.0.1:3000`；3000 上若是用户用裸 `npm run dev` 起的服务器（绑 localhost），从 127.0.0.1 加载的页面在 Next 16 的 dev origin 检查下 HMR 连不上、客户端永不 hydrate，所有交互测试都会「点了没反应」。同目录第二个 `next dev` 会被 `.next/dev/lock` 拒绝，Turbopack 也不接受指向项目外的 node_modules 软链，所以复验时把工作树导出到临时目录 `npm ci` + `next build` + `next start --hostname 127.0.0.1 --port 3100` 再扫（1440：65 / 375：69 全过）。CI 不受影响：那里由 Playwright 自己起 `--hostname 127.0.0.1` 的生产服务。README 浏览器门禁段已加一句提醒。
