@@ -459,7 +459,7 @@ test('BMI score fits its container without changing font family, weight or panel
             return {
                 font: style.fontFamily,
                 weight: style.fontWeight,
-                size: parseFloat(style.fontSize),
+                size: parseFloat(style.fontSize) * new DOMMatrixReadOnly(style.transform).a,
                 width: box.width,
                 available: frame.width,
                 frameHeight: frame.height

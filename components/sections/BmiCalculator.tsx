@@ -223,7 +223,7 @@ function BmiScore({ value, play }: { value: number; play: boolean }) {
             const width = specimen.getBoundingClientRect().width;
             if (!width || !container.clientWidth) return;
             const scale = Math.min(1, container.clientWidth / width);
-            node.style.fontSize = `${parseFloat(getComputedStyle(specimen).fontSize) * scale}px`;
+            node.style.transform = `scale(${scale})`;
         };
         fit();
         const observer = new ResizeObserver(fit);
