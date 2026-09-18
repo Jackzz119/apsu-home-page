@@ -93,6 +93,7 @@ describe('content variants', () => {
         const chat = {
             id: 'support',
             kind: 'chat',
+            illustration: image,
             title: 'Provider support',
             providerName: 'Example provider',
             avatar: image,

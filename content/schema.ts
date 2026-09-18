@@ -214,8 +214,8 @@ export const Plan = z.strictObject({
     id: z.string(),
     /** Product name as supplied by the source. */
     name: Text,
-    /** Product image and accessible description. */
-    image: ImageAsset,
+    /** Verified product image; null when the source has no correctly labelled asset. */
+    image: ImageAsset.nullable(),
     /** Recurring price in integer cents. */
     price: Price,
     /** Plan-specific call to action. */
@@ -269,6 +269,8 @@ export type BmiUnits = z.infer<typeof BmiUnits>;
 
 /** BMI presentation copy, excluding live measurements and calculated results. */
 export const BmiCalculator = z.strictObject({
+    /** Decorative source photograph behind the desktop form. */
+    background: ImageAsset,
     /** Stable backend ID for this content block. */
     id: z.string(),
     /** Heading and instructions for the form. */
@@ -353,8 +355,6 @@ export const ProfileIllustration = z.strictObject({
     title: Text,
     /** Fictional display name already present in the design. */
     name: Text,
-    /** Decorative avatar asset. */
-    avatar: ImageAsset,
     /** Illustrated profile completion percentage. */
     completion: z.number().min(0).max(100),
     /** Illustrated score, not a real patient measurement. */
@@ -403,6 +403,8 @@ export const OnlineCareCard = z.discriminatedUnion('kind', [
         ...onlineCareFields,
         /** Identifies the static provider-support chat. */
         kind: z.literal('chat'),
+        /** Source phone-call artwork behind the static chat overlay. */
+        illustration: ImageAsset,
         /** Provider display name from the source illustration. */
         providerName: Text,
         /** Decorative provider avatar. */

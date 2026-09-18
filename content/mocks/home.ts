@@ -1,7 +1,5 @@
-import type { HomePage, ImageAsset } from '@/content/schema';
-
-/** A transparent local fixture; P5 replaces it with the source exports and intrinsic sizes. */
-const placeholder = { src: '/images/placeholder.svg', alt: '', width: 1, height: 1 } satisfies ImageAsset;
+import { assets } from './assets';
+import type { HomePage } from '@/content/schema';
 
 /**
  * Source baseline: saved Figma contexts 2002:3099, 3307, 3439, 3667 and 3679.
@@ -11,7 +9,7 @@ const placeholder = { src: '/images/placeholder.svg', alt: '', width: 1, height:
 export const homeMock = {
     header: {
         id: 'header',
-        logo: { ...placeholder, alt: 'Apsu' },
+        logo: { ...assets['apsu-logo'], alt: 'Apsu' },
         navigation: [
             { id: 'nav-weight-loss', kind: 'anchor', label: 'Weight Loss', target: 'weight-loss' },
             { id: 'nav-birth-control', kind: 'anchor', label: 'Birth Control', target: 'birth-control' },
@@ -75,7 +73,7 @@ export const homeMock = {
                 kind: 'weight-loss',
                 label: 'WEIGHT MANAGEMENT',
                 title: 'Compounded GLP-1 Semaglutide & Tirzepatide',
-                image: placeholder,
+                image: assets['tirzepatide-vial'],
                 action: { id: 'service-weight-loss-plans', kind: 'anchor', label: 'See plans', target: 'weight-loss' }
             },
             {
@@ -83,7 +81,7 @@ export const homeMock = {
                 kind: 'birth-control',
                 label: 'BIRTH CONTROL',
                 title: 'Prescription birth control, delivered discreetly',
-                image: placeholder,
+                image: assets['birth-control-woman'],
                 action: {
                     id: 'service-birth-control-plans',
                     kind: 'anchor',
@@ -96,7 +94,7 @@ export const homeMock = {
                 kind: 'sleep',
                 label: 'SLEEP',
                 title: 'Non-habit-forming formulations for sensitive sleepers',
-                image: placeholder,
+                image: assets['sleep-woman'],
                 action: { id: 'service-sleep-plans', kind: 'anchor', label: 'See plans', target: 'sleep' }
             }
         ]
@@ -157,7 +155,7 @@ export const homeMock = {
             desktopBody: [],
             mobileBody: []
         },
-        image: placeholder,
+        image: assets['weight-loss-woman'],
         benefits: [
             { id: 'weight-loss-same-day', text: 'Same-day doctor visits and prescriptions' },
             { id: 'weight-loss-dosage', text: 'Dosage personalized' },
@@ -168,14 +166,14 @@ export const homeMock = {
             {
                 id: 'plan-semaglutide',
                 name: 'Compounded Semaglutide',
-                image: placeholder,
+                image: null,
                 price: { amount: 20000, currency: 'USD', interval: 'month', prefix: 'From' },
                 action: { id: 'plan-semaglutide-start', kind: 'demo', label: 'Get started' }
             },
             {
                 id: 'plan-tirzepatide',
                 name: 'Compounded Tirzepatide',
-                image: placeholder,
+                image: assets['tirzepatide-plan'],
                 price: { amount: 20000, currency: 'USD', interval: 'month', prefix: 'From' },
                 action: { id: 'plan-tirzepatide-start', kind: 'demo', label: 'Get started' }
             }
@@ -183,6 +181,7 @@ export const homeMock = {
     },
     bmiCalculator: {
         id: 'bmi-calculator',
+        background: assets['bmi-outdoors'],
         heading: {
             eyebrow: 'CHECK YOUR ELIGIBILITY',
             title: [{ kind: 'plain', text: 'Could a GLP-1 program be right for you?' }],
@@ -225,7 +224,7 @@ export const homeMock = {
             ],
             mobileBody: []
         },
-        image: placeholder,
+        image: assets['birth-control-woman'],
         benefits: [
             { id: 'birth-control-delivery', text: 'Prescribed online, delivered to your door' },
             { id: 'birth-control-refills', text: 'Automatic refills, delivered' },
@@ -248,7 +247,7 @@ export const homeMock = {
                 'Non-habit-forming Physician-prescribed For sensitive sleepers.'
             ]
         },
-        image: placeholder,
+        image: assets['sleep-woman'],
         benefits: [
             { id: 'sleep-options', text: 'Non-controlled, non-habit-forming options' },
             { id: 'sleep-pattern', text: 'Matched to your sleep pattern by a physician' },
@@ -260,7 +259,6 @@ export const homeMock = {
         profile: {
             title: 'Your profile',
             name: 'Olivia Gomes',
-            avatar: placeholder,
             completion: 82,
             score: 78,
             scoreLabel: 'Normal',
@@ -280,9 +278,10 @@ export const homeMock = {
             {
                 id: 'online-care-support',
                 kind: 'chat',
+                illustration: { src: '/images/provider-call.webp', alt: '', width: 1109, height: 832 },
                 title: '24/7 Provider Support',
                 providerName: 'Dr. Helena Fox',
-                avatar: placeholder,
+                avatar: assets['provider-avatar'],
                 statusLabel: 'Online',
                 dayLabel: 'Today',
                 messages: [
@@ -300,14 +299,19 @@ export const homeMock = {
                     }
                 ]
             },
-            { id: 'online-care-treatment', kind: 'image', title: 'Easy Treatment Management', image: placeholder },
+            {
+                id: 'online-care-treatment',
+                kind: 'image',
+                title: 'Easy Treatment Management',
+                image: assets['care-team']
+            },
             {
                 id: 'online-care-medication',
                 kind: 'image',
                 title: 'Access to FDA-approved Medication Options',
-                image: placeholder
+                image: assets['medication-options']
             },
-            { id: 'online-care-shipping', kind: 'image', title: 'Free Expedited Shipping', image: placeholder }
+            { id: 'online-care-shipping', kind: 'image', title: 'Free Expedited Shipping', image: assets['delivery'] }
         ],
         previousLabel: 'Previous care benefit',
         nextLabel: 'Next care benefit'
@@ -333,7 +337,13 @@ export const homeMock = {
                 quote: 'I described my symptoms in my own language and actually felt understood, no translating in my head.',
                 rating: 5
             },
-            { id: 'story-david', kind: 'photo', name: 'David L', location: 'Queens, NY', image: placeholder },
+            {
+                id: 'story-david',
+                kind: 'photo',
+                name: 'David L',
+                location: 'Queens, NY',
+                image: assets['success-story']
+            },
             {
                 id: 'story-an',
                 kind: 'quote',
@@ -394,7 +404,7 @@ export const homeMock = {
     },
     footer: {
         id: 'footer',
-        logo: { ...placeholder, alt: 'Apsu' },
+        logo: { ...assets['apsu-logo-inverse'], alt: 'Apsu' },
         tagline: 'American medicine, in the language you think in.',
         columns: [
             {
