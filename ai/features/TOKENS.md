@@ -13,6 +13,8 @@
 
 ## 二、样式规范
 
+P4 补充控件语义角色：48/56px 按钮、52px 输入框、32/40px 内嵌图标圈、24px glyph、20px radio、32px 控件横内距、12px chip 纵内距、6px segmented 纵内距、16/14px 控件文字、FAQ 16→24px 内距与 4px 分隔、SegmentedControl 0.5px 边框 / 4.5px 内衬 / 4px 间距 / 42px 选项高 / 83px 最小宽；均集中到 tokens.css。`--border-width` / `--disabled-opacity` 表达统一状态，`--dur-marquee: 30s` 为可选持续循环周期，不属于普通 UI 的 300ms 上限。运行时测得的 accordion 高度与 marquee 轨道宽度不是新设计 token。
+
 1. 颜色、字号、间距、圆角、阴影只能引用 `@theme` token；出现魔法值（`#1f3a2a`、`text-[17px]`）视为缺陷。
 2. 断点只允许三个语义名（见 RESPONSIVE.md），禁止散落的任意 `min-[900px]`。
 3. `min-w-0` 是泄压阀不是默认值：只在被压穿的 flex 子项上加，并注释为什么。

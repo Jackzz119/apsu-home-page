@@ -50,7 +50,7 @@
 
 ## 1. 项目一句话与交付物
 
-**当前实现（2026-09-17）**：P0.1–P0.6 与 P1 完成，P0.7 暂缓。上一轮三条提交 `9a7b5ac` / `51174cf` / `3e41a7c` 已推送 main。本轮 P2 / P3 全部完成：DATACONTRACT 3/3、TOKENS 3/3、MOTION 2/4、RESPONSIVE 1/4；48 条测试、typecheck/lint/check:tokens、生产和 Storybook build 通过，HTTP mock 深相等与浏览器字体 / 尺寸 / 减动效验证通过。新增实现待用户决定 commit；下一步 P4 原语。源稿缺陷保留，deviations 待整体 review。 14 区块的本地素材仍是透明占位，真实素材与首页组装归 P5。Foundations story 只是字体 / token 验收页，不代表首页 UI 已完成。
+**当前实现（2026-09-17）**：P0.1–P0.6 与 P1–P4 完成，P0.7 按用户决定暂缓。已审计前轮原始记录：可见 turn_context 均为 gpt-6-astra，没有 Luna；最后一次 interrupted 发生在开场白后、工具工作前，没有 credit 耗尽导致缺码的证据。P2/P3 四条提交 4adae67 / 97a905b / 4863536 / 0ca4e3c 已推送 main。P4 11 原语、统一导出、79 原语 stories（总计 80）、页面消费标本与 a11y / motion / 375/1440 同 agent 视觉复核完成；48 Node + 18 浏览器测试、format/typecheck/lint/token guard、生产和 Storybook build 通过。COMPONENTS 2/3、STORYBOOK 1/3（原语部分完成）、A11Y 1/2；P4 按用户决定拆成原先建议的 14 条提交，本次源稿修正另加第 15 条，下一步 P5。源稿缺陷和产品 D 类仍待整体 review；图片仍为 P5 待替换的透明占位。
 
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
@@ -390,6 +390,7 @@ git -C "$ROOT" status --short ai-logs | head
 |---|---|
 | 每个 commit | §7.3 十二条清单全过（format · typecheck · lint · 无 console.log · lockfile 同步 · story 同 commit · deviations 先登记 · README 同步 · ai-logs 同步 · message 规范） |
 | P2 / P3 收口（2026-09-17 已通过） | 完整 mock parse、默认无首页 HTTP、实际 API 与 mock 一致；字体 / token / 三断点落地，48 测试与 check:tokens 通过，375/1440 字号锚点及 1920 容器实测通过；组件验收仍归 P4/P5 |
+| P4 收口（2026-09-17 已通过） | 11 原语 + 79 原语 stories（含 Overview），158 次 axe / 横溢出检查零违规；48 Node + 18 浏览器测试；同 agent Emil / UI Tailor / Monet 复核；完整首页仍归 P5 |
 | 每个区块完成 | 375 / 1440 与 Figma 逐项对照 · 对应 story 存在 · 键盘可走通 · MOTION §四：Emil 动效审查通过（无动效记 N/A）与实景视觉复核、减动效 / 打断验证 |
 | 每日收工 | `npm run build` 绿 · `npm run check:responsive` 绿 · push |
 | 最终提交 | 上述全部 + `npm run storybook` 全绿 · a11y 零违规 · README 清单 §10 全勾 · `logs(ai-logs): final sync` 为最后一条 commit |
@@ -431,3 +432,5 @@ git -C "$ROOT" status --short ai-logs | head
 | 8 | P1 增加动效准备 | 安装 emil-design-eng / animate / review-animations / find-animation-opportunities，固定来源见 JASKILL；以 Emil 为主要标准，把动效查验与实际 UI 视觉检测接入 P3–P5。motion 已在依赖中，保留并按交互需求选择使用；具体 deviations 仍先确认 | 2026-09-17 |
 
 - 2026-09-17 用户决策补充：本轮完成 P2/P3，按 Figma 逐字实现，以甲方 design 为优先；所有待办缺陷 / 拟议改变先记 deviations，整体 review 之后才修改。该决定覆盖旧的逐阶段 / 逐候选确认时机。
+
+- 2026-09-17 用户继续授权：先审计中断 / 模型元数据并推送上一批，再完成整个 P4。库级原语与隔离候选态可实施；产品默认态 / C 类修正 / D 类采用仍按整体 review 边界。提交时机仍由用户决定。

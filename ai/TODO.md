@@ -34,7 +34,7 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 目标：干净 clone 上考官四条命令 + `typecheck` `lint` `format:check` `test` `build-storybook` 全绿，目录骨架就位，脚手架痕迹清零。
 
-2026-09-17 已完成 P0.1–P0.6：目录 / 工具 / 环境示例 / README 骨架就位，完整工程命令链已通过。P0.7 依用户决定暂缓，见「待澄清想法」。验证记录见 STRUCTURE；P0/P1 已提交并推送 `cb818c2` / `344814a`；P1.8 已推送 `bd7e435` / `0f7384d`；P2.1 与扫描修复已推送 `9a7b5ac` / `51174cf` / `3e41a7c`，本轮 P2/P3 新增实现待提交。
+2026-09-17 已完成 P0.1–P0.6：目录 / 工具 / 环境示例 / README 骨架就位，完整工程命令链已通过。P0.7 依用户决定暂缓，见「待澄清想法」。验证记录见 STRUCTURE；P0/P1 已提交并推送 `cb818c2` / `344814a`；P1.8 已推送 `bd7e435` / `0f7384d`；P2.1 与扫描修复已推送 `9a7b5ac` / `51174cf` / `3e41a7c`，P2/P3 后续实现已推送至 `0ca4e3c`。
 
 完成判据：`npm ci && npm run format:check && npm run typecheck && npm run lint && npm run build && npm test && npm run build-storybook` 全绿；`git status` 干净；STRUCTURE §三 目录树里每个目录都存在。
 
@@ -73,9 +73,9 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## P4 · 组件库原语（`components/ui/`）
 
-- [ ] P4.1 Button 走通全链路（COMPONENTS ST-1 + STORYBOOK ST-1 + MOTION ST-3 首例）：组件 → `index.ts` 导出 → 五态 story → `app/page.tsx` 从 `@/components` import 渲染一颗按钮 → D-01 / D-02 登记
-- [ ] P4.2 其余原语逐个（COMPONENTS ST-2 / STORYBOOK ST-2）：Chip · Card · Accordion · Carousel · Marquee · NumberField · RadioGroup · SegmentedControl · Rating · IconButton，每个一条 `feat(ui)` commit，story 同 commit
-- [ ] P4.3 a11y addon 零违规（A11Y ST-1）
+- [x] P4.1 Button 走通全链路（COMPONENTS ST-1 + STORYBOOK ST-1 + MOTION ST-3 首例）：组件 → `index.ts` 导出 → 五态 story → `app/page.tsx` 从 `@/components` import 渲染一颗按钮 → D-01 / D-02 登记
+- [x] P4.2 其余原语逐个（COMPONENTS ST-2 / STORYBOOK ST-2）：Chip · Card · Accordion · Carousel · Marquee · NumberField · RadioGroup · SegmentedControl · Rating · IconButton，原语 / story / 验收完成；按用户决定拆成原先建议的 14 条提交，本次源稿修正另加第 15 条，story 同 commit
+- [x] P4.3 a11y addon 零违规（A11Y ST-1）
 
 完成判据：每个原语按 MOTION §四走 animate → review-animations → Emil 实景视觉复核（无动效说明 N/A），Block 修完重审；COMPONENTS §四 ui 表全「完成」；`npm run storybook` 逐态可点；`import { Button, … } from "@/components"` 在 page 里可用。
 
@@ -154,6 +154,6 @@ P1 设计读取 ──┤               ├─→ P4 组件库原语 ─→ P5 �
 
 ## 当前状态
 
-- 2026-09-17：P0.1–P0.6 与 P1 完成，P0.7 暂缓。上一轮三条提交 `9a7b5ac` / `51174cf` / `3e41a7c` 已推送 main。本轮 P2 / P3 全部完成：DATACONTRACT 3/3、TOKENS 3/3、MOTION 2/4、RESPONSIVE 1/4；48 条测试、typecheck/lint/check:tokens、生产和 Storybook build 通过，HTTP mock 深相等与浏览器字体 / 尺寸 / 减动效验证通过。新增实现待用户决定 commit；下一步 P4 原语。源稿缺陷保留，deviations 待整体 review。
+- 2026-09-17：P0.1–P0.6 与 P1–P4 完成，P0.7 按用户决定暂缓。已审计前轮原始记录：可见 turn_context 均为 gpt-6-astra，没有 Luna；最后一次 interrupted 发生在开场白后、工具工作前，没有 credit 耗尽导致缺码的证据。P2/P3 四条提交 4adae67 / 97a905b / 4863536 / 0ca4e3c 已推送 main。P4 11 原语、统一导出、79 原语 stories（总计 80）、页面消费标本与 a11y / motion / 375/1440 同 agent 视觉复核完成；48 Node + 18 浏览器测试、format/typecheck/lint/token guard、生产和 Storybook build 通过。COMPONENTS 2/3、STORYBOOK 1/3（原语部分完成）、A11Y 1/2；P4 按用户决定拆成原先建议的 14 条提交，本次源稿修正另加第 15 条，下一步 P5。源稿缺陷和产品 D 类仍待整体 review；图片仍为 P5 待替换的透明占位。
 
 ## 封存

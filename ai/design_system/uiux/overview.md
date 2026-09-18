@@ -1,7 +1,7 @@
 # 首页 UI / UX 总览
 
 > 2026-09-17 · P1 读稿基线。UI Tailor 编排、同一 agent 以 Monet 职责复核。
-> [设计系统](../design-system.md) 是全局视觉真源；[交互草案](interactions.md) 只描述待实现行为。所有区块当前均未实装。
+> [设计系统](../design-system.md) 是全局视觉真源；[交互草案](interactions.md) 区分 P4 已实现的库级候选态与待实现产品流程。11 个原语完成，14 个首页区块仍未实装。
 
 ## 用户任务与视觉路径
 
@@ -72,3 +72,10 @@ LanguageMarquee 精确来源：桌面 `2002:3138` / 移动 `2002:3707`。这 14 
 | FinalCta / Footer | 纵横重排明确；“Comapny” #4；其余链接 / 动作缺目标 #12 |
 
 候选的唯一待办在 [TODO](../../TODO.md)，这里保留定位结果；没有执行任何 C/D 修正。设计审查已完成，真实页面的视觉与操作验收归 P4–P7。
+
+
+## P4 原语实景与操作入口
+
+[375 实景](../../../docs/primitive-review-375.png) / [1440 实景](../../../docs/primitive-review-1440.png)；运行 `npm run storybook` 打开 `Primitives/Overview → Default`，逐态证据在各组件 stories。源稿色、Work Sans 400/500、按钮 / chip / input 尺寸、FAQ 的白色正文与虚线、分段控件外圈均已对照保存的 Figma context。Overview 是库标本，布局不是首页设计替代品。
+
+11 原语的有限变体、键盘 / 禁用 / 空态与动效边界见 [COMPONENTS 验收表](../../features/COMPONENTS.md)。Button 从统一出口在 `/` 开发标本中消费；默认 Marquee 静态，Running story 才主动滚动。用户整体 review 尚未批准首页暂停入口、真实 CTA 目的地或 C 类改稿。本次由同一 agent 完成 UI Tailor / Monet 复核；实体手机与完整页面仍待后续。

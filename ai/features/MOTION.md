@@ -70,7 +70,7 @@ P3 在 `styles/tokens.css` 与 `lib/motion.ts` 落地同一套值；JS 时间单
 
 ## 五、待实现 / 已知问题
 
-- 四个技能及参考文档已安装、登记、固定版本；CSS / JS token 已完成，组件动效仍待 P4/P5。
+- 四个技能及参考文档已安装、登记、固定版本；CSS / JS token 已完成，P4 原语已实施并审查，P5 区块动效仍待实施。
 - D 类行为已在 deviations D-01–D-03 排队整体 review；token 不自动启用产品动效，不是组件动效验收。
 
 ## 实现计划
@@ -87,3 +87,5 @@ P3 在 `styles/tokens.css` 与 `lib/motion.ts` 落地同一套值；JS 时间单
 - 2026-09-17：准备阶段核验 4 个技能的 6 份 Markdown 与固定上游 commit 逐字节一致；各目录附上游 MIT LICENSE。两个 agent 链接均可读取，shelf adopt 登记 4 项。未执行组件动效、视觉或真机验收，因 UI 尚未实现。
 
 - 2026-09-17：ST-2 完成。CSS ms / Motion 秒与三条贝塞尔曲线逐项一致，JS 不引入 Motion 运行时。CSS fine-hover 限 hover + fine；减动效移除空间变换 / stagger 并保留 fast 颜色 / opacity 预算。48 条测试通过；Chromium 实测 reduce 下 spatial/stagger 为 0s、press scale 为 1、fast 保留 .16s。Foundations 为静态标本：review-animations 对 token 契约 Approve，运行中动画 / 打断 / 性能观感 N/A；同 agent 按 Emil 复核 375/1440 字体、层级、间距与源色，无溢出。不宣称产品状态、全页或真机验收。
+
+- 2026-09-17 P4：11 原语完成 animate 决策；有动效的 Button / IconButton / 交互 Chip / 链接 Card / Accordion / Carousel / Marquee / SegmentedControl 经 review-animations 复核 Approve。静态 Card / Chip / Rating、NumberField 编辑与 RadioGroup 切换 N/A：没有需要空间解释的状态。按压 160/100ms，height / opacity ≤200ms，marquee 30s linear；不引入 Motion runtime。手风琴兜底从实际 CSS duration 取值，4 倍慢放不会被固定 250ms 定时器提前截断；4 倍 CPU 节流下反向与终态通过。正常、reduce、coarse-touch 模拟、keyboard 与 375/1440 实景由同一 agent 自审；无真机 / 跨浏览器帧率承诺。逐组件证据见 COMPONENTS 测试记录。ST-3 仍不勾：它还包含 P5 区块。

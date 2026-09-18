@@ -29,18 +29,20 @@
 
 ## 四、待实现 / 已知问题
 
-- 尚无任何 story；组件清单与状态集见 COMPONENTS.md §四
-- hover / focus / active 的固化依赖 MOTION.md 的状态规则先定
+- 现有 80 stories：Foundations 1 + P4 原语 79（含 Overview）；逐组件数量见 COMPONENTS.md 测试记录。六个 client 区块仍待 P5。
+- Hover / Focus / Pressed 使用 pseudo-states 固化；真实键盘 / 点击 / 反向测试由 `tests/primitives.spec.ts` 负责。
 - 是否需要 `addon-docs` 生成组件文档页：暂不加，考官走的是状态不是文档
 
 ## 实现计划
 
-进度：0 / 3 subtasks 完成（0%）
+进度：1 / 3 subtasks 完成（33%）；ST-2 的原语部分与 ST-3 的 P4 a11y 部分完成，区块 / CI 未完成
 
-- [ ] ST-1: 第一个原语 Button 的 `Button.stories.tsx` 走通：Default / Hover / Focus / Pressed / Disabled 五态 + 两块板 viewport
+- [x] ST-1: 第一个原语 Button 的 `Button.stories.tsx` 走通：Default / Hover / Focus / Pressed / Disabled 五态 + 两块板 viewport
 - [ ] ST-2: 其余 ui/ 原语与 6 个 client 区块的 stories（随 COMPONENTS 的 ST-2 / ST-3 同步）
 - [ ] ST-3: a11y 零违规复核 + `build-storybook` 进 SELFCHECK 的 CI 链
 
 ## 测试记录
 
 - 2026-09-16：`npm run build-storybook` 通过（零 story）
+
+- 2026-09-17：80 stories 的开发 / 静态构建均可运行；79 原语 stories × 375 / 1440 使用 axe-core 4.13.0 全规则扫描，零违规、无横溢出。addon 继续 `test: "error"`，没有禁用规则。独立扫描临时隔离自己的 axe 实例并恢复 addon 全局实例，避免两次并发扫描的 “Axe is already running”；不跳过任何状态。`npm run test:ui` 为 18 项浏览器测试。

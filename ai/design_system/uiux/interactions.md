@@ -1,6 +1,6 @@
 # 控件与交互草案
 
-> 2026-09-17 · P1 方案，尚未实现。返回 [UI 总览](overview.md) / [设计系统](../design-system.md)。
+> 2026-09-17 · P1 产品方案仍待采用；P4 原语库候选态已实现并验收。返回 [UI 总览](overview.md) / [设计系统](../design-system.md)。
 > 以下将现有 [MOTION](../../features/MOTION.md)、[A11Y](../../features/A11Y.md)、[STORYBOOK](../../features/STORYBOOK.md) 规则落到具体使用场景。新增或修正默认态需用户确认，再登记 deviations；本文不是修正授权，也不提前分配 D 编号。
 
 ## 统一状态与动效
@@ -59,3 +59,12 @@ Profile 两张分数卡、OnlineCare 聊天示意、证言星级和证言社交�
 3. BMI 空值 / 零 / 负值 / 英公制往返 / 重算；Carousel 两端 / 触摸 / resize；FAQ 展开 / 收起 / 快速反向。
 4. hover、focus-visible、pressed、disabled、reduced-motion 单独 story；运行时检查保真、焦点与遮挡。这里只建立验收清单，没有声称测试已执行。
 5. 每个完成件按 [MOTION §四](../../features/MOTION.md) 做 review-animations 与 Emil 真实画面视觉检测，Block 修完重审；P5 全页追加只读机会 / 拒绝清单。正常速度、慢放、触控与减动效的实测证据不能被静态 story 代替。
+
+
+## P4 已实现的库级边界
+
+11 原语与全部状态 stories 已完成，详见 [COMPONENTS 测试记录](../../features/COMPONENTS.md)。库层采用颜色 hover，不增加箭头 / 卡片装饰位移；只有可操作 Chip / 链接 Card 有按压反馈。RadioGroup 与 SegmentedControl 共用原生 radio 语义；NumberField 保留原生 spinner，错误文本关联字段。默认 `<details>` 可在没有 JS 时工作；指针 measured height / opacity 200ms，键盘 / reduce 即时。
+
+Carousel 手动且非循环，轨道首尾位置扣除 focus 留白并同步 scroll-padding；完全屏外卡 inert，正在获得焦点的内容离屏时回到轨道。Marquee 默认静态；显式 autoPlay 的隔离候选才出现 Pause / Resume，用户暂停、hover / focus、后台 visibility 分别控制暂停；reduce 展开所有原始条目，重复轨道 aria-hidden + inert。按钮名称随动作变化，因此不使用 aria-pressed；与固定名称的 Chip toggle 区分。
+
+这些是 P4 可 review 的库行为，不代表源稿已经包含新增控制，也不批准把当前正文 / 答案错误改掉。P5 菜单、BMI 计算和完整导航链尚未实施。

@@ -2,7 +2,7 @@
 
 The owner requested a source-faithful baseline on 2026-09-17. All entries below are **pending consolidated owner review**: a proposal is not an implemented correction. Source spelling, default colors, and illustration values remain intact. `we ship / baseline` describes the current data or intended source baseline, not a claim that the P5 UI is complete.
 
-After approval, update the status and shipped behavior before implementation; reference the ID in the correction commit. Product interactions, final assets, and complete page rendering remain P4/P5 work.
+After approval, update the status and shipped behavior before implementation; reference the ID in the correction commit. Product-section interactions, final assets, and complete page rendering remain P5 work; the P4 library boundary is recorded below.
 
 | id   | type | location                                                       | figma says                                                                             | we ship / baseline                                                             | proposed change after review                                                                  | why                                                                       | status  |
 | ---- | ---- | -------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------- |
@@ -28,3 +28,11 @@ After approval, update the status and shipped behavior before implementation; re
 - Sleep's heading is “Sleep”; “Real rest without the dependency.” is body copy. The desktop second paragraph ends without a period, while mobile ends with one.
 - Footer social artwork was inspected in source order: X, Facebook, Instagram, LinkedIn. Their destinations remain unresolved.
 - Placeholder image dimensions are the real 1 × 1 transparent fixture dimensions, not claimed dimensions of future Figma exports. P5 must replace both the path and dimensions.
+
+## P4 library implementation boundary
+
+The owner requested completion of P4 on 2026-09-17. D-01 and D-03 now have reviewable library implementations and isolated stories: native controls, pointer-only press feedback, immediate keyboard focus, reversible measured accordion transitions, manual carousel scrolling, and an opt-in marquee with persistent pause. This authorizes the primitive work; it does not approve source-copy corrections, product CTA destinations, automatic homepage motion, or adoption of these proposed states in the completed P5 design. C-01–C-11 and product-level D decisions remain pending consolidated review.
+
+The P4 page-consumption check uses a clearly labelled development specimen with a disabled source CTA. It is not the delivered Hero or a decision to disable unresolved product CTAs. The specimen will be replaced by P5 section composition.
+
+P4 review keeps the baseline palette and text intact. Disabled numeric inputs dim only the input; their separate unit remains readable. FAQ geometry and segmented-control borders were corrected to match saved Figma contexts, rather than treated as proposed design changes. Marquee pause/resume uses a changing action label without `aria-pressed`; interactive Chip keeps a stable label with `aria-pressed`. These library details remain candidates for product adoption under D-01/D-03.

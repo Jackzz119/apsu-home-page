@@ -30,6 +30,7 @@
 | Storybook | `storybook` `@storybook/nextjs-vite` `@storybook/addon-a11y` `storybook-addon-pseudo-states` | **10.6.0** 四包同版本 | peer 已声明支持 Next 16 |
 | 单测 | `vitest` | 5.0.1 | schema 与纯函数 |
 | E2E | `@playwright/test` | 1.63.0 | 响应式扫描，见 SELFCHECK.md §三 |
+| 无障碍机检 | `axe-core` | 4.13.0 | P4 原语逐态浏览器门禁，版本与当前 Storybook a11y 依赖一致；显式声明测试直接使用的依赖 |
 | Lint | `eslint` `eslint-config-next` | **9.39.5** / 16.3.5 | `eslint-config-next` 跟 next 同版本。原定 `eslint@10.10.0`，实测 `eslint-config-next@16.3.5` 内置的 `eslint-plugin-react@7.37.5`（已是最新）peer 只到 `^9.7`，在 ESLint 10 下 `react/display-name` 规则直接抛 `getFilename is not a function`，`npm run lint` 红；改用 9.x 维护线最新版（2026-09-16 实测） |
 | 格式 | `prettier` `prettier-plugin-tailwindcss` | 3.9.7 / 0.8.1 | 一次定死，全程不改 |
 
@@ -104,8 +105,10 @@ apsu-home/
 
 ## 四、待实现 / 已知问题
 
-- P0.1 已完成：`components/{ui,sections}/`、`content/mocks/`、`lib/api/`、`styles/`、`docs/`、`tests/`、`public/images/` 骨架就位；空目录用 `.gitkeep` 保留。`components/index.ts` 暂为 `export {};`，`styles/tokens.css` 暂为说明注释。
-- `app/page.tsx` 仅渲染 `<main />`，五个脚手架 SVG 已删除。真实组件与导出归 P4，token 定义和 `globals.css` 接入归 P3，`scripts/check-responsive.ts` 实现归 P6。
+- P4 增加 `playwright.config.ts`、`tests/primitives.spec.ts` 与 `npm run test:ui`：复用 / 启动 6006 Storybook，Chromium 在 375 / 1440 跑逐态 axe 和真实交互。`content/mocks/primitives.ts` 只装开发标本 / a11y 辅助文案，业务文字继续取 homeMock。`test-results/` / `playwright-report/` 为可重建产物，不入库、不参与格式化。
+
+- P0.1 已完成：`components/{ui,sections}/`、`content/mocks/`、`lib/api/`、`styles/`、`docs/`、`tests/`、`public/images/` 骨架就位；空目录用 `.gitkeep` 保留。P3 已填充 tokens，P4 已导出 11 个原语及 props。
+- `app/page.tsx` 现为明确标注的开发标本，从统一出口渲染源 CTA 的 disabled 示例；完整首页组装归 P5。五个脚手架 SVG 已删除，`scripts/check-responsive.ts` 实现仍归 P6。
 - P0.2 已补齐 `package.json#scripts` 的 `test` 与 `check:responsive`：前者运行 Vitest，后者在 P6.1 实现前明确报未实现并失败。P0.3 已新增 `vitest.config.mts` 与 `tests/home.test.ts`，测试范围与验证记录见 SELFCHECK ST-2。
 - P0.4 已完成全量格式检查与项目 `no-console` 规则；共享技能 CLI 的例外范围见 ST-3。本文三个 subtasks 已完成，P0 工程验证已完成；P0.7 按用户指示暂缓，不阻塞后续阶段，提交由用户决定。
 
@@ -133,3 +136,5 @@ apsu-home/
 - 2026-09-17：P0.4 的 format / format:check / typecheck / lint / test 均通过（1 个测试）。用 ESLint API 的内存探测验证 `console.log/warn/info/debug` 均为 error，`console.error` 放行；app、components、content、lib、scripts、tests、.storybook 均覆盖。共享技能 CLI 未启用该条规则，其他 lint 规则仍保留；未创建探测文件。
 
 - 2026-09-17：P0 收口重新执行 `npm ci → format:check → typecheck → lint → build → test → build-storybook` 全部通过（Node 22.23.1 / npm 10.9.8，1 测试，npm audit 0 漏洞）。补齐 `app/api/home/.gitkeep` 以保留假后端目录，响应式原始截图目录本地存在且按既有规则忽略。原始目录树的未来文件仍归各阶段实现。Next 仓库外 lockfile 提示与 Storybook 无 stories / chunk 大小 / use client 打包提示不阻塞构建；未改锁文件、依赖与协议。工作区保留待用户决定的文档和日志，未将 git clean 误报为已通过。
+
+- 2026-09-17 P4：`axe-core@4.13.0` 显式 devDependency 与 lockfile 同步；在独立临时目录 `npm ci` 安装 525 包成功。依赖工具原生输出保留 tsconfck / ESLint 的弃用提示，本轮不扩大版本升级范围。原语审图证据为 `docs/primitive-review-375.png` / `primitive-review-1440.png`；`.storybook/primitiveDecorators.tsx` 统一原语 story 地标和焦点留白。两份配置文件的 generated ignore 增加 test-results / playwright-report。

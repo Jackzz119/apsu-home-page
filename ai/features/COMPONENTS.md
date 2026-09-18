@@ -35,17 +35,17 @@
 
 | 组件 | 使用位置 | 状态集（P1 草案，实施时登记 D 类） | 状态 |
 |---|---|---|---|
-| Button | Header、Hero、产品、BMI、FinalCta | Default / Hover / Focus / Pressed / Disabled；primary / secondary / outline | 待做 |
-| Chip | Hero 语言标签 | Default / Selected；交互变体的 Hover / Focus / Pressed / Disabled 待候选 #11 确认 | 待做 |
-| Card | 服务入口、套餐、职责、Profile、证言 | Default；可操作卡才有 InteractiveHover | 待做 |
-| Accordion（原生 `<details>`） | FAQ | Collapsed / Expanded / Focus / Hover / Pressed | 待做 |
-| Carousel | OnlineCare，**不在 SuccessStories** | Default / FirstSlide / LastSlide / Keyboard / ReducedMotion | 待做 |
-| Marquee | LanguageMarquee / TrustMarquee | Default / Paused / ReducedMotion | 待做 |
-| NumberField | BMI 身高 / 体重 | Default / Focus / Invalid / Disabled | 待做 |
-| RadioGroup | BMI Sex | Default / Focus / Checked / Disabled | 待做 |
-| SegmentedControl | BMI 单位 | Default / Hover / Focus / Selected / Disabled | 待做 |
-| Rating | 文本证言 | Default（只读） | 待做 |
-| IconButton | 移动菜单 / OnlineCare 箭头 | Default / Hover / Focus / Pressed / Disabled | 待做 |
+| Button | Header、Hero、产品、BMI、FinalCta | Default / Hover / Focus / Pressed / Disabled；primary / secondary / outline | 完成（P4 库与 stories） |
+| Chip | Hero 语言标签 | Default / Selected；交互变体的 Hover / Focus / Pressed / Disabled 待候选 #11 确认 | 完成（P4 库与 stories） |
+| Card | 服务入口、套餐、职责、Profile、证言 | Default；可操作卡才有 InteractiveHover | 完成（P4 库与 stories） |
+| Accordion（原生 `<details>`） | FAQ | Collapsed / Expanded / Focus / Hover / Pressed | 完成（P4 库与 stories） |
+| Carousel | OnlineCare，**不在 SuccessStories** | Default / FirstSlide / LastSlide / Keyboard / ReducedMotion | 完成（P4 库与 stories） |
+| Marquee | LanguageMarquee / TrustMarquee | Default / Paused / ReducedMotion | 完成（P4 库与 stories） |
+| NumberField | BMI 身高 / 体重 | Default / Focus / Invalid / Disabled | 完成（P4 库与 stories） |
+| RadioGroup | BMI Sex | Default / Focus / Checked / Disabled | 完成（P4 库与 stories） |
+| SegmentedControl | BMI 单位 | Default / Hover / Focus / Selected / Disabled | 完成（P4 库与 stories） |
+| Rating | 文本证言 | Default（只读） | 完成（P4 库与 stories） |
+| IconButton | 移动菜单 / OnlineCare 箭头 | Default / Hover / Focus / Pressed / Disabled | 完成（P4 库与 stories） |
 
 ### sections/（首页区块）
 
@@ -72,17 +72,42 @@ LanguageMarquee 为 Hero 子组件，Carousel 为 ui 原语，不重复计为根
 
 ## 五、待实现 / 已知问题
 
-- P0.1 已建立 `components/ui/`、`components/sections/` 与 `index.ts` 空出口；Button、story 和页面消费链路仍待 P4.1 完成，ST-1 尚未完成。
-- P1.7 已完成 §四 的 14 区块与 11 原语登记；这不代表 COMPONENTS 的实现 subtasks 完成。缺失移动 BMI、CTA 目标和内容错误见 TODO 候选。
+- P4 已完成 11 原语、props / item 类型统一导出、79 个原语 stories（含 Overview）与页面 Button 消费示例。所有原语只吃 props；Storybook 的 mock 仅由 stories / storyFixtures 引入。
+- P1.7 已完成 §四 的 14 区块与 11 原语登记；P4 已完成原语 subtasks，区块 ST-3 仍待 P5。缺失移动 BMI、CTA 目标和内容错误见 TODO 候选。
 
 ## 实现计划
 
-进度：0 / 3 subtasks 完成（0%）
+进度：2 / 3 subtasks 完成（67%）
 
-- [ ] ST-1: 建 `components/ui/`、`components/sections/`、`components/index.ts`，先放 Button 一个原语走通「组件 + story + 从 `@/components` import」链路
-- [ ] ST-2: 其余 ui/ 原语逐个落地，每个一条 commit（PROJECT §7.3）
+- [x] ST-1: 建 `components/ui/`、`components/sections/`、`components/index.ts`，先放 Button 一个原语走通「组件 + story + 从 `@/components` import」链路
+- [x] ST-2: 其余 ui/ 原语逐个落地，原语实现与 stories 完成；按用户决定拆成原先建议的 14 条提交，本次源稿修正另加第 15 条
 - [ ] ST-3: sections/ 按设计文档逐区块落地，只吃 props
 
 ## 测试记录
 
 - 2026-09-17：P1 对照三张原尺寸截图、XML 和五份 context 完成组件边界盘点。确认 OnlineCare 使用 Carousel，SuccessStories 移动堆叠；不是运行时测试。
+
+## P4 实施边界（2026-09-17）
+
+用户已授权完成全部 11 原语与逐态 stories。先实现可独立复用的库与 Storybook 候选态，D-01 / D-03 的产品采用仍待整体 review；C 类文案与默认源稿不改。Button 的 page 消费证明使用明确标注的开发标本，禁用态只用于无目标 CTA 的隔离展示，不代表 D-02 决策。原语需要回调、测量或原生控件 ID 时可使用 client 边界，不增加新的首页业务岛；静态 Card / Rating 保持无状态。
+
+
+### P4 验收（2026-09-17）
+
+Emil 四技能版本 `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`；同一 agent 依次执行 animate / review-animations / emil-design-eng / UI Tailor / Monet 自审，没有独立第二人。Chromium 375×812 / 1440×900；79 原语 stories × 2 视口 = 158 次 axe / 横溢出检查，零违规。18 项浏览器测试、48 项 Node 测试通过；生产与 Storybook build、format / typecheck / lint / token guard 通过。
+
+| 组件 | 动效判断 / review | 验证证据与限制 |
+|---|---|---|
+| Button | Approve：指针 scale .97，160ms 进 / 100ms 退；颜色 ease；键盘即时 | 10 stories；原生 disabled、禁用链接无 href / 回调、Tab、键盘无缩放、指针反向、OS reduce 与 coarse-touch 模拟 |
+| Chip | Approve：只有交互变体有共享按压反馈；展示态 N/A | 9 stories；默认不是 button，交互版真实切换 aria-pressed；保留源稿混合语言 |
+| Card | 静态 N/A；链接变体共享轻量反馈 Approve | 9 stories；四种源色、focus / hover / pressed；不在静态卡上假装可点击 |
+| Accordion | Approve：原生 details；量高度 + opacity 200ms 是 recipe 的明确例外 | 8 stories；原稿 12px 圆角、16→24px 内距、白色正文、4px 分隔和虚线；快速反向、键盘即时、reduce、4 倍慢放 + 4 倍 CPU 节流通过 |
+| Carousel | Approve：手动 scroll-snap，指针 smooth、键盘 / reduce instant | 7 stories；首末边界、空数据、屏外 inert、Home / End / arrows、resize；没有自动播放或自定义触摸物理 |
+| Marquee | Approve：默认静态；显式 autoPlay 后 CSS linear 30s | 5 stories；用户 / hover / focus 暂停，复制轨道隐藏且 inert；等宽循环、后台 visibility 处理、实时 reduce 换行；Pause / Resume 为普通动作按钮，不混用改名与 aria-pressed |
+| NumberField | N/A：原生数字编辑与即时焦点，不加动画 | 6 stories；关联 label / unit / error、native spinner / ArrowUp、invalid / disabled；禁用输入变淡，单位保留对比度 |
+| RadioGroup | N/A：高频互斥选择即时 | 6 stories；fieldset / legend、原生方向键、组禁用 / 单项禁用；没有自写 roving tabindex |
+| SegmentedControl | Approve：共享 radio 语义，指针轻反馈、键盘即时 | 7 stories；源稿 0.5px 外圈、4.5px 内衬、4px 间距；无移动指示器 |
+| Rating | N/A：只读信息不动画 | 4 stories；单一可访问名称，完整 / 半星 / 空分数，星形隐藏于读屏 |
+| IconButton | Approve：共享 Button 按压和媒体门控 | 7 stories；必填 label，图标 aria-hidden，原生 disabled |
+
+视觉证据：[375](../../docs/primitive-review-375.png) / [1440](../../docs/primitive-review-1440.png)，可运行入口 `Primitives/Overview → Default`。这是原语库验收，不是 14 区块像素验收。未测实体手机、Safari / Firefox、读屏软件实听和 P6 全页 11 宽度；CPU 节流测试不等于所有硬件稳定帧率保证。Motion 依赖保留，本阶段没有 runtime import。

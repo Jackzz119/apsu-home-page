@@ -2,7 +2,7 @@
 
 Front-end take-home: the Apsu home page (desktop 1440 / mobile 375) implemented as a Next.js App Router page plus a React component library, with Storybook.
 
-**Status:** P2 data delivery and P3 design foundations are implemented. The fourteen-section source mock, validated API boundary, fonts, semantic tokens, motion tokens, token guard, and Foundations story are available. Product primitives and homepage sections remain P4/P5 work; `/` currently loads content into an otherwise empty main landmark.
+**Status:** P2 data delivery, P3 foundations, and P4 reusable primitives are implemented. Eleven exported primitives have 79 isolated stories, with an additional Foundations story. `/` is a clearly labelled development specimen consuming the public Button export; the fourteen-section homepage and final assets remain P5 work.
 
 ## Getting started
 
@@ -19,7 +19,7 @@ npm run dev          # http://localhost:3000
 npm run storybook    # http://localhost:6006
 ```
 
-Other checks: `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run check:tokens`, and `npm test`. Use `npm run format` to apply formatting.
+Other checks: `npm run test:ui`, `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run check:tokens`, and `npm test`. Use `npm run format` to apply formatting.
 
 No environment variables are required. Leave `NEXT_PUBLIC_API_URL` empty to import the local mock directly, or set it to an HTTP(S) backend base URL; see [.env.example](.env.example).
 
@@ -33,20 +33,20 @@ Next.js 16 (App Router) · React 19 · TypeScript 5 (strict) · Tailwind CSS 4 �
 ## Directory structure
 
 ```text
-app/                  Next.js routes and the root layout; the home page is currently an empty shell
+app/                  Next.js routes and the root layout; a labelled P4 development specimen
 app/api/home/         GET handler serving the validated local mock
-components/index.ts   Public entry point for the component library; no exports yet
+components/index.ts   Public entry point for all eleven primitives and their props
 components/ui/        Reusable UI primitives
 components/sections/  Home page sections composed from props
 content/schema.ts     Zod homepage contract, section schemas, and inferred types
-content/mocks/        Complete source-copy fixture, constrained by HomePage
+content/mocks/        Source-copy HomePage fixture and separate development/a11y labels
 lib/api/              Data access functions
 styles/tokens.css     Source typography, palette, spacing, shape and motion tokens
 public/images/        Exported design assets
 docs/                 Deviation logs and responsive evidence
-tests/                Automated tests
+tests/                Node tests and isolated Storybook browser tests
 scripts/              Project utilities, including AI log synchronization
-.storybook/           Storybook configuration
+.storybook/           Storybook configuration and primitive canvas decorator
 ai-logs/              Raw AI session records, session index, and checksum manifest
 ```
 
@@ -74,17 +74,17 @@ curl --fail http://localhost:3000/api/home
 
 The following decisions are agreed for implementation; this table is not a claim that the planned features already exist.
 
-| Area              | Decision                                                                                       | Reason                                                                                   |
-| ----------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Design tokens     | Semantic CSS variables through Tailwind v4 `@theme`                                            | Theme changes should not require component edits.                                        |
-| Images            | Static imports through `next/image`, with `{ src, alt, width, height }` content                | Alternative text belongs to content; dimensions reserve space and prevent layout shifts. |
-| Motion            | CSS first; use the installed Motion dependency only where interaction needs justify it         | Keep feedback restrained and avoid unnecessary runtime animation work.                   |
-| State             | Local `useState` / `useReducer`; a pure BMI calculation function                               | The home page does not need a global store.                                              |
-| Routing           | One `/` route; Weight Loss, Birth Control, and Sleep navigation will scroll to section anchors | Separate product pages are outside the assignment scope.                                 |
-| API contract      | A Zod schema with `HomePage` as the root type                                                  | The data contract can be reviewed independently of the UI.                               |
-| Data access       | One `getHomePage()` entry point, a Route Handler mock backend, and an optional API base URL    | This preserves an HTTP boundary without running another service.                         |
-| Responsive layout | Fluid `clamp()` values, `sm` / `lg` / `xl` layout breakpoints, and a 1440 px container cap     | Interpolation covers intermediate widths; layout changes have explicit thresholds.       |
-| Component library | Prop-driven components exported from `components/index.ts`; the page consumes `@/components`   | Components should be reusable outside this page. The entry point is currently empty.     |
+| Area              | Decision                                                                                       | Reason                                                                                           |
+| ----------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Design tokens     | Semantic CSS variables through Tailwind v4 `@theme`                                            | Theme changes should not require component edits.                                                |
+| Images            | Static imports through `next/image`, with `{ src, alt, width, height }` content                | Alternative text belongs to content; dimensions reserve space and prevent layout shifts.         |
+| Motion            | CSS first; use the installed Motion dependency only where interaction needs justify it         | Keep feedback restrained and avoid unnecessary runtime animation work.                           |
+| State             | Local `useState` / `useReducer`; a pure BMI calculation function                               | The home page does not need a global store.                                                      |
+| Routing           | One `/` route; Weight Loss, Birth Control, and Sleep navigation will scroll to section anchors | Separate product pages are outside the assignment scope.                                         |
+| API contract      | A Zod schema with `HomePage` as the root type                                                  | The data contract can be reviewed independently of the UI.                                       |
+| Data access       | One `getHomePage()` entry point, a Route Handler mock backend, and an optional API base URL    | This preserves an HTTP boundary without running another service.                                 |
+| Responsive layout | Fluid `clamp()` values, `sm` / `lg` / `xl` layout breakpoints, and a 1440 px container cap     | Interpolation covers intermediate widths; layout changes have explicit thresholds.               |
+| Component library | Prop-driven components exported from `components/index.ts`; the page consumes `@/components`   | Components are reusable without page data imports or a provider; eleven primitives are exported. |
 
 ## Responsive strategy
 
@@ -98,11 +98,11 @@ The results table will live in `docs/responsive-report.md`, with three assertion
 
 **Implemented tokens (P3):** CSS budgets in `styles/tokens.css` and seconds-based values in `lib/motion.ts` are parity-tested. Fast/release/base/slow/stagger are 160/100/200/250/50 ms; ease-out is `cubic-bezier(0.23, 1, 0.32, 1)`, ease-in-out is `(0.77, 0, 0.175, 1)`, and drawer is `(0.32, 0.72, 0, 1)`. `fine-hover:` requires a fine pointer with hover capability. Reduced motion sets spatial duration and stagger to zero, press scale to 1, and shift to zero while retaining short color/opacity budgets. Consumers must select spatial tokens for spatial effects; the shared durations alone do not disable animation.
 
-The adopted workflow follows Emil Kowalski’s motion guidance: use the cheapest suitable tool, starting with CSS; retain the installed `motion` package for interactions that justify it. Reduced motion removes spatial movement while allowing useful opacity and color feedback. Each implemented component will receive motion review and visual verification; no product interactions are implemented yet. The static Foundations story needs no animation. Proposed behavior is queued as D-01–D-03 for review, with no Motion runtime imported.
+The adopted workflow follows Emil Kowalski’s motion guidance: use the cheapest suitable tool, starting with CSS; retain the installed `motion` package for interactions that justify it. Reduced motion removes spatial movement while allowing useful opacity and color feedback. P4 primitives received motion review and actual 375/1440 visual verification, performed by the same agent under the Emil, UI Tailor, and Monet roles. The static Foundations story, informational Card/Chip/Rating, numeric editing, and native radio selection need no decorative animation. Product adoption of the library candidates remains queued as D-01–D-03; no Motion runtime is imported.
 
 ## Deviation log
 
-[Design deviations and review queue](docs/deviations.md) contains C-category source defects and D-category proposed interactions. Every current entry is Pending: this baseline preserves source copy and colors until the owner reviews the complete set.
+[Design deviations and review queue](docs/deviations.md) contains C-category source defects and D-category proposed interactions. Product decisions remain Pending: source copy and colors are preserved until the owner reviews the complete set. The P4 library boundary explicitly separates reviewable primitive implementations from changes to the delivered homepage.
 
 ## Storybook
 
@@ -110,9 +110,40 @@ Run `npm run storybook` for the development server at `http://localhost:6006`, o
 
 Stories are colocated with components and discovered under `components/` and `app/` as `*.stories.ts` or `*.stories.tsx`. The current configuration includes accessibility and pseudo-state addons, with 375 × 812 and 1440 × 900 viewport presets.
 
-**Available:** `Foundations/Design tokens → Source Baseline`, using the same next/font Work Sans 400/500 and Syne 400/500 configuration as the app. Font loading, five type anchors, source surfaces, gutters, and the container cap have been verified in Chromium at 375/1440/1920. This is a token specimen, not the homepage design. Component/state stories and product accessibility checks remain P4/P5.
+**Available:** `Foundations/Design tokens → Source Baseline`, using the same next/font Work Sans 400/500 and Syne 400/500 configuration as the app. Font loading, five type anchors, source surfaces, gutters, and the container cap have been verified in Chromium at 375/1440/1920. This is a token specimen, not the homepage design. The P4 primitive/state inventory is below; full-product accessibility remains P5/P7 work.
 
 `npm run check:tokens` scans application styling sources for literal colors, arbitrary length utilities, nonstandard breakpoint variants, and common nonsemantic palette classes. `styles/tokens.css` is the source-value exception. The guard ignores comments and JSX URL attributes; it complements code and visual review rather than proving all CSS semantics.
+
+## Component library (P4)
+
+Import components and props from `@/components`. The library uses the project's token stylesheet, fonts, and shared motion-preference helper; no provider or UI library is required. Interactive primitives own their client boundary; Card and Rating remain state-free. Content, labels, destinations, and action handlers come from the caller. Stories use `homeMock`; development-only labels live in `content/mocks/primitives.ts`.
+
+| Primitive        | Variants and key states                                                                                   | Stories |
+| ---------------- | --------------------------------------------------------------------------------------------------------- | ------- |
+| Button           | primary / secondary / outline; sm / md; Hover / Focus / Pressed / Disabled; native link and disabled link | 10      |
+| Chip             | informational by default; selected / interactive toggle / mixed direction; sm / md                        | 9       |
+| Card             | surface / mint / purple / cyan; sm / md; linked Hover / Focus / Pressed                                   | 9       |
+| Accordion        | native details; expanded / collapsed / Hover / Focus / Pressed / reduced; sm / md                         | 8       |
+| Carousel         | manual single / peek; first / last / keyboard / reduced / empty                                           | 7       |
+| Marquee          | static default / opt-in running / paused / reduced; sm / md                                               | 5       |
+| NumberField      | native number input; Focus / Invalid / Disabled / hint; sm / md                                           | 6       |
+| RadioGroup       | native fieldset / radios; checked / focused / disabled group or option; sm / md                           | 6       |
+| SegmentedControl | native radio semantics; Hover / Focus / Pressed / Selected / Disabled; sm / md                            | 7       |
+| Rating           | read-only full / partial / empty rating; sm / md                                                          | 4       |
+| IconButton       | required accessible label; primary / outline; sm / md; five interaction states                            | 7       |
+
+`Primitives/Overview → Default` combines all eleven for review: [375 px](docs/primitive-review-375.png), [1440 px](docs/primitive-review-1440.png). These are library specimens, not homepage replacements. Button actions use native `type="button"` unless a caller requests submit/reset; destinations render anchors. Do not nest interactive controls in a linked Card. Marquee items are informational and must not contain controls or DOM IDs, because its second track repeats them.
+
+Pointer press feedback uses scale .97 for 160ms, releasing in 100ms. Focus and keyboard operations are immediate. Accordion measures actual height for a reversible 200ms transition; height is the documented recipe exception. Carousel uses native scroll-snap with no autoplay; keyboard/reduced-motion movement is immediate, and completely offscreen slides are inert. Marquee starts static; `autoPlay` opts into a 30-second linear loop with user, hover, focus, and background-tab pause, and a wrapping reduced-motion fallback. Pause/Resume changes the action label without `aria-pressed`, consistent with the [W3C button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/).
+
+Run the browser gate after installing Chromium once:
+
+```bash
+npx playwright install chromium
+npm run test:ui
+```
+
+Playwright starts or reuses Storybook at port 6006. The 18 tests cover 79 primitive stories at 375/1440 (158 axe/overflow checks), native keyboard and disabled semantics, interruption, live reduced motion, emulated coarse touch, carousel bounds/resize, and four-times slow motion with four-times CPU throttling for Accordion. The test runner isolates its axe instance from the a11y addon's concurrent scan; neither scan nor any rule is disabled. Reports, traces on failure, and generated overview screenshots go to ignored `test-results/`. This is not the P6 eleven-width page gate.
 
 ## AI usage
 
@@ -125,15 +156,15 @@ Claude Code and Codex are used for project setup, implementation, documentation,
 
 The design audit is recorded in [the design system](ai/design_system/design-system.md), [UI inventory](ai/design_system/uiux/overview.md), and [interaction draft](ai/design_system/uiux/interactions.md). These internal documents are in Chinese; implementation and public delivery documentation are in English. Design corrections remain candidates awaiting approval.
 
-Four MIT-licensed skills from [emilkowalski/skills](https://github.com/emilkowalski/skills/tree/85e8e2363b713506e1d5b6e07a0eb2da66be1bc3) are vendored at commit `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`: `emil-design-eng`, `animate`, `review-animations`, and `find-animation-opportunities`. Their original Markdown and licenses live in `ai/jaSkills/`; project adaptations and invocation points are recorded in [the registry](ai/JASKILL.md) and [motion workflow](ai/features/MOTION.md). Codex installed and evaluated them for P1.8 preparation; component reviews will run during P3–P5, and their outcomes are not claimed in advance.
+Four MIT-licensed skills from [emilkowalski/skills](https://github.com/emilkowalski/skills/tree/85e8e2363b713506e1d5b6e07a0eb2da66be1bc3) are vendored at commit `85e8e2363b713506e1d5b6e07a0eb2da66be1bc3`: `emil-design-eng`, `animate`, `review-animations`, and `find-animation-opportunities`. Their original Markdown and licenses live in `ai/jaSkills/`; project adaptations and invocation points are recorded in [the registry](ai/JASKILL.md) and [motion workflow](ai/features/MOTION.md). Codex installed and evaluated them for P1.8 preparation; P4 reviews are recorded in [COMPONENTS](ai/features/COMPONENTS.md); P5 section reviews remain outstanding.
 
-The index also includes an additional Claude Code transcript. Per-component and per-section attribution will be added as those implementations are completed.
+The continuation transcript `01a0b177-a7b3-7770-bb84-af67c9b1bfcc` records the prior-turn audit, approved P2/P3 push, and all P4 primitive code, stories, browser tests, motion/visual checks, and documentation. The audit found Astra turn metadata and an interruption before tools ran; it found no Luna implementation segment. The index also includes an additional Claude Code transcript. Section attribution will follow P5.
 
 ## Known limitations
 
-- Homepage sections and the reusable product component exports remain P4/P5 work. The Foundations story is not a finished homepage.
+- The reusable P4 exports are complete; homepage sections remain P5 work. The Foundations and primitive previews are not the finished homepage.
 - Images are transparent local fixtures until P5 source exports; unresolved action destinations remain explicit authoring data.
 - Source copy, repeated FAQ answers, and bright-accent contrast defects are intentionally preserved pending the consolidated deviation review.
-- Tests cover data and foundations, not product interactions or full-page accessibility. Responsive validation remains a failing P6 placeholder; no complete-page responsive report is claimed.
+- Tests cover data, foundations, and isolated primitives, not the complete homepage. Responsive validation remains a failing P6 placeholder; no complete-page responsive report is claimed.
 - next/font/google requires network access during a fresh build; this project accepts that constraint. Storybook’s adapter also loads Google fonts.
-- Header breakpoint validation, component motion/visual reviews, final assets, and final delivery acceptance remain outstanding.
+- Physical-phone gestures, Safari/Firefox, and screen-reader listening were not tested. CPU throttling is a limited regression check, not a frame-rate guarantee. Header breakpoint validation, section-level reviews, final assets, and final acceptance remain outstanding.
