@@ -171,6 +171,116 @@ test('BMI validates, calculates only after submit, preserves physical units and 
     await expect(bmi.getByRole('spinbutton', { name: 'Weight', exact: true })).toHaveAttribute('aria-invalid', 'true');
 });
 
+test('BMI validation and result states preserve geometry across the eleven responsive widths', async ({
+    page
+}, info) => {
+    const widths = info.project.name === 'mobile-375' ? [320, 360, 375, 414, 640, 768] : [1024, 1280, 1440, 1600, 1920];
+    for (const width of widths) {
+        await page.setViewportSize({ width, height: 1000 });
+        await page.goto('/');
+        await page.evaluate(() => document.fonts.ready);
+        const bmi = await openBmi(page);
+        const fields = bmi.getByRole('spinbutton');
+        for (const field of await fields.all()) await expect(field).toHaveValue('');
+        const geometry = () =>
+            bmi.evaluate((root) => {
+                const selectors = ['form', 'input[type="number"]', 'button[type="submit"]', '[role="status"]', 'ul'];
+                return [root, ...selectors.flatMap((selector) => Array.from(root.querySelectorAll(selector)))].map(
+                    (node) => {
+                        const box = node.getBoundingClientRect();
+                        return [box.x, box.y + scrollY, box.width, box.height];
+                    }
+                );
+            });
+        const baseline = await geometry();
+        const stable = async () => {
+            const actual = await geometry();
+            expect(actual.length).toBe(baseline.length);
+            actual.forEach((box, index) =>
+                box.forEach((value, axis) => {
+                    expect(
+                        Math.abs(value - baseline[index][axis]),
+                        `${width}px box ${index} axis ${axis}`
+                    ).toBeLessThan(1);
+                })
+            );
+            expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+        };
+        await bmi.getByRole('button', { name: 'Calculate BMI' }).click();
+        await expect(bmi.locator('[aria-invalid="true"]')).toHaveCount(3);
+        await expect(bmi.getByText(ui.bmi.invalidHeight, { exact: true })).toHaveCount(1);
+        await stable();
+        await bmi.getByRole('spinbutton', { name: 'Height', exact: true }).fill('5');
+        await expect(bmi.locator('[aria-invalid="true"]')).toHaveCount(1);
+        await stable();
+        await bmi.getByRole('spinbutton', { name: 'Weight', exact: true }).fill('160');
+        await bmi.getByRole('button', { name: 'Calculate BMI' }).click();
+        await expect(bmi.locator('[role="status"] strong')).toHaveText('31.2');
+        await stable();
+        await bmi.getByRole('spinbutton', { name: 'Weight', exact: true }).fill('150');
+        await expect(bmi.getByRole('status')).toHaveText(ui.bmi.emptyResult);
+        await stable();
+    }
+});
+
+test('BMI count-up has intermediate frames, an immediate accessible final value and safe interruption', async ({
+    page
+}) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    const bmi = await openBmi(page);
+    await bmi.getByRole('radio', { name: 'cm/kgs' }).locator('..').click();
+    const height = bmi.getByRole('spinbutton', { name: 'Height', exact: true });
+    const weight = bmi.getByRole('spinbutton', { name: 'Weight', exact: true });
+    const submit = bmi.getByRole('button', { name: 'Calculate BMI' });
+    await height.fill('170');
+    await weight.fill('80');
+    const sample = page.evaluate(
+        () =>
+            new Promise<{ value: number; height: number; accessible: string }[]>((resolve) => {
+                const frames: { value: number; height: number; accessible: string }[] = [];
+                const started = performance.now();
+                function frame() {
+                    const status = document.querySelector('#bmi-calculator [role="status"]')!;
+                    const score = status.querySelector('strong');
+                    if (score)
+                        frames.push({
+                            value: Number(score.textContent),
+                            height: status.getBoundingClientRect().height,
+                            accessible: status.querySelector('span')!.textContent!
+                        });
+                    if (performance.now() - started < 700) requestAnimationFrame(frame);
+                    else resolve(frames);
+                }
+                frame();
+            })
+    );
+    await submit.click();
+    const frames = await sample;
+    expect(frames.some((frame) => frame.value > 0 && frame.value < 27.7)).toBe(true);
+    expect(frames.at(-1)?.value).toBe(27.7);
+    expect(new Set(frames.map((frame) => frame.height)).size).toBe(1);
+    expect(frames.every((frame) => frame.accessible === '27.7')).toBe(true);
+    const score = bmi.locator('[role="status"] strong');
+    await expect(score).toHaveAttribute('aria-hidden', 'true');
+    await weight.fill('70');
+    await submit.press('Enter');
+    await expect(score).toHaveText('24.2');
+    await weight.fill('80');
+    await submit.click();
+    await weight.fill('60');
+    await page.waitForTimeout(300);
+    await expect(bmi.getByRole('status')).toHaveText(ui.bmi.emptyResult);
+    await submit.click();
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(score).toHaveText('20.8');
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await expect(score).toHaveText('20.8');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await weight.fill('80');
+    await submit.click();
+    await expect(score).toHaveText('27.7');
+});
+
 test('mobile plan comparison stays visible and BMI disclosure retains measurements', async ({ page }) => {
     for (const name of ['Compounded Semaglutide', 'Compounded Tirzepatide'])
         await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();

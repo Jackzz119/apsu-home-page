@@ -37,6 +37,14 @@ describe('BMI measurements and classification', () => {
         expect(displayWeight('imperial', kg)).toBe('160');
         expect(calculateBmi(meters, kg)?.score).toBeCloseTo(24.327, 2);
     });
+    it('keeps untouched displays empty and treats omitted inches as optional', () => {
+        expect(displayHeight('imperial', null)).toEqual({ height: '', inches: '' });
+        expect(displayHeight('metric', null)).toEqual({ height: '', inches: '' });
+        expect(displayWeight('imperial', null)).toBe('');
+        expect(heightInMeters('imperial', '', '')).toBeNull();
+        expect(heightInMeters('imperial', '5', '')).toBeCloseTo(1.524, 8);
+        expect(heightInMeters('imperial', '5', '-1')).toBeNull();
+    });
     it('rejects non-finite, zero and negative physical values', () => {
         for (const pair of [
             [0, 70],

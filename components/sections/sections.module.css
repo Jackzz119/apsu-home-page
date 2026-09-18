@@ -1270,11 +1270,17 @@
     font-size: var(--text-body);
 }
 .resultStatus {
-    min-height: 0;
+    min-height: var(--measure-bmi-score);
     font-size: var(--text-fine);
 }
 .bmiScore {
     font-size: var(--text-price);
+    font-variant-numeric: tabular-nums;
+}
+.bmiScore[data-compact='true'] {
+    font-size: var(--text-control-label);
+    overflow-wrap: anywhere;
+    min-width: 0;
 }
 .bmiResult > a {
     border: 0;
@@ -1729,10 +1735,6 @@
         animation-play-state: paused;
     }
 }
-.calculationError {
-    color: var(--color-text-body);
-    font-size: var(--text-fine);
-}
 .serviceImage {
     grid-area: auto;
 }
@@ -1762,6 +1764,29 @@
 .measurements {
     display: grid;
     gap: var(--spacing-card-gap);
+    align-items: start;
+}
+.measurementGroup {
+    display: grid;
+    gap: var(--spacing-label-gap);
+    min-width: 0;
+}
+.fieldMessage {
+    position: relative;
+    font-size: var(--text-control-compact);
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--color-text-body);
+}
+.fieldMessage::before {
+    content: attr(data-reserve);
+    display: block;
+    visibility: hidden;
+}
+.fieldMessage p {
+    position: absolute;
+    inset: 0;
+    margin: 0;
 }
 .planArt img {
     object-fit: contain;
@@ -1813,6 +1838,9 @@
     color: var(--color-text-muted);
     font-size: var(--text-mini);
     line-height: var(--text-body--line-height);
+}
+.bmiNote[data-visible='false'] {
+    visibility: hidden;
 }
 .bmiResultDisclaimer {
     display: none;

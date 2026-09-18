@@ -1,6 +1,10 @@
 'use client';
-import { useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { animate } from 'motion';
+import { motionDuration, motionEase, motionMedia } from '@/lib/motion';
+import { useInputModality } from '@/lib/useInputModality';
+import { useReducedMotionPreference } from '@/lib/useReducedMotionPreference';
 import type { BmiCalculator as Content } from '@/content/schema';
 import {
     calculateBmi,
@@ -22,9 +26,12 @@ export function BmiCalculator({ content, ui }: BmiCalculatorProps) {
     const form = useRef<HTMLFormElement>(null);
     const [expanded, setExpanded] = useState(false);
     const [unit, setUnit] = useState<'imperial' | 'metric'>(content.sourcePreview.unit);
-    const [fields, setFields] = useState({ height: '', inches: '0', weight: '' });
+    const [fields, setFields] = useState({ height: '', inches: '', weight: '' });
     const [sex, setSex] = useState(content.sourcePreview.sexOptionId);
     const [result, setResult] = useState<BmiResult | null>(null);
+    const [animateResult, setAnimateResult] = useState(false);
+    const modality = useInputModality();
+    const reduced = useReducedMotionPreference();
     const [calculationError, setCalculationError] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [canonical, setCanonical] = useState<{ meters: number | null; kg: number | null }>({
@@ -57,7 +64,8 @@ export function BmiCalculator({ content, ui }: BmiCalculatorProps) {
         value: fields[field],
         min: 0,
         step: field === 'height' && unit === 'imperial' ? 1 : 0.1,
-        error,
+        'aria-invalid': Boolean(error),
+        'aria-describedby': error ? `${uid}-${field === 'weight' ? 'weight' : 'height'}-error` : undefined,
         inputMode: 'decimal' as const,
         onChange: (event: React.ChangeEvent<HTMLInputElement>) => update(field, event.target.value),
         stepperIcon: <SourceImage asset={ui.stepper} />,
@@ -104,6 +112,7 @@ export function BmiCalculator({ content, ui }: BmiCalculatorProps) {
                             return;
                         }
                         const calculated = calculateBmi(meters, kg);
+                        setAnimateResult(modality === 'pointer' && !reduced);
                         setResult(calculated);
                         setCalculationError(calculated === null);
                     }}>
@@ -121,23 +130,35 @@ export function BmiCalculator({ content, ui }: BmiCalculatorProps) {
                         />
                     </div>
                     <div className={styles.measurements}>
-                        <div className={styles.heightFields}>
-                            <NumberField
-                                {...fieldProps('height', content.heightLabel, units.heightUnit, heightError)}
-                            />
-                            {units.kind === 'imperial' && (
+                        <div className={styles.measurementGroup}>
+                            <div className={styles.heightFields}>
                                 <NumberField
-                                    {...fieldProps(
-                                        'inches',
-                                        `${content.heightLabel} (${units.secondaryHeightUnit})`,
-                                        units.secondaryHeightUnit,
-                                        heightError
-                                    )}
-                                    max={11.9}
+                                    {...fieldProps('height', content.heightLabel, units.heightUnit, heightError)}
                                 />
-                            )}
+                                {units.kind === 'imperial' && (
+                                    <NumberField
+                                        {...fieldProps(
+                                            'inches',
+                                            `${content.heightLabel} (${units.secondaryHeightUnit})`,
+                                            units.secondaryHeightUnit,
+                                            heightError
+                                        )}
+                                        max={11.9}
+                                    />
+                                )}
+                            </div>
+                            <div className={styles.fieldMessage} data-reserve={ui.bmi.invalidHeight}>
+                                {heightError && <p id={`${uid}-height-error`}>{heightError}</p>}
+                            </div>
                         </div>
-                        <NumberField {...fieldProps('weight', content.weightLabel, units.weightUnit, weightError)} />
+                        <div className={styles.measurementGroup}>
+                            <NumberField
+                                {...fieldProps('weight', content.weightLabel, units.weightUnit, weightError)}
+                            />
+                            <div className={styles.fieldMessage} data-reserve={ui.bmi.invalidWeight}>
+                                {weightError && <p id={`${uid}-weight-error`}>{weightError}</p>}
+                            </div>
+                        </div>
                     </div>
                     <RadioGroup
                         label={content.sexLabel}
@@ -145,11 +166,6 @@ export function BmiCalculator({ content, ui }: BmiCalculatorProps) {
                         value={sex}
                         onValueChange={setSex}
                     />
-                    {calculationError && (
-                        <p role="alert" className={styles.calculationError}>
-                            {ui.bmi.invalidCalculation}
-                        </p>
-                    )}
                     <Button type="submit">{content.submitLabel}</Button>
                 </form>
                 <div className={styles.bmiResult}>
@@ -160,15 +176,18 @@ export function BmiCalculator({ content, ui }: BmiCalculatorProps) {
                         <div role="status" aria-live="polite" aria-atomic="true" className={styles.resultStatus}>
                             {result ? (
                                 <>
-                                    <strong className={styles.bmiScore}>{result.score.toFixed(1)}</strong>
+                                    <span className={styles.srOnly}>{result.score.toFixed(1)}</span>
+                                    <BmiScore value={result.score} play={animateResult} />
                                     <p>{content.ranges.find((range) => range.id === result.category)?.label}</p>
                                 </>
                             ) : (
-                                <p>{ui.bmi.emptyResult}</p>
+                                <p>{calculationError ? ui.bmi.invalidCalculation : ui.bmi.emptyResult}</p>
                             )}
                         </div>
                     </div>
-                    {result && <p className={styles.bmiNote}>{ui.bmi.roundedNote}</p>}
+                    <p className={styles.bmiNote} data-visible={Boolean(result)} aria-hidden={!result}>
+                        {ui.bmi.roundedNote}
+                    </p>
                     <ul className={styles.bmiRanges}>
                         {content.ranges.map((range) => (
                             <li key={range.id} data-range={range.id} data-current={result?.category === range.id}>
@@ -182,5 +201,50 @@ export function BmiCalculator({ content, ui }: BmiCalculatorProps) {
                 </div>
             </div>
         </section>
+    );
+}
+
+/**
+ * Tween only the decorative numeral; the live region receives the final value immediately.
+ * Reuse the shared 250ms ease-out budget and stop on edit/unmount or a live reduced-motion change.
+ * Updating this text node avoids rerendering the form on every frame; no layout property animates.
+ */
+function BmiScore({ value, play }: { value: number; play: boolean }) {
+    const number = useRef<HTMLElement>(null);
+    useEffect(() => {
+        const node = number.current;
+        if (!node || !play) return;
+        const preference = matchMedia(motionMedia.reduced);
+        const finish = () => {
+            node.textContent = value.toFixed(1);
+        };
+        if (preference.matches) {
+            finish();
+            return;
+        }
+        const playback = animate(0, value, {
+            duration: motionDuration.slow,
+            ease: motionEase.out,
+            onUpdate: (latest) => {
+                node.textContent = latest.toFixed(1);
+            },
+            onComplete: finish
+        });
+        const onPreference = () => {
+            if (preference.matches) {
+                playback.stop();
+                finish();
+            }
+        };
+        preference.addEventListener('change', onPreference);
+        return () => {
+            playback.stop();
+            preference.removeEventListener('change', onPreference);
+        };
+    }, [value, play]);
+    return (
+        <strong ref={number} className={styles.bmiScore} data-compact={value.toFixed(1).length > 5} aria-hidden="true">
+            {play ? '0.0' : value.toFixed(1)}
+        </strong>
     );
 }

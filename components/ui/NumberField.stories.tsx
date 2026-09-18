@@ -30,6 +30,15 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const Focus: Story = { parameters: { pseudo: { focusVisible: true } } };
 export const Invalid: Story = { args: { defaultValue: -1, error: primitiveMock.error } };
+export const ExternalError: Story = {
+    args: { 'aria-invalid': true, 'aria-describedby': 'numberfield-external-error' },
+    render: (args) => (
+        <>
+            <NumberField {...args} />
+            <p id="numberfield-external-error">{primitiveMock.error}</p>
+        </>
+    )
+};
 export const Disabled: Story = { args: { disabled: true } };
 export const WithHint: Story = {
     args: { hint: primitiveMock.hint, min: 0, max: 2, step: '0.5' },

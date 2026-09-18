@@ -49,3 +49,19 @@ export const MetricResult: Story = {
         await userEvent.click(canvas.getByRole('button', { name: homeMock.bmiCalculator.submitLabel }));
     }
 };
+export const WeightError: Story = {
+    play: async ({ canvasElement }) => {
+        const canvas = await openForm(canvasElement);
+        await userEvent.type(canvas.getByRole('spinbutton', { name: 'Height' }), '5');
+        await userEvent.click(canvas.getByRole('button', { name: homeMock.bmiCalculator.submitLabel }));
+    }
+};
+export const KeyboardResult: Story = {
+    play: async ({ canvasElement }) => {
+        const canvas = await openForm(canvasElement);
+        await userEvent.type(canvas.getByRole('spinbutton', { name: 'Height' }), '5');
+        await userEvent.type(canvas.getByRole('spinbutton', { name: 'Weight' }), '160');
+        canvas.getByRole('button', { name: homeMock.bmiCalculator.submitLabel }).focus();
+        await userEvent.keyboard('{Enter}');
+    }
+};

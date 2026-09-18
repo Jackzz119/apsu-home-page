@@ -54,7 +54,7 @@ export function NumberField({
             </label>
             <div
                 className={styles.numberShell}
-                data-invalid={Boolean(error)}
+                data-invalid={Boolean(error) || props['aria-invalid'] === true || props['aria-invalid'] === 'true'}
                 data-disabled={props.disabled || undefined}
                 data-size={size}>
                 <input

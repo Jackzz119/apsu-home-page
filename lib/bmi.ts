@@ -12,7 +12,7 @@ export function measurement(value: string): number | null {
 }
 export function heightInMeters(unit: 'imperial' | 'metric', height: string, inches: string): number | null {
     const primary = measurement(height);
-    const secondary = measurement(inches);
+    const secondary = inches.trim() === '' ? 0 : measurement(inches);
     if (primary === null) return null;
     if (unit === 'imperial' && (secondary === null || secondary >= 12 || !Number.isInteger(primary))) return null;
     const meters = unit === 'metric' ? primary / 100 : (primary * 12 + (secondary ?? 0)) * METERS_PER_INCH;
@@ -36,8 +36,8 @@ export function calculateBmi(meters: number, kilograms: number): BmiResult | nul
     };
 }
 export function displayHeight(unit: 'imperial' | 'metric', meters: number | null): { height: string; inches: string } {
-    if (meters === null) return { height: '', inches: '0' };
-    if (unit === 'metric') return { height: String(Number((meters * 100).toFixed(6))), inches: '0' };
+    if (meters === null) return { height: '', inches: '' };
+    if (unit === 'metric') return { height: String(Number((meters * 100).toFixed(6))), inches: '' };
     const total = Number((meters / METERS_PER_INCH).toFixed(6));
     return { height: String(Math.floor(total / 12)), inches: String(Number((total % 12).toFixed(6))) };
 }
