@@ -41,7 +41,7 @@ const actionFields = {
     label: Text
 };
 
-/** An explicit destination or unresolved authoring item; never infer a fake href. */
+/** A real destination or an approved visual demo; never infer a fake href. */
 export const Action = z.discriminatedUnion('kind', [
     z.strictObject({
         ...actionFields,
@@ -59,8 +59,8 @@ export const Action = z.discriminatedUnion('kind', [
     }),
     z.strictObject({
         ...actionFields,
-        /** Marks source CTAs with no confirmed destination; resolve before UI delivery. */
-        kind: z.literal('unresolved')
+        /** Marks a visual demonstration with no navigation, network request or business effect. */
+        kind: z.literal('demo')
     })
 ]);
 export type Action = z.infer<typeof Action>;
@@ -524,7 +524,7 @@ export const FooterColumn = z.strictObject({
     id: z.string(),
     /** Visible column heading. */
     title: Text,
-    /** Ordered footer actions, with unresolved targets explicitly represented. */
+    /** Ordered footer actions, with visual demonstrations explicitly represented. */
     links: z.array(Action).min(1)
 });
 export type FooterColumn = z.infer<typeof FooterColumn>;

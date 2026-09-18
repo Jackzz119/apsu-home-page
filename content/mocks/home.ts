@@ -16,11 +16,11 @@ export const homeMock = {
             { id: 'nav-weight-loss', kind: 'anchor', label: 'Weight Loss', target: 'weight-loss' },
             { id: 'nav-birth-control', kind: 'anchor', label: 'Birth Control', target: 'birth-control' },
             { id: 'nav-sleep', kind: 'anchor', label: 'Sleep', target: 'sleep' },
-            { id: 'nav-contact', kind: 'unresolved', label: 'Contact Us' }
+            { id: 'nav-contact', kind: 'demo', label: 'Contact Us' }
         ],
         actions: [
-            { id: 'header-start', kind: 'unresolved', label: 'Get started' },
-            { id: 'header-login', kind: 'unresolved', label: 'Login' }
+            { id: 'header-start', kind: 'demo', label: 'Get started' },
+            { id: 'header-login', kind: 'demo', label: 'Login' }
         ],
         openMenuLabel: 'Open menu',
         closeMenuLabel: 'Close menu',
@@ -48,7 +48,7 @@ export const homeMock = {
             { id: 'hero-physicians', text: 'US-licensed physicians' },
             { id: 'hero-languages', text: '40+ Languages' }
         ],
-        action: { id: 'hero-consult', kind: 'unresolved', label: 'Start a free consultation' },
+        action: { id: 'hero-consult', kind: 'demo', label: 'Start a free consultation' },
         languageRows: [
             [
                 { id: 'language-en', label: 'English', direction: 'ltr', highlighted: false },
@@ -170,14 +170,14 @@ export const homeMock = {
                 name: 'Compounded Semaglutide',
                 image: placeholder,
                 price: { amount: 20000, currency: 'USD', interval: 'month', prefix: 'From' },
-                action: { id: 'plan-semaglutide-start', kind: 'unresolved', label: 'Get started' }
+                action: { id: 'plan-semaglutide-start', kind: 'demo', label: 'Get started' }
             },
             {
                 id: 'plan-tirzepatide',
                 name: 'Compounded Tirzepatide',
                 image: placeholder,
                 price: { amount: 20000, currency: 'USD', interval: 'month', prefix: 'From' },
-                action: { id: 'plan-tirzepatide-start', kind: 'unresolved', label: 'Get started' }
+                action: { id: 'plan-tirzepatide-start', kind: 'demo', label: 'Get started' }
             }
         ]
     },
@@ -232,7 +232,7 @@ export const homeMock = {
             { id: 'birth-control-packaging', text: 'Plain, discreet packaging' }
         ],
         price: { amount: 2000, currency: 'USD', interval: 'month', prefix: 'From' },
-        action: { id: 'birth-control-consult', kind: 'unresolved', label: 'Start your birth control consult' }
+        action: { id: 'birth-control-consult', kind: 'demo', label: 'Start your birth control consult' }
     },
     sleep: {
         id: 'sleep',
@@ -256,7 +256,7 @@ export const homeMock = {
             { id: 'sleep-payment', text: 'Cash-pay, no insurance needed' }
         ],
         price: { amount: 2000, currency: 'USD', interval: 'month', prefix: 'From' },
-        action: { id: 'sleep-consult', kind: 'unresolved', label: 'Start your sleep consult' },
+        action: { id: 'sleep-consult', kind: 'demo', label: 'Start your sleep consult' },
         profile: {
             title: 'Your profile',
             name: 'Olivia Gomes',
@@ -390,7 +390,7 @@ export const homeMock = {
             { id: 'final-appointment', text: 'No Appointment Needed' },
             { id: 'final-insurance', text: 'No Insurance Required' }
         ],
-        action: { id: 'final-consult', kind: 'unresolved', label: 'Start free consultations' }
+        action: { id: 'final-consult', kind: 'demo', label: 'Start free consultations' }
     },
     footer: {
         id: 'footer',
@@ -410,27 +410,27 @@ export const homeMock = {
                 id: 'footer-company',
                 title: 'Company',
                 links: [
-                    { id: 'footer-about', kind: 'unresolved', label: 'About Apsu' },
-                    { id: 'footer-blogs', kind: 'unresolved', label: 'Blogs' },
+                    { id: 'footer-about', kind: 'demo', label: 'About Apsu' },
+                    { id: 'footer-blogs', kind: 'demo', label: 'Blogs' },
                     { id: 'footer-faq', kind: 'anchor', label: 'FAQs', target: 'faq' },
-                    { id: 'footer-contact', kind: 'unresolved', label: 'Contact Us' }
+                    { id: 'footer-contact', kind: 'demo', label: 'Contact Us' }
                 ]
             },
             {
                 id: 'footer-legal',
                 title: 'Legal',
                 links: [
-                    { id: 'footer-terms', kind: 'unresolved', label: 'Terms' },
-                    { id: 'footer-privacy', kind: 'unresolved', label: 'Privacy Policy' },
-                    { id: 'footer-medication', kind: 'unresolved', label: 'Medication Safety Information' }
+                    { id: 'footer-terms', kind: 'demo', label: 'Terms' },
+                    { id: 'footer-privacy', kind: 'demo', label: 'Privacy Policy' },
+                    { id: 'footer-medication', kind: 'demo', label: 'Medication Safety Information' }
                 ]
             }
         ],
         socialLinks: [
-            { id: 'footer-social-x', kind: 'unresolved', label: 'X' },
-            { id: 'footer-social-facebook', kind: 'unresolved', label: 'Facebook' },
-            { id: 'footer-social-instagram', kind: 'unresolved', label: 'Instagram' },
-            { id: 'footer-social-linkedin', kind: 'unresolved', label: 'LinkedIn' }
+            { id: 'footer-social-x', kind: 'demo', label: 'X' },
+            { id: 'footer-social-facebook', kind: 'demo', label: 'Facebook' },
+            { id: 'footer-social-instagram', kind: 'demo', label: 'Instagram' },
+            { id: 'footer-social-linkedin', kind: 'demo', label: 'LinkedIn' }
         ],
         disclaimers: [
             'The information on this site is for general educational purposes and is not medical advice. Apsu is a technology platform; medical care is provided by independent, licensed providers, and pharmacy services by licensed pharmacies, who decide whether treatment is appropriate. Payment does not guarantee a prescription. Apsu offers compounded GLP-1 medication, which is prepared by licensed U.S. compounding pharmacies and is not approved or evaluated by the FDA. Apsu does not manufacture medication, and product appearance may differ from images shown. Results vary and are not guaranteed. If this is an emergency, call 911.'

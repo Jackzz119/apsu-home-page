@@ -66,9 +66,11 @@ describe('action destinations', () => {
         }
     );
 
-    it('keeps unresolved CTAs explicit and rejects a disguised placeholder href', () => {
-        expect(Action.parse({ ...identity, kind: 'unresolved' })).toEqual({ ...identity, kind: 'unresolved' });
-        expect(Action.safeParse({ ...identity, kind: 'unresolved', href: '#' }).success).toBe(false);
+    it('keeps demo controls effect-free and rejects disguised navigation', () => {
+        expect(Action.parse({ ...identity, kind: 'demo' })).toEqual({ ...identity, kind: 'demo' });
+        expect(Action.safeParse({ ...identity, kind: 'demo', href: '#' }).success).toBe(false);
+        expect(Action.safeParse({ ...identity, kind: 'demo', target: 'weight-loss' }).success).toBe(false);
+        expect(Action.safeParse({ ...identity, kind: 'unresolved' }).success).toBe(false);
     });
 });
 

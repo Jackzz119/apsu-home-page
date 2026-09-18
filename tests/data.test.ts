@@ -21,11 +21,37 @@ describe('source fixture', () => {
         expect(homeMock.trustMarquee.items[2].text).toBe('Cash-pay, No Insurance Needed');
         expect(homeMock.footer.columns[1].title).toBe('Company');
         expect(homeMock.weightLoss.heading.title[0].text).toBe('Loss Weight In Your Way.');
-        expect(homeMock.hero.languageRows[1][0].label).toBe('Русский');
         expect(homeMock.onlineCare.cards[1].title).toBe('Easy Treatment Management');
+        expect(homeMock.faq.items[0].answer).toEqual([
+            'We are currently able to serve GLP-1 programs in all 50 states.'
+        ]);
         expect(new Set(homeMock.faq.items.map((item) => item.answer[0])).size).toBe(4);
         expect(homeMock.bmiCalculator.sourcePreview).toMatchObject({ inputText: '0', scoreText: '56' });
-        expect(homeMock.bmiCalculator.ranges[1].description).toBe('18.5–<25');
+        expect(homeMock.bmiCalculator.ranges.slice(1, 3).map((range) => range.description)).toEqual([
+            '18.5–<25',
+            '25–<30'
+        ]);
+        expect(homeMock.hero.languageRows[1].slice(0, 2)).toEqual([
+            { id: 'language-ru', label: 'Русский', direction: 'ltr', highlighted: false },
+            { id: 'language-ar', label: 'العربية', direction: 'rtl', highlighted: false }
+        ]);
+    });
+
+    it('separates approved demos from working product navigation', () => {
+        expect(homeMock.header.navigation.map((action) => action.kind)).toEqual(['anchor', 'anchor', 'anchor', 'demo']);
+        expect(homeMock.header.actions.every((action) => action.kind === 'demo')).toBe(true);
+        function visit(value: unknown) {
+            if (!value || typeof value !== 'object') return;
+            if ('kind' in value) {
+                expect(value.kind).not.toBe('unresolved');
+                if (value.kind === 'demo') {
+                    expect(value).not.toHaveProperty('href');
+                    expect(value).not.toHaveProperty('target');
+                }
+            }
+            Object.values(value).forEach(visit);
+        }
+        visit(homeMock);
     });
 
     it('keeps source board differences and static illustration data', () => {

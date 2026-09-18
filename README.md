@@ -2,7 +2,7 @@
 
 Front-end take-home: the Apsu home page (desktop 1440 / mobile 375) implemented as a Next.js App Router page plus a React component library, with Storybook.
 
-**Status:** P2 data delivery, P3 foundations, and P4 reusable primitives are implemented. Eleven exported primitives have 79 isolated stories, with an additional Foundations story. `/` is a clearly labelled development specimen consuming the public Button export; the fourteen-section homepage and final assets remain P5 work.
+**Status:** P2 data delivery, P3 foundations, and P4 reusable primitives are implemented. Eleven exported primitives have 80 isolated stories, with an additional Foundations story. `/` is a clearly labelled development specimen consuming the public Button export; the fourteen-section homepage and final assets remain P5 work.
 
 ## Getting started
 
@@ -23,7 +23,7 @@ Other checks: `npm run test:ui`, `npm run lint`, `npm run typecheck`, `npm run f
 
 No environment variables are required. Leave `NEXT_PUBLIC_API_URL` empty to import the local mock directly, or set it to an HTTP(S) backend base URL; see [.env.example](.env.example).
 
-`npm test` runs Node-based tests once using `vitest.config.mts`. It discovers `*.test.ts` and `*.test.tsx` under `tests/` and `content/`; Storybook and Playwright `*.spec.ts` files are outside this scope. The suite contains 48 tests covering the page landmark, strict schema boundaries, complete source fixture, API branches and failures, motion parity, and token-guard behavior.
+`npm test` runs Node-based tests once using `vitest.config.mts`. It discovers `*.test.ts` and `*.test.tsx` under `tests/` and `content/`; Storybook and Playwright `*.spec.ts` files are outside this scope. The suite contains 49 tests covering the page landmark, strict schema boundaries, complete source fixture, API branches and failures, motion parity, and token-guard behavior.
 `npm run check:responsive` is a placeholder that reports "not implemented" and exits with code 1 until P6.1.
 
 ### Stack
@@ -58,9 +58,9 @@ Tailwind scans only `app/`, `components/`, and `.storybook/` through explicit so
 
 **Implemented (P2):** [content/schema.ts](content/schema.ts) defines `HomePage` in fourteen-section reading order, with section schemas and types inferred through `z.infer`. Prices use integer USD cents; images require a local asset path, alt text, and positive intrinsic dimensions. Discriminated unions distinguish quote/photo stories, chat/image service cards, measurement systems, and action destinations. Strict objects reject unknown fields rather than silently discarding them.
 
-Actions with missing destinations are explicitly `unresolved` authoring data; this does not approve a disabled button or placeholder link. They must be resolved before UI delivery. Live calculator input and results are not part of the page-content response. `sourcePreview` preserves the artwork’s inconsistent zero inputs / score of 56 as strings, explicitly separate from calculation state.
+Actions distinguish real section anchors, external URLs, and owner-approved `demo` controls. Login, Contact, consultation and other destination-free controls demonstrate visual states only; they do not navigate, make requests or simulate business success. The strict demo variant cannot contain an href or target. Live calculator input and results are not part of the page-content response. `sourcePreview` preserves the artwork’s inconsistent zero inputs / score of 56 as strings, explicitly separate from calculation state.
 
-[content/mocks/home.ts](content/mocks/home.ts) supplies all fourteen sections with `satisfies HomePage`; tests validate the complete response. Source mistakes and board-specific copy are preserved pending the consolidated [deviation review](docs/deviations.md). Local image references currently point to a real 1 × 1 transparent SVG; P5 will replace paths and dimensions with source exports.
+[content/mocks/home.ts](content/mocks/home.ts) supplies all fourteen sections with `satisfies HomePage`; tests validate the complete response. Approved copy corrections are applied; the original Weight Loss title, first FAQ answer and board-specific differences are preserved. Original FAQ wording and implementation status remain in the [deviation record](docs/deviations.md). Local image references currently point to a real 1 × 1 transparent SVG; P5 will replace paths and dimensions with source exports.
 
 [lib/api/home.ts](lib/api/home.ts) exposes the single `getHomePage()` entry point. With no API URL it imports and parses the mock without homepage HTTP, including during static generation. With `NEXT_PUBLIC_API_URL` configured, it fetches `${NEXT_PUBLIC_API_URL}/api/home` with no-store and a 10-second timeout, checks HTTP status, and parses the response. Transport, JSON, and schema failures are surfaced, never silently replaced by mock data. Base URLs may include a path but not credentials, query, or fragment.
 
@@ -98,11 +98,11 @@ The results table will live in `docs/responsive-report.md`, with three assertion
 
 **Implemented tokens (P3):** CSS budgets in `styles/tokens.css` and seconds-based values in `lib/motion.ts` are parity-tested. Fast/release/base/slow/stagger are 160/100/200/250/50 ms; ease-out is `cubic-bezier(0.23, 1, 0.32, 1)`, ease-in-out is `(0.77, 0, 0.175, 1)`, and drawer is `(0.32, 0.72, 0, 1)`. `fine-hover:` requires a fine pointer with hover capability. Reduced motion sets spatial duration and stagger to zero, press scale to 1, and shift to zero while retaining short color/opacity budgets. Consumers must select spatial tokens for spatial effects; the shared durations alone do not disable animation.
 
-The adopted workflow follows Emil Kowalski’s motion guidance: use the cheapest suitable tool, starting with CSS; retain the installed `motion` package for interactions that justify it. Reduced motion removes spatial movement while allowing useful opacity and color feedback. P4 primitives received motion review and actual 375/1440 visual verification, performed by the same agent under the Emil, UI Tailor, and Monet roles. The static Foundations story, informational Card/Chip/Rating, numeric editing, and native radio selection need no decorative animation. Product adoption of the library candidates remains queued as D-01–D-03; no Motion runtime is imported.
+The adopted workflow follows Emil Kowalski’s motion guidance: use the cheapest suitable tool, starting with CSS; retain the installed `motion` package for interactions that justify it. Reduced motion removes spatial movement while allowing useful opacity and color feedback. P4 primitives received motion review and actual 375/1440 visual verification, performed by the same agent under the Emil, UI Tailor, and Monet roles. The static Foundations story, informational Card/Chip/Rating, numeric editing, and native radio selection need no decorative animation. Product adoption is approved under D-01–D-03 and awaits P5 integration and verification; no Motion runtime is imported.
 
 ## Deviation log
 
-[Design deviations and review queue](docs/deviations.md) contains C-category source defects and D-category proposed interactions. Product decisions remain Pending: source copy and colors are preserved until the owner reviews the complete set. The P4 library boundary explicitly separates reviewable primitive implementations from changes to the delivered homepage.
+[Design deviations and approved decisions](docs/deviations.md) explains the source problem, approved solution and rationale for each entry, followed by a separate three-state execution tracker. The owner completed review before P5: seven entries are completed in their stated scope and seven await page implementation; none remain Pending. Completed copy decisions do not imply completed page sections.
 
 ## Storybook
 
@@ -143,7 +143,7 @@ npx playwright install chromium
 npm run test:ui
 ```
 
-Playwright starts or reuses Storybook at port 6006. The 18 tests cover 79 primitive stories at 375/1440 (158 axe/overflow checks), native keyboard and disabled semantics, interruption, live reduced motion, emulated coarse touch, carousel bounds/resize, and four-times slow motion with four-times CPU throttling for Accordion. The test runner isolates its axe instance from the a11y addon's concurrent scan; neither scan nor any rule is disabled. Reports, traces on failure, and generated overview screenshots go to ignored `test-results/`. This is not the P6 eleven-width page gate.
+Playwright starts or reuses Storybook at port 6006. The 18 tests cover 80 primitive stories at 375/1440 (160 axe/overflow checks), native keyboard and disabled semantics, interruption, live reduced motion, emulated coarse touch, carousel bounds/resize, and four-times slow motion with four-times CPU throttling for Accordion. The test runner isolates its axe instance from the a11y addon's concurrent scan; neither scan nor any rule is disabled. Reports, traces on failure, and generated overview screenshots go to ignored `test-results/`. This is not the P6 eleven-width page gate.
 
 ## AI usage
 
@@ -163,8 +163,8 @@ The continuation transcript `01a0b177-a7b3-7770-bb84-af67c9b1bfcc` records the p
 ## Known limitations
 
 - The reusable P4 exports are complete; homepage sections remain P5 work. The Foundations and primitive previews are not the finished homepage.
-- Images are transparent local fixtures until P5 source exports; unresolved action destinations remain explicit authoring data.
-- Source copy, repeated FAQ answers, and bright-accent contrast defects are intentionally preserved pending the consolidated deviation review.
+- Images are transparent local fixtures until P5 source exports; business controls are explicitly visual demos.
+- Approved shared copy is corrected. Mobile Weight Loss/BMI composition, calculation, product assets, Hero contrast application and product interaction checks remain P5 work.
 - Tests cover data, foundations, and isolated primitives, not the complete homepage. Responsive validation remains a failing P6 placeholder; no complete-page responsive report is claimed.
 - next/font/google requires network access during a fresh build; this project accepts that constraint. Storybook’s adapter also loads Google fonts.
 - Physical-phone gestures, Safari/Firefox, and screen-reader listening were not tested. CPU throttling is a limited regression check, not a frame-rate guarantee. Header breakpoint validation, section-level reviews, final assets, and final acceptance remain outstanding.
