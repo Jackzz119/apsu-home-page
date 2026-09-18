@@ -7,7 +7,12 @@ import { homePresentation } from '@/content/presentation';
 const meta = {
     title: 'Sections/BmiCalculator',
     component: BmiCalculator,
-    parameters: { layout: 'fullscreen' },
+    parameters: {
+        layout: 'fullscreen',
+        docs: {
+            description: { component: 'The options CTA preserves its leading text inset in normal and hover states.' }
+        }
+    },
     args: { content: homeMock.bmiCalculator, ui: homePresentation }
 } satisfies Meta<typeof BmiCalculator>;
 export default meta;
