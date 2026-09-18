@@ -1,11 +1,12 @@
-/* Source: ai/design_system/design-system.md. Pending deviations do not change source colors. */
+/* Source: ai/design_system/design-system.md. Approved role changes are tracked in docs/deviations.md. */
 @theme {
-    /* Colors: source roles, including the original bright accent pending review. */
+    /* Colors: source roles, retain the bright decorative accent; C-10 assigns accessible benefit text. */
     --color-*: initial;
     --color-brand: #102b1c;
     --color-brand-soft: #173a26;
     --color-accent: #00774d;
     --color-accent-bright: #21ac88;
+    --color-text-benefit: var(--color-accent);
     --color-accent-mid: #009269;
     --color-text: #111111;
     --color-text-secondary: #2a2a2a;
