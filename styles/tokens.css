@@ -193,3 +193,73 @@
         font-family: var(--font-work-sans), sans-serif;
     }
 }
+
+/* Source section geometry: measured boards at 375 and 1440, with content-led intermediate sizes. */
+:root {
+    --measure-hero: 60rem;
+    --measure-copy: 40rem;
+    --measure-languages: 70rem;
+    --measure-logo: 5.75rem;
+    --measure-menu: 28rem;
+    --measure-service: 26.3125rem;
+    --measure-product: 38.6875rem;
+    --measure-treatment: 44.875rem;
+    --measure-plan-art: 23rem;
+    --measure-care: 23.9375rem;
+    --measure-care-height: 31.25rem;
+    --measure-profile: 22rem;
+    --measure-bmi-score: 6rem;
+    --spacing-hero-top: clamp(3rem, 2rem + 4vw, 5.5rem);
+    --spacing-hero-bottom: clamp(2rem, 1rem + 4vw, 3.5rem);
+    --spacing-nav: clamp(0.75rem, 1.5vw, 2rem);
+    --spacing-half-section: calc(var(--spacing-section) / 2);
+    --spacing-product-inset: clamp(1.25rem, 2.5vw, 2.5rem);
+    --spacing-footer: clamp(2rem, 4vw, 4rem);
+    --spacing-logo-height: 2rem;
+    --color-dialog-backdrop: #102b1c66;
+    --color-illustration-line: #92bba3;
+    --color-footer-line: #ffffff33;
+    --color-profile-track: #d2eee0;
+    --text-role: clamp(1.75rem, 2.3vw, 2rem);
+    --text-story: clamp(1.25rem, 1.6vw, 1.5rem);
+    --text-fine: 0.875rem;
+    --text-mini: 0.75rem;
+}
+:root {
+    --spacing-product-desktop: 4rem;
+    --spacing-section-inset: 3.75rem;
+    --text-cta-desktop: 3rem;
+    --color-rating: #ffc700;
+}
+:root {
+    --spacing-step-width: clamp(4.1667rem, 7vw, 6.25rem);
+    --spacing-step-height: clamp(3.75rem, 6vw, 5.625rem);
+}
+:root {
+    --text-cta-mobile: 3rem;
+}
+
+/* Section geometry shared by the two source boards. */
+:root {
+    --measure-plan-thumbnail: 9rem;
+    --measure-birth-mobile: 30rem;
+    --measure-sleep-mobile: 34rem;
+    --measure-copy-compact: 22rem;
+    --measure-compact-panel: 15rem;
+    --measure-service-art: 17rem;
+    --measure-service-mobile: 15.75rem;
+    --measure-how-intro: 28rem;
+    --measure-roles: 70rem;
+    --measure-tall-card: 32rem;
+    --measure-bmi-dial: 14rem;
+    --measure-phone-top: 6rem;
+    --measure-phone-height: 38rem;
+    --measure-story-height: 33rem;
+    --measure-footer-logo: 14.25rem;
+    --measure-plan-image: 20rem;
+    --measure-bmi-panel: 39rem;
+    --measure-weight-mobile: 12rem;
+    --text-step-art: 72px;
+    --measure-care-title: 8rem;
+    --color-step-illustration: rgb(33 172 136 / 28%);
+}
