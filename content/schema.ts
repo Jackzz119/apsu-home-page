@@ -214,7 +214,7 @@ export const Plan = z.strictObject({
     id: z.string(),
     /** Product name as supplied by the source. */
     name: Text,
-    /** Verified product image; null when the source has no correctly labelled asset. */
+    /** Product illustration, including owner-approved demo substitutes; null when artwork is omitted. */
     image: ImageAsset.nullable(),
     /** Recurring price in integer cents. */
     price: Price,

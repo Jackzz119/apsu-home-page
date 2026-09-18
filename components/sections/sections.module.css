@@ -1575,6 +1575,9 @@
         width: 45%;
         object-fit: contain;
     }
+    .serviceCard[data-kind='weight-loss'] .serviceImage {
+        height: 68%;
+    }
     .serviceCopy {
         max-width: 80%;
     }

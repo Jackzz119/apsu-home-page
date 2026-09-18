@@ -74,4 +74,4 @@ app/api/home/route.ts    假后端：返回同一份 mock，形状 = HomePage
 
 - 2026-09-17 review 后 49 条 Node 测试通过：demo 严格拒绝 href/target/旧 unresolved，mock 保持真实产品锚点；保留 C-06 标题、FAQ 首答、BMI 源示意，已批副本文案与独立语言 ID 通过校验。
 
-- P5 契约补齐：Plan.image 允许 null 表达 C-12 源素材缺失；BmiCalculator.background 与 chat variant 的 illustration 必填；移除源稿不存在且未使用的 Profile.avatar。content/presentation.ts 仅管理实现所需的控件 / a11y 文案和共享装饰资产，页面通过 props 分发；区块实现不引用 mocks。25 条本地图片解码尺寸检查通过。
+- P5 契约补齐：Plan.image 允许 null 表达未展示图片；C-12 最新决定复用获批展示素材，字段注释不再承诺产品标签准确；BmiCalculator.background 与 chat variant 的 illustration 必填；移除源稿不存在且未使用的 Profile.avatar。content/presentation.ts 仅管理实现所需的控件 / a11y 文案和共享装饰资产，页面通过 props 分发；区块实现不引用 mocks。25 条本地图片解码尺寸检查通过。

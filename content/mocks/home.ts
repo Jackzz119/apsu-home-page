@@ -166,7 +166,7 @@ export const homeMock = {
             {
                 id: 'plan-semaglutide',
                 name: 'Compounded Semaglutide',
-                image: null,
+                image: assets['tirzepatide-plan'],
                 price: { amount: 20000, currency: 'USD', interval: 'month', prefix: 'From' },
                 action: { id: 'plan-semaglutide-start', kind: 'demo', label: 'Get started' }
             },
