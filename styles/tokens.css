@@ -80,6 +80,24 @@
     --spacing-plan-gap: 2rem;
     --spacing-label-gap: 0.5rem;
     --spacing-content-gap: 1rem;
+    --spacing-control-inset: 2rem;
+    --spacing-chip-block: 0.75rem;
+    --spacing-segment-block: 0.375rem;
+    --spacing-control-sm: 3rem;
+    --spacing-control-md: 3.5rem;
+    --spacing-input: 3.25rem;
+    --spacing-icon-sm: 2rem;
+    --spacing-icon-md: 2.5rem;
+    --spacing-glyph: 1.5rem;
+    --spacing-radio: 1.25rem;
+    --spacing-segment-gap: 0.25rem;
+    --spacing-segment-inset: 0.28125rem;
+    --spacing-segment-option: 2.625rem;
+    --spacing-segment-min: 5.1875rem;
+    --spacing-faq-inset: clamp(1rem, 0.823944rem + 0.751174vw, 1.5rem);
+    --spacing-faq-divider: 0.25rem;
+    --text-control-label: 1rem;
+    --text-control-compact: 0.875rem;
 
     /* Radii and shadows: preserve the source geometry and shadow types. */
     --radius-*: initial;
@@ -130,6 +148,10 @@
     --motion-shift: 2px;
     --focus-width: 2px;
     --focus-offset: 2px;
+    --border-width: 1px;
+    --border-hairline: 0.5px;
+    --disabled-opacity: 0.5;
+    --dur-marquee: 30s;
 }
 
 @utility container-page {
