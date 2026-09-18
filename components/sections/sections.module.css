@@ -153,17 +153,19 @@
 }
 .menu {
     position: fixed;
-    inset: var(--spacing-shell-gutter);
-    margin: 0 0 0 auto;
-    width: calc(100% - var(--spacing-shell-gutter) * 2);
+    inset: var(--menu-top, var(--spacing-shell-gutter)) var(--menu-right, var(--spacing-shell-gutter))
+        var(--spacing-shell-gutter) auto;
+    margin: 0;
+    width: calc(100% - var(--menu-right, var(--spacing-shell-gutter)) - var(--spacing-shell-gutter));
     max-width: var(--measure-menu);
-    height: calc(100dvh - var(--spacing-shell-gutter) * 2);
+    height: calc(100dvh - var(--menu-top, var(--spacing-shell-gutter)) - var(--spacing-shell-gutter));
     max-height: none;
     border: 0;
     border-radius: var(--radius-card);
     background: var(--color-surface);
     padding: var(--spacing-content-gap);
     color: var(--color-text);
+    padding-top: var(--spacing-label-gap);
     overflow-y: auto;
     opacity: 0;
     transform: translateY(var(--spacing-content-gap));
@@ -257,11 +259,22 @@
     gap: var(--spacing-content-gap);
 }
 .languages > section > div {
+    padding-block: var(--spacing-label-gap);
+    margin-block: calc(-1 * var(--spacing-label-gap));
     mask-image: linear-gradient(to right, transparent, var(--color-text) 8%, var(--color-text) 92%, transparent);
 }
 .languages:has([data-reduced='true']) > section > div,
 .languages[data-input='keyboard']:has(ul :focus-visible) > section > div {
     mask-image: none;
+}
+.languages button[aria-pressed] {
+    height: var(--spacing-control-sm);
+    padding-block: 0;
+    white-space: nowrap;
+}
+.languages li {
+    display: flex;
+    align-items: center;
 }
 .languages > section:nth-child(2) ul {
     flex-direction: row-reverse;
@@ -1311,7 +1324,7 @@
 .bmiResult > a {
     border: 0;
     justify-content: start;
-    padding: 0;
+    padding-inline-start: var(--spacing-control-inset);
     font-size: var(--text-fine);
 }
 .profile {

@@ -4,7 +4,10 @@ import { homeMock } from '@/content/mocks/home';
 import { homePresentation as ui } from '@/content/presentation';
 
 test.setTimeout(30_000);
-test.use({ baseURL: process.env.PLAYWRIGHT_APP_URL ?? 'http://127.0.0.1:3000' });
+test.use({
+    baseURL: process.env.PLAYWRIGHT_APP_URL ?? 'http://127.0.0.1:3000',
+    launchOptions: { ignoreDefaultArgs: ['--hide-scrollbars'], args: ['--disable-features=OverlayScrollbar'] }
+});
 test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
@@ -58,6 +61,40 @@ test('native menu traps focus, closes with Escape, restores focus and navigates 
         await expect(page.locator('[data-navigation-row]')).toBeVisible();
         return;
     }
+    expect(
+        await page.evaluate(() => innerWidth - document.documentElement.getBoundingClientRect().width)
+    ).toBeGreaterThan(0);
+    const originalViewport = page.viewportSize()!;
+    for (const width of [320, 375, 582, 768, 1023]) {
+        await page.setViewportSize({ width, height: 900 });
+        const background = await page.locator('h1').boundingBox();
+        const target = (await trigger.boundingBox())!;
+        const point = { x: target.x + target.width / 2, y: target.y + target.height / 2 };
+        const frames = page.evaluate(
+            () =>
+                new Promise<number[]>((resolve) => {
+                    const values: number[] = [];
+                    const started = performance.now();
+                    const sample = () => {
+                        values.push(document.querySelector('h1')!.getBoundingClientRect().x);
+                        if (performance.now() - started < 400) requestAnimationFrame(sample);
+                        else resolve(values);
+                    };
+                    sample();
+                })
+        );
+        await page.mouse.click(point.x, point.y);
+        const close = page.getByRole('button', { name: homeMock.header.closeMenuLabel });
+        await expect(close).toBeVisible();
+        for (const x of await frames) expect(Math.abs(x - background!.x)).toBeLessThan(1);
+        const closeBox = (await close.boundingBox())!;
+        expect(Math.abs(closeBox.x - target.x)).toBeLessThan(1);
+        expect(Math.abs(closeBox.y - target.y)).toBeLessThan(1);
+        await page.mouse.click(point.x, point.y);
+        await expect(page.getByRole('dialog')).not.toBeVisible();
+        expect(await page.locator('h1').boundingBox()).toEqual(background);
+    }
+    await page.setViewportSize(originalViewport);
     await trigger.focus();
     await page.keyboard.press('Enter');
     const dialog = page.getByRole('dialog');
@@ -70,14 +107,24 @@ test('native menu traps focus, closes with Escape, restores focus and navigates 
     await expect(dialog).not.toBeVisible();
     await expect(trigger).toBeFocused();
     expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+    expect(await page.evaluate(() => document.body.style.paddingRight)).toBe('');
     await trigger.click();
     await dialog.getByRole('link', { name: 'Weight Loss' }).click();
     await expect(page.locator('#weight-loss')).toBeFocused();
     await expect(dialog).not.toBeVisible();
     await trigger.click();
+    await page.setViewportSize({ width: 582, height: 900 });
+    await expect
+        .poll(async () => {
+            const target = (await trigger.boundingBox())!;
+            const close = (await dialog.getByRole('button', { name: homeMock.header.closeMenuLabel }).boundingBox())!;
+            return Math.abs(close.x - target.x) + Math.abs(close.y - target.y);
+        })
+        .toBeLessThan(1);
     await page.setViewportSize({ width: 1024, height: 900 });
     await expect(dialog).not.toBeVisible();
     expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+    expect(await page.evaluate(() => document.body.style.paddingRight)).toBe('');
 });
 
 test('page anchors scroll smoothly for pointers and immediately for keyboard or reduced motion', async ({ page }) => {
@@ -118,6 +165,7 @@ test('page anchors scroll smoothly for pointers and immediately for keyboard or 
         await expect(page.getByRole('dialog')).not.toBeVisible();
         await expect(target).toBeFocused();
         expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+        expect(await page.evaluate(() => document.body.style.paddingRight)).toBe('');
     }
     await page.keyboard.press('Tab');
     await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
@@ -180,6 +228,14 @@ test('BMI validation and result states preserve geometry across the eleven respo
         await page.goto('/');
         await page.evaluate(() => document.fonts.ready);
         const bmi = await openBmi(page);
+        const options = bmi.getByRole('link', { name: 'See your GLP-1 Options' });
+        expect(
+            await options.evaluate((node) => {
+                const range = document.createRange();
+                range.selectNodeContents(node.firstChild!);
+                return range.getBoundingClientRect().left - node.getBoundingClientRect().left;
+            })
+        ).toBeGreaterThanOrEqual(24);
         const fields = bmi.getByRole('spinbutton');
         for (const field of await fields.all()) await expect(field).toHaveValue('');
         const geometry = () =>
@@ -346,6 +402,23 @@ test('Resume restarts both strips on pointer exit without blurring the control',
 
 test('language demo toggles synchronize loop copies and remain keyboard accessible', async ({ page }) => {
     const row = page.getByRole('region', { name: `${ui.languagesLabel} 1` });
+    const pills = page.locator('[data-interactive="true"] ul:not([aria-hidden]) button');
+    const checkPills = async () => {
+        const boxes = await pills.evaluateAll((nodes) =>
+            nodes.map((node) => {
+                const box = node.getBoundingClientRect();
+                const viewport = node.closest('section')!.firstElementChild!.getBoundingClientRect();
+                return { height: box.height, above: box.top - viewport.top, below: viewport.bottom - box.bottom };
+            })
+        );
+        expect(new Set(boxes.map((box) => box.height)).size).toBe(1);
+        for (const box of boxes) {
+            expect(box.height).toBe(48);
+            expect(box.above).toBeGreaterThanOrEqual(7);
+            expect(box.below).toBeGreaterThanOrEqual(7);
+        }
+    };
+    await checkPills();
     await row.scrollIntoViewIfNeeded();
     await row.hover();
     const track = row.locator('ul').first().locator('..');
@@ -377,6 +450,8 @@ test('language demo toggles synchronize loop copies and remain keyboard accessib
     await chinese.click();
     await expect(chinese).toHaveAttribute('aria-pressed', 'false');
     await expect(page.getByRole('button', { name: 'Português', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await page.mouse.move(0, 0);
+    await checkPills();
 });
 
 test('FAQ keyboard toggles and carousel keyboard boundaries remain usable', async ({ page }) => {

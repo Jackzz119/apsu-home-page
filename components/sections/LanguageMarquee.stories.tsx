@@ -7,7 +7,15 @@ import { homePresentation } from '@/content/presentation';
 const meta = {
     title: 'Sections/LanguageMarquee',
     component: LanguageMarquee,
-    parameters: { layout: 'fullscreen' },
+    parameters: {
+        layout: 'fullscreen',
+        docs: {
+            description: {
+                component:
+                    'Language pills keep a fixed height across scripts, with unclipped borders and shadows in both scrolling and wrapped states.'
+            }
+        }
+    },
     args: { content: homeMock.hero.languageRows, ui: homePresentation }
 } satisfies Meta<typeof LanguageMarquee>;
 export default meta;

@@ -12,7 +12,7 @@ const meta = {
         docs: {
             description: {
                 component:
-                    'Native page anchors scroll smoothly for pointer input. Keyboard and reduced-motion navigation remain instant; full-page travel is covered by browser tests.'
+                    'Native page anchors scroll smoothly for pointer input. Keyboard and reduced-motion navigation remain instant; full-page travel is covered by browser tests. The close button shares the hamburger target, while scroll locking preserves background geometry.'
             }
         }
     },

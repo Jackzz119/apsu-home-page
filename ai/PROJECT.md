@@ -54,6 +54,8 @@
 
 **BMI 后续（2026-09-18）**：独立 worktree 修复单位切换按压命中层及大分数容器适配；保持源字体 / 字重与原计数反馈。新增两态后 Storybook 共 113 态，细节见 COMPONENTS 最新记录；合并目标依用户本轮决定为 main，走 PR rebase。
 
+**UI 布局后续（2026-09-18）**：独立 worktree 完成 BMI CTA 内距、Menu 锁滚动与开关位置、语言胶囊等高及裁切修复；现行约束见 [交互规范](design_system/uiux/interactions.md#人工验收后的布局约束2026-09-18)，48 浏览器用例与 11 宽生产扫描通过。
+
 **一句话**：把 Figma 稿（桌面 1440 + 移动 375）实现为一个 Next.js 首页 + 一套 React 组件库，附 Storybook、README、完整 commit 历史与完整 AI 会话日志，提交 GitHub 仓库链接。
 
 **交付物清单**（缺一项即不合格）：

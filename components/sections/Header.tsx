@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useInputModality } from '@/lib/useInputModality';
 import type { Header as Content } from '@/content/schema';
@@ -9,12 +9,36 @@ import styles from './sections.module.css';
 export type HeaderProps = SectionProps<Content>;
 export function Header({ content, ui }: HeaderProps) {
     const modality = useInputModality();
+    const navbar = useRef<HTMLDivElement>(null);
     const dialog = useRef<HTMLDialogElement>(null);
     const [open, setOpen] = useState(false);
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!open) return;
         const previous = document.body.style.overflow;
+        const previousPadding = document.body.style.paddingRight;
+        const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+        if (scrollbar > 0) {
+            const padding = parseFloat(getComputedStyle(document.body).paddingRight);
+            document.body.style.paddingRight = `${padding + scrollbar}px`;
+        }
         document.body.style.overflow = 'hidden';
+        // Match the navbar's untransformed box, so both toggle buttons share a target.
+        const align = () => {
+            const bar = navbar.current;
+            const menu = dialog.current;
+            if (!bar || !menu) return;
+            const box = bar.getBoundingClientRect();
+            menu.style.setProperty('--menu-top', `${box.top}px`);
+            menu.style.setProperty(
+                '--menu-right',
+                `${document.documentElement.getBoundingClientRect().right - box.right}px`
+            );
+        };
+        align();
+        const observer = new ResizeObserver(align);
+        if (navbar.current) observer.observe(navbar.current);
+        window.addEventListener('resize', align);
+        window.addEventListener('scroll', align, { passive: true });
         const desktop = matchMedia('(min-width: 1024px)');
         const resize = () => {
             if (desktop.matches) dialog.current?.close();
@@ -22,6 +46,10 @@ export function Header({ content, ui }: HeaderProps) {
         desktop.addEventListener('change', resize);
         return () => {
             document.body.style.overflow = previous;
+            document.body.style.paddingRight = previousPadding;
+            observer.disconnect();
+            window.removeEventListener('resize', align);
+            window.removeEventListener('scroll', align);
             desktop.removeEventListener('change', resize);
         };
     }, [open]);
@@ -30,7 +58,7 @@ export function Header({ content, ui }: HeaderProps) {
             <a href="#main-content" className={styles.skip} data-scan-exempt>
                 {ui.skipLabel}
             </a>
-            <div className={styles.navbar}>
+            <div ref={navbar} className={styles.navbar}>
                 <a href="#top" aria-label={ui.homeLabel} className={styles.logo}>
                     <SourceImage asset={content.logo} priority />
                 </a>
