@@ -1188,8 +1188,7 @@
 .role {
     display: flex;
     flex-direction: column;
-    min-height: var(--measure-tall-card);
-    padding: var(--spacing-card-gap);
+    padding: var(--spacing-role-top) var(--spacing-card-gap) var(--spacing-role-bottom);
     box-shadow: none;
 }
 .step {
@@ -1202,7 +1201,7 @@
 }
 .role h3 {
     margin-top: auto;
-    padding-top: var(--spacing-section);
+    padding-top: var(--spacing-step-gap);
 }
 .role .features {
     margin-top: var(--spacing-content-gap);

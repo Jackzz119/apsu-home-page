@@ -234,6 +234,9 @@
 :root {
     --spacing-step-width: clamp(4.1667rem, 7vw, 6.25rem);
     --spacing-step-height: clamp(3.75rem, 6vw, 5.625rem);
+    --spacing-step-gap: clamp(1.5rem, 4.1vw, 3.6875rem);
+    --spacing-role-top: clamp(1rem, 2.8vw, 2.5rem);
+    --spacing-role-bottom: clamp(1.25rem, 4.2vw, 3.75rem);
 }
 :root {
     --text-cta-mobile: 3rem;
